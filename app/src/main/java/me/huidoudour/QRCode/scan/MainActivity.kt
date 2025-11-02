@@ -32,4 +32,8 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigation.selectedItemId = R.id.navigation_scan
         }
     }
+
+    fun navigateToTab(tabId: Int) {
+        binding.bottomNavigation.selectedItemId = tabId
+    }
 }

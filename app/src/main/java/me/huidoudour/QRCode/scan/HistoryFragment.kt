@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +18,10 @@ class HistoryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var db: AppDatabase
+    private lateinit var adapter: HistoryAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
         return binding.root
@@ -31,12 +32,65 @@ class HistoryFragment : Fragment() {
 
         db = AppDatabase.getDatabase(requireContext())
 
-        binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = HistoryAdapter(emptyList()) { scanResult, action ->
+            when (action) {
+                "edit" -> showEditDialog(scanResult)
+                "delete" -> deleteScanResult(scanResult)
+                "export" -> navigateToExport(scanResult)
+            }
+        }
 
+        binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.historyRecyclerView.adapter = adapter
+
+        loadHistory()
+    }
+
+    private fun loadHistory() {
         lifecycleScope.launch {
             val scanResults = db.scanResultDao().getAll()
-            binding.historyRecyclerView.adapter = HistoryAdapter(scanResults)
+            adapter.updateData(scanResults)
         }
+    }
+
+    private fun showEditDialog(scanResult: ScanResult) {
+        val editText = EditText(requireContext()).apply {
+            setText(scanResult.content)
+        }
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Edit Scan Result")
+            .setView(editText)
+            .setPositiveButton("Save") { _, _ ->
+                val newContent = editText.text.toString()
+                lifecycleScope.launch {
+                    db.scanResultDao().update(scanResult.copy(content = newContent))
+                    loadHistory()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun deleteScanResult(scanResult: ScanResult) {
+        lifecycleScope.launch {
+            db.scanResultDao().delete(scanResult)
+            loadHistory()
+        }
+    }
+
+    private fun navigateToExport(scanResult: ScanResult) {
+        val exportFragment = ExportFragment().apply {
+            arguments = Bundle().apply {
+                putString("content_to_export", scanResult.content)
+            }
+        }
+
+        (activity as? MainActivity)?.navigateToTab(R.id.navigation_export)
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, exportFragment)
+            .commit()
     }
 
     override fun onDestroyView() {

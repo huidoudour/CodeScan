@@ -29,6 +29,10 @@ class ExportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        arguments?.getString("content_to_export")?.let {
+            binding.inputText.setText(it)
+        }
+
         binding.generateQrButton.setOnClickListener {
             generateCode(BarcodeFormat.QR_CODE)
         }

@@ -6,7 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class HistoryAdapter(private val scanResults: List<ScanResult>) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+class HistoryAdapter(
+    private var scanResults: List<ScanResult>,
+    private val onActionSelected: (ScanResult, String) -> Unit
+) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+
+    interface OnActionSelectedListener {
+        fun onActionSelected(scanResult: ScanResult, action: String)
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val contentTextView: TextView = view.findViewById(android.R.id.text1)
@@ -22,7 +29,26 @@ class HistoryAdapter(private val scanResults: List<ScanResult>) : RecyclerView.A
         val scanResult = scanResults[position]
         holder.contentTextView.text = scanResult.content
         holder.timestampTextView.text = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(java.util.Date(scanResult.timestamp))
+
+        holder.itemView.setOnLongClickListener {
+            android.app.AlertDialog.Builder(it.context)
+                .setTitle("Select Action")
+                .setItems(arrayOf("Edit", "Delete", "Export")) { _, which ->
+                    when (which) {
+                        0 -> onActionSelected(scanResult, "edit")
+                        1 -> onActionSelected(scanResult, "delete")
+                        2 -> onActionSelected(scanResult, "export")
+                    }
+                }
+                .show()
+            true
+        }
     }
 
     override fun getItemCount() = scanResults.size
+
+    fun updateData(newScanResults: List<ScanResult>) {
+        this.scanResults = newScanResults
+        notifyDataSetChanged()
+    }
 }

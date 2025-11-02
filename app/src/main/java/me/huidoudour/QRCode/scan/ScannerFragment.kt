@@ -101,7 +101,6 @@ class ScannerFragment : Fragment() {
                 lifecycleScope.launch {
                     db.scanResultDao().insert(ScanResult(content = result))
                     requireActivity().runOnUiThread {
-                        binding.scanResult.text = "Saved: $result"
                         Toast.makeText(requireContext(), "Saved", Toast.LENGTH_SHORT).show()
                     }
                 }
