@@ -31,9 +31,10 @@ class HistoryAdapter(
         holder.timestampTextView.text = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(java.util.Date(scanResult.timestamp))
 
         holder.itemView.setOnLongClickListener {
-            android.app.AlertDialog.Builder(it.context)
-                .setTitle("Select Action")
-                .setItems(arrayOf("Edit", "Delete", "Export")) { _, which ->
+            val context = it.context
+            android.app.AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.dialog_title_select_action))
+                .setItems(arrayOf(context.getString(R.string.action_edit), context.getString(R.string.action_delete), context.getString(R.string.action_export))) { _, which ->
                     when (which) {
                         0 -> onActionSelected(scanResult, "edit")
                         1 -> onActionSelected(scanResult, "delete")

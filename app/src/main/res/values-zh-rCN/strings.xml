@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodeScan</string>
+    <string name="button_rescan">重新扫描</string>
+    <string name="toast_saved">已保存</string>
+    <string name="dialog_title_scan_result">扫描结果</string>
+    <string name="button_save">保存</string>
+    <string name="hint_export_input_ean13">输入 EAN-13 标准的序列</string>
+    <string name="hint_export_input_qr">输入用于二维码的文本</string>
+    <string name="button_generate_ean13">生成 EAN-13 标准的条形码</string>
+    <string name="button_generate_qr">从任意文本生成二维码</string>
+    <string name="toast_ean13_length_error">必须输入EAN-13 标准的序列</string>
+    <string name="title_scan">扫描</string>
+    <string name="title_history">记录</string>
+    <string name="title_export">导出</string>
+    <string name="action_delete">删除</string>
+    <string name="action_export">导出</string>
+    <string name="toast_generation_error">生成时出错：%1$s</string>
+    <string name="toast_generic_error">出现错误：%1$s</string>
+    <string name="dialog_title_select_action">选取操作</string>
+    <string name="dialog_title_edit_result">编辑扫描结果</string>
+    <string name="action_edit">编辑</string>
+    <string name="button_cancel">算了</string>
+    <string name="camera_permission_denied">想要相机权限</string>
+</resources>

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -33,29 +34,41 @@ class ExportFragment : Fragment() {
             binding.inputText.setText(it)
         }
 
-        binding.generateQrButton.setOnClickListener {
-            generateCode(BarcodeFormat.QR_CODE)
+        binding.generateEan13Button.setOnClickListener {
+            generateCode(BarcodeFormat.EAN_13, 12)
         }
 
-        binding.generateBarcodeButton.setOnClickListener {
-            generateCode(BarcodeFormat.CODE_128)
+        binding.generateQrButton.setOnClickListener {
+            binding.inputText.hint = getString(R.string.hint_export_input_qr)
+            generateCode(BarcodeFormat.QR_CODE, -1) // No length limit for QR
         }
     }
 
-    private fun generateCode(format: BarcodeFormat) {
+    private fun generateCode(format: BarcodeFormat, requiredLength: Int) {
         val text = binding.inputText.text.toString()
         if (text.isEmpty()) {
             return
         }
 
+        if (requiredLength > 0 && text.length != requiredLength) {
+            Toast.makeText(requireContext(), getString(R.string.toast_ean13_length_error), Toast.LENGTH_SHORT).show()
+            return
+        }
+
         try {
             val multiFormatWriter = MultiFormatWriter()
-            val bitMatrix = multiFormatWriter.encode(text, format, 300, 300)
+            // For EAN_13, ZXing automatically calculates the checksum for 12-digit input
+            val bitMatrix = multiFormatWriter.encode(text, format, 400, 200)
             val barcodeEncoder = BarcodeEncoder()
             val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
             binding.generatedCode.setImageBitmap(bitmap)
         } catch (e: WriterException) {
             e.printStackTrace()
+            Toast.makeText(requireContext(), getString(R.string.toast_generation_error, e.message), Toast.LENGTH_LONG).show()
+        } catch (e: IllegalArgumentException) {
+            // ZXing throws this for invalid EAN-13 content
+            e.printStackTrace()
+            Toast.makeText(requireContext(), getString(R.string.toast_generic_error, e.message), Toast.LENGTH_LONG).show()
         }
     }
 

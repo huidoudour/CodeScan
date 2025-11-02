@@ -36,7 +36,7 @@ class ScannerFragment : Fragment() {
         if (isGranted) {
             startCamera()
         } else {
-            Toast.makeText(requireContext(), "请授予相机权限", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.camera_permission_denied), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -95,18 +95,18 @@ class ScannerFragment : Fragment() {
 
     private fun showConfirmationDialog(result: String) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Scan Result")
+            .setTitle(getString(R.string.dialog_title_scan_result))
             .setMessage(result)
-            .setPositiveButton("Save") { _, _ ->
+            .setPositiveButton(getString(R.string.button_save)) { _, _ ->
                 lifecycleScope.launch {
                     db.scanResultDao().insert(ScanResult(content = result))
                     requireActivity().runOnUiThread {
-                        Toast.makeText(requireContext(), "Saved", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.toast_saved), Toast.LENGTH_SHORT).show()
                     }
                 }
                 isScanning = true
             }
-            .setNegativeButton("Rescan") { _, _ ->
+            .setNegativeButton(getString(R.string.button_rescan)) { _, _ ->
                 isScanning = true
             }
             .setCancelable(false)

@@ -59,16 +59,16 @@ class HistoryFragment : Fragment() {
         }
 
         AlertDialog.Builder(requireContext())
-            .setTitle("Edit Scan Result")
+            .setTitle(getString(R.string.dialog_title_edit_result))
             .setView(editText)
-            .setPositiveButton("Save") { _, _ ->
+            .setPositiveButton(getString(R.string.button_save)) { _, _ ->
                 val newContent = editText.text.toString()
                 lifecycleScope.launch {
                     db.scanResultDao().update(scanResult.copy(content = newContent))
                     loadHistory()
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.button_cancel), null)
             .show()
     }
 

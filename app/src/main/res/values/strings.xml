@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">CodeScan</string>
+
+    <!-- Bottom Navigation -->
+    <string name="title_scan">Scan</string>
+    <string name="title_history">History</string>
+    <string name="title_export">Export</string>
+
+    <!-- Export Page -->
+    <string name="hint_export_input_ean13">Enter 12 digits for EAN-13 barcode</string>
+    <string name="hint_export_input_qr">Enter text for QR code</string>
+    <string name="button_generate_ean13">Generate EAN-13 Barcode</string>
+    <string name="button_generate_qr">Generate QR Code from any text</string>
+    <string name="toast_ean13_length_error">Input must be 12 digits long for EAN-13</string>
+    <string name="toast_generation_error">Error generating code: %1$s</string>
+    <string name="toast_generic_error">Error: %1$s</string>
+
+    <!-- Scanner Page -->
+    <string name="camera_permission_denied">Camera permission is required to scan codes.</string>
+    <string name="dialog_title_scan_result">Scan Result</string>
+    <string name="button_save">Save</string>
+    <string name="button_rescan">Rescan</string>
+    <string name="toast_saved">Saved</string>
+
+    <!-- History Page -->
+    <string name="dialog_title_select_action">Select Action</string>
+    <string name="dialog_title_edit_result">Edit Scan Result</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_export">Export</string>
+    <string name="button_cancel">Cancel</string>
+
 </resources>
