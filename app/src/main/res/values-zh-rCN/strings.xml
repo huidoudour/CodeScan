@@ -10,6 +10,9 @@
     <string name="button_generate_ean13">生成 EAN-13 标准的条形码</string>
     <string name="button_generate_qr">从任意文本生成二维码</string>
     <string name="button_export_all">导出所有记录</string>
+    <string name="scanner_instruction_align">对准二维码或条形码</string>
+    <string name="scanner_instruction_position">将二维码或条形码置于框内</string>
+    <string name="history_empty_hint">开始扫描二维码或条形码来创建记录</string>
     <string name="toast_ean13_length_error">必须输入EAN-13 标准的序列</string>
     <string name="title_scan">扫描</string>
     <string name="title_history">记录</string>

@@ -12,6 +12,7 @@
     <string name="dialog_title_edit_result">Edit Scan Result</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
+    <string name="history_empty_hint">QStart scanning QR codes or barcodes to create records</string>
     <string name="title_scan">Scan</string>
     <string name="title_history">History</string>
     <string name="title_export">Export</string>
@@ -33,6 +34,8 @@
     <string name="settings_about_summary">CodeScan is a QR code and barcode scanner application</string>
     <string name="language_default">System Default</string>
     <string name="language_en">English</string>
-    <string name="language_zh">中文</string>
     <string name="settings_about">About</string>
+    <string name="language_zh">中文</string>
+    <string name="scanner_instruction_align">Align QR code or barcode</string>
+    <string name="scanner_instruction_position">Position the QR code or barcode within the frame</string>
 </resources>
