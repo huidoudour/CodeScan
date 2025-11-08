@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.huidoudour.QRCode.scan.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -66,7 +67,7 @@ class SettingsFragment : Fragment() {
             else -> 0
         }
         
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
             .setTitle(R.string.settings_language)
             .setSingleChoiceItems(languages, selectedIndex) { dialog, which ->
                 when (which) {
@@ -76,7 +77,11 @@ class SettingsFragment : Fragment() {
                 }
                 dialog.dismiss()
             }
-            .setNegativeButton(R.string.button_cancel, null)
+            .setNegativeButton(R.string.button_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setBackgroundInsetStart(32)
+            .setBackgroundInsetEnd(32)
             .show()
     }
 

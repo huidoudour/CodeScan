@@ -10,6 +10,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
 import me.huidoudour.QRCode.scan.databinding.FragmentHistoryBinding
 
@@ -55,33 +58,33 @@ class HistoryFragment : Fragment() {
     }
 
     private fun showEditDialog(scanResult: ScanResult) {
-        val context = requireContext()
-        val contentEditText = EditText(context).apply {
-            setText(scanResult.content)
-        }
-        val remarkEditText = EditText(context).apply {
-            setText(scanResult.remark)
-            hint = getString(R.string.hint_remark)
-        }
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_result, null)
+        val contentInputLayout = dialogView.findViewById<TextInputLayout>(R.id.contentInputLayout)
+        val contentEditText = dialogView.findViewById<TextInputEditText>(R.id.contentEditText)
+        val remarkInputLayout = dialogView.findViewById<TextInputLayout>(R.id.remarkInputLayout)
+        val remarkEditText = dialogView.findViewById<TextInputEditText>(R.id.remarkEditText)
+        
+        contentEditText.setText(scanResult.content)
+        remarkEditText.setText(scanResult.remark)
+        remarkInputLayout.hint = getString(R.string.hint_remark)
 
-        val layout = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            addView(contentEditText)
-            addView(remarkEditText)
-        }
-
-        AlertDialog.Builder(context)
+        MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
             .setTitle(getString(R.string.dialog_title_edit_result))
-            .setView(layout)
-            .setPositiveButton(getString(R.string.button_save)) { _, _ ->
+            .setView(dialogView)
+            .setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
                 val newContent = contentEditText.text.toString()
                 val newRemark = remarkEditText.text.toString()
                 lifecycleScope.launch {
                     db.scanResultDao().update(scanResult.copy(content = newContent, remark = newRemark))
                     loadHistory()
                 }
+                dialog.dismiss()
             }
-            .setNegativeButton(getString(R.string.button_cancel), null)
+            .setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setBackgroundInsetStart(32)
+            .setBackgroundInsetEnd(32)
             .show()
     }
 

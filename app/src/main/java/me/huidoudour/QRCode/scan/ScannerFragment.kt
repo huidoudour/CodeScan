@@ -17,6 +17,9 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.launch
 import me.huidoudour.QRCode.scan.databinding.FragmentScannerBinding
@@ -95,15 +98,17 @@ class ScannerFragment : Fragment() {
     }
 
     private fun showConfirmationDialog(result: String) {
-        val remarkEditText = EditText(requireContext()).apply {
-            hint = getString(R.string.hint_remark_optional)
-        }
-
-        AlertDialog.Builder(requireContext())
+        val dialogView = layoutInflater.inflate(R.layout.dialog_scan_result, null)
+        val textInputLayout = dialogView.findViewById<TextInputLayout>(R.id.textInputLayout)
+        val remarkEditText = dialogView.findViewById<TextInputEditText>(R.id.remarkEditText)
+        
+        textInputLayout.hint = getString(R.string.hint_remark_optional)
+        
+        MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
             .setTitle(getString(R.string.dialog_title_scan_result))
             .setMessage(result)
-            .setView(remarkEditText)
-            .setPositiveButton(getString(R.string.button_save)) { _, _ ->
+            .setView(dialogView)
+            .setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
                 val remark = remarkEditText.text.toString()
                 lifecycleScope.launch {
                     db.scanResultDao().insert(ScanResult(content = result, remark = remark))
@@ -112,12 +117,15 @@ class ScannerFragment : Fragment() {
                     }
                 }
                 isScanning = true
+                dialog.dismiss()
             }
-            .setNegativeButton(getString(R.string.button_rescan)) { _, _ ->
+            .setNegativeButton(getString(R.string.button_rescan)) { dialog, _ ->
                 isScanning = true
+                dialog.dismiss()
             }
+            .setBackgroundInsetStart(32)
+            .setBackgroundInsetEnd(32)
             .setCancelable(false)
-            .create()
             .show()
     }
 

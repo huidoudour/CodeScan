@@ -19,6 +19,7 @@
     <string name="hint_export_input_qr">Enter text for QR code</string>
     <string name="button_generate_ean13">Generate EAN-13 Barcode</string>
     <string name="button_generate_qr">Generate QR Code from any text</string>
+    <string name="button_export_all">Export All Records</string>
     <string name="dialog_title_scan_result">Scan Result</string>
     <string name="button_save">Save</string>
     <string name="button_rescan">Rescan</string>
@@ -29,7 +30,9 @@
     <string name="title_settings">Settings</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_summary">Change the application language</string>
+    <string name="settings_about_summary">CodeScan is a QR code and barcode scanner application</string>
     <string name="language_default">System Default</string>
     <string name="language_en">English</string>
     <string name="language_zh">中文</string>
+    <string name="settings_about">About</string>
 </resources>
