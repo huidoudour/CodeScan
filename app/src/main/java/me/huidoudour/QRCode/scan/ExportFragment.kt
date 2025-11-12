@@ -22,7 +22,8 @@ import me.huidoudour.QRCode.scan.databinding.FragmentExportBinding
 import java.io.File
 import java.io.FileWriter
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class ExportFragment : Fragment() {
 
@@ -73,7 +74,7 @@ class ExportFragment : Fragment() {
         }
 
         if (requiredLength > 0 && text.length != requiredLength) {
-            Toast.makeText(requireContext(), getString(R.string.toast_ean13_length_error), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.toast_ean13_length_error, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -125,9 +126,13 @@ class ExportFragment : Fragment() {
         json.append("[\n")
         
         scanResults.forEachIndexed { index, scanResult ->
+            // 转义JSON中的特殊字符
+            val content = scanResult.content.replace("\\", "\\\\").replace("\"", "\\\"")
+            val remark = (scanResult.remark ?: "").replace("\\", "\\\\").replace("\"", "\\\"")
+            
             json.append("  {\n")
-            json.append("    \"content\": \"${scanResult.content}\",\n")
-            json.append("    \"remark\": \"${scanResult.remark ?: ""}\",\n")
+            json.append("    \"content\": \"${content}\",\n")
+            json.append("    \"remark\": \"${remark}\",\n")
             json.append("    \"timestamp\": \"${dateFormat.format(Date(scanResult.timestamp))}\"\n")
             json.append("  }")
             

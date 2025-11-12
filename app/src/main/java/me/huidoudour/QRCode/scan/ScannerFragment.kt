@@ -111,7 +111,7 @@ class ScannerFragment : Fragment() {
             .setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
                 val remark = remarkEditText.text.toString()
                 lifecycleScope.launch {
-                    db.scanResultDao().insert(ScanResult(content = result, remark = remark))
+                    db.scanResultDao().insert(ScanResult(content = result, remark = remark, timestamp = System.currentTimeMillis()))
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), getString(R.string.toast_saved), Toast.LENGTH_SHORT).show()
                     }

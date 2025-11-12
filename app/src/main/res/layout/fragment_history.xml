@@ -5,74 +5,74 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
 
-    <!-- Top App Bar -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
-        android:elevation="0dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <!-- Top App Bar -->
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/title_history"
-            app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-            app:menu="@menu/history_menu"
-            app:navigationIcon="@drawable/ic_history"
-            app:navigationIconTint="?attr/colorOnSurface"
-            style="@style/Widget.Material3.Toolbar" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!-- History List -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/historyRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="?attr/actionBarSize"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <!-- Empty State -->
-    <LinearLayout
-        android:id="@+id/emptyState"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="32dp"
-        android:visibility="gone">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_history"
-            android:tint="?attr/colorOnSurfaceVariant"
-            app:shapeAppearance="@style/ShapeAppearance.Material3.LargeComponent"
-            app:strokeColor="?attr/colorOutline"
-            app:strokeWidth="1dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="暂无扫描记录"
-            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-            android:textColor="?attr/colorOnSurface" />
+            android:background="?attr/colorSurface"
+            android:elevation="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/history_empty_hint"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:textAlignment="center" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/title_history"
+                app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                app:menu="@menu/history_menu"
+                app:navigationIcon="@drawable/ic_history"
+                app:navigationIconTint="?attr/colorOnSurface"
+                style="@style/Widget.Material3.Toolbar" />
 
-    </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- History List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="?attr/actionBarSize"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/emptyState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_history"
+                android:tint="?attr/colorOnSurfaceVariant"
+                app:shapeAppearance="@style/ShapeAppearance.Material3.LargeComponent"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="暂无扫描记录"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                android:textColor="?attr/colorOnSurface" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/history_empty_hint"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textAlignment="center" />
+
+        </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
