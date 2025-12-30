@@ -31,6 +31,11 @@ class SettingsFragment : Fragment() {
         binding.languageSettingItem.setOnClickListener {
             showLanguageSelectionDialog()
         }
+        
+        binding.aboutCard.setOnClickListener {
+            val intent = Intent(requireContext(), MeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun updateLanguageDisplay() {

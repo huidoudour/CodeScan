@@ -25,6 +25,11 @@
             </intent-filter>
         </activity>
         
+        <activity
+            android:name=".MeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CodeScan" />
+        
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

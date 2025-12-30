@@ -56,6 +56,11 @@ class ExportFragment : Fragment() {
         binding.generateEan13Button.setOnClickListener {
             generateCode(BarcodeFormat.EAN_13, 12)
         }
+        
+        binding.generateCode128Button.setOnClickListener {
+            binding.textInputLayout.hint = getString(R.string.hint_export_input_code128)
+            generateCode(BarcodeFormat.CODE_128, -1) // No length limit for CODE_128
+        }
 
         binding.generateQrButton.setOnClickListener {
             binding.textInputLayout.hint = getString(R.string.hint_export_input_qr)
@@ -70,6 +75,7 @@ class ExportFragment : Fragment() {
     private fun generateCode(format: BarcodeFormat, requiredLength: Int) {
         val text = binding.inputText.text.toString()
         if (text.isEmpty()) {
+            Toast.makeText(requireContext(), "请输入内容", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -84,7 +90,12 @@ class ExportFragment : Fragment() {
 
         try {
             val multiFormatWriter = MultiFormatWriter()
-            val bitMatrix = multiFormatWriter.encode(text, format, 400, 200)
+            // 根据格式类型调整生成尺寸：QR码使用正方形，条形码使用宽矩形
+            val (width, height) = when (format) {
+                BarcodeFormat.QR_CODE -> Pair(400, 400)
+                else -> Pair(600, 200) // 条形码使用更宽的尺寸
+            }
+            val bitMatrix = multiFormatWriter.encode(text, format, width, height)
             val barcodeEncoder = BarcodeEncoder()
             val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
             binding.generatedCode.setImageBitmap(bitmap)
@@ -94,10 +105,10 @@ class ExportFragment : Fragment() {
             if (format == BarcodeFormat.EAN_13) {
                 val errorMsg = when {
                     text.length != 12 && text.length != 13 -> 
-                        "EAN-13 条形码需要 12 位数字，你的数据是 ${text.length} 位。该内容无法生成标准 EAN-13 条形码，请尝试：\n1. 调整内容为 12 位数字\n2. 改用二维码生成"
+                        "EAN-13 条形码需要 12 位数字，你的数据是 ${text.length} 位。该内容无法生成标准 EAN-13 条形码，请尝试：\n1. 调整内容为 12 位数字\n2. 改用 CODE-128 或二维码生成"
                     text.any { !it.isDigit() } -> 
-                        "EAN-13 条形码只支持数字（0-9），你的内容包含非数字字符。请尝试：\n1. 删除非数字字符\n2. 改用二维码生成"
-                    else -> "无法生成 EAN-13 条形码：${e.message}\n请尝试改用二维码生成"
+                        "EAN-13 条形码只支持数字（0-9），你的内容包含非数字字符。请尝试：\n1. 删除非数字字符\n2. 改用 CODE-128 或二维码生成"
+                    else -> "无法生成 EAN-13 条形码：${e.message}\n请尝试改用 CODE-128 或二维码生成"
                 }
                 Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
             } else {
@@ -107,7 +118,7 @@ class ExportFragment : Fragment() {
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
             val errorMsg = when {
-                format == BarcodeFormat.EAN_13 -> "EAN-13 条形码格式不有效。请尝试：\n1. 确保输入的是 12 位有效数字\n2. 改用二维码生成"
+                format == BarcodeFormat.EAN_13 -> "EAN-13 条形码格式不有效。请尝试：\n1. 确保输入的是 12 位有效数字\n2. 改用 CODE-128 或二维码生成"
                 else -> e.message ?: "输入格式错误"
             }
             Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()

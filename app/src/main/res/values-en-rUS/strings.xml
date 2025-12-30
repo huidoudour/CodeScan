@@ -17,8 +17,10 @@
     <string name="title_history">History</string>
     <string name="title_export">Export</string>
     <string name="hint_export_input_ean13">Enter 12 digits for EAN-13 barcode</string>
+    <string name="hint_export_input_code128">Enter text for CODE-128 barcode</string>
     <string name="hint_export_input_qr">Enter text for QR code</string>
     <string name="button_generate_ean13">Generate EAN-13 Barcode</string>
+    <string name="button_generate_code128">Generate CODE-128</string>
     <string name="button_generate_qr">Generate QR Code from any text</string>
     <string name="button_export_all">Export All Records</string>
     <string name="dialog_title_scan_result">Scan Result</string>
@@ -38,4 +40,10 @@
     <string name="language_zh">中文</string>
     <string name="scanner_instruction_align">Align QR code or barcode</string>
     <string name="scanner_instruction_position">Position the QR code or barcode within the frame</string>
+    
+    <!-- About Page -->
+    <string name="about_description">你保护世界，我保护你</string>
+    <string name="about_features">Supports QR codes, EAN-13, CODE-128 and more formats</string>
+    <string name="about_developer">亻尔女子，我是huidoudour（慧兜兜）</string>
+    <string name="visit_github">ω寻找我ω</string>
 </resources>

@@ -6,8 +6,10 @@
     <string name="dialog_title_scan_result">扫描结果</string>
     <string name="button_save">保存</string>
     <string name="hint_export_input_ean13">输入 EAN-13 标准的序列</string>
+    <string name="hint_export_input_code128">输入 CODE-128 条形码内容</string>
     <string name="hint_export_input_qr">输入用于二维码的文本</string>
     <string name="button_generate_ean13">生成 EAN-13 标准的条形码</string>
+    <string name="button_generate_code128">生成 CODE-128</string>
     <string name="button_generate_qr">从任意文本生成二维码</string>
     <string name="button_export_all">导出所有记录</string>
     <string name="scanner_instruction_align">对准二维码或条形码</string>
@@ -38,4 +40,10 @@
     <string name="language_en">English</string>
     <string name="language_zh">中文</string>
     <string name="settings_about">关于</string>
+    
+    <!-- About Page -->
+    <string name="about_description">你保护世界，我保护你</string>
+    <string name="about_features">支持二维码、EAN-13、CODE-128 等多种格式</string>
+    <string name="about_developer">亻尔女子，我是huidoudour（慧兜兜）</string>
+    <string name="visit_github">ω寻找我ω</string>
 </resources>

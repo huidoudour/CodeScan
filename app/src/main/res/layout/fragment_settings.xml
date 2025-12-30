@@ -148,11 +148,15 @@
 
             <!-- About Section -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/about_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="1dp"
-                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
