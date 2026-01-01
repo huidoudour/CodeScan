@@ -2,6 +2,7 @@ package me.huidoudour.QRCode.scan
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -21,6 +23,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.launch
 import me.huidoudour.QRCode.scan.databinding.FragmentScannerBinding
 import java.util.concurrent.ExecutorService
@@ -35,6 +39,8 @@ class ScannerFragment : Fragment() {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var db: AppDatabase
     private var isScanning = true
+    private var camera: Camera? = null
+    private var isFlashOn = false
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted) {
@@ -42,6 +48,10 @@ class ScannerFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), getString(R.string.camera_permission_denied), Toast.LENGTH_SHORT).show()
         }
+    }
+    
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { scanImageFromGallery(it) }
     }
 
     override fun onCreateView(
@@ -59,11 +69,41 @@ class ScannerFragment : Fragment() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraExecutor = Executors.newSingleThreadExecutor()
         db = AppDatabase.getDatabase(requireContext())
+        
+        setupToolbarMenu()
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             startCamera()
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+    
+    private fun setupToolbarMenu() {
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_flash -> {
+                    toggleFlash()
+                    true
+                }
+                R.id.action_gallery -> {
+                    pickImageLauncher.launch("image/*")
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+    
+    private fun toggleFlash() {
+        camera?.let {
+            if (it.cameraInfo.hasFlashUnit()) {
+                isFlashOn = !isFlashOn
+                it.cameraControl.enableTorch(isFlashOn)
+                Toast.makeText(requireContext(), if (isFlashOn) "闪光灯已开启" else "闪光灯已关闭", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "设备不支持闪光灯", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -113,7 +153,7 @@ class ScannerFragment : Fragment() {
 
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(viewLifecycleOwner, cameraSelector, preview, imageAnalysis)
+                camera = cameraProvider.bindToLifecycle(viewLifecycleOwner, cameraSelector, preview, imageAnalysis)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -150,6 +190,54 @@ class ScannerFragment : Fragment() {
             .setBackgroundInsetEnd(32)
             .setCancelable(false)
             .show()
+    }
+    
+    private fun scanImageFromGallery(uri: Uri) {
+        try {
+            val image = InputImage.fromFilePath(requireContext(), uri)
+            val scanner = BarcodeScanning.getClient()
+            
+            scanner.process(image)
+                .addOnSuccessListener { barcodes ->
+                    if (barcodes.isNotEmpty()) {
+                        val barcode = barcodes[0]
+                        val result = barcode.rawValue ?: ""
+                        val codeType = getCodeTypeName(barcode.format)
+                        
+                        if (result.isNotEmpty()) {
+                            showConfirmationDialog(result, codeType)
+                        } else {
+                            Toast.makeText(requireContext(), "未识别到有效二维码", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "图片中未找到二维码或条形码", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { e ->
+                    e.printStackTrace()
+                    Toast.makeText(requireContext(), "识别失败：${e.message}", Toast.LENGTH_LONG).show()
+                }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "读取图片失败：${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+    
+    private fun getCodeTypeName(format: Int): String {
+        return when (format) {
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_CODE_128 -> "CODE_128"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_CODE_39 -> "CODE_39"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_CODE_93 -> "CODE_93"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_CODABAR -> "CODABAR"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_EAN_13 -> "EAN_13"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_EAN_8 -> "EAN_8"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_QR_CODE -> "QR_CODE"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_UPC_A -> "UPC_A"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_UPC_E -> "UPC_E"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_PDF417 -> "PDF417"
+            com.google.mlkit.vision.barcode.common.Barcode.FORMAT_AZTEC -> "AZTEC"
+            else -> "UNKNOWN"
+        }
     }
 
     override fun onDestroyView() {
