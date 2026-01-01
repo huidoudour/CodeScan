@@ -147,16 +147,53 @@ class HistoryFragment : Fragment() {
     }
     
     private fun showClearAllDialog() {
+        // 第一级确认
         MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
             .setTitle("清空所有记录")
             .setMessage("确定要删除所有扫描记录吗？此操作不可恢复。")
             .setPositiveButton("确定") { dialog, _ ->
-                lifecycleScope.launch {
-                    db.scanResultDao().deleteAll()
-                    loadHistory()
-                    Toast.makeText(requireContext(), "已清空所有记录", Toast.LENGTH_SHORT).show()
-                }
                 dialog.dismiss()
+                // 显示第二级确认
+                showSecondConfirmDialog()
+            }
+            .setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setBackgroundInsetStart(32)
+            .setBackgroundInsetEnd(32)
+            .show()
+    }
+    
+    private fun showSecondConfirmDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_result, null)
+        val contentEditText = dialogView.findViewById<TextInputEditText>(R.id.contentEditText)
+        val remarkInputLayout = dialogView.findViewById<TextInputLayout>(R.id.remarkInputLayout)
+        val remarkEditText = dialogView.findViewById<TextInputEditText>(R.id.remarkEditText)
+        
+        // 隐藏内容输入框
+        dialogView.findViewById<TextInputLayout>(R.id.contentInputLayout).visibility = View.GONE
+        
+        // 设置提示
+        remarkInputLayout.hint = "请输入 clear 确认"
+        remarkEditText.setText("")
+        
+        MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
+            .setTitle("最终确认")
+            .setMessage("⚠️ 警告：此操作将永久删除所有扫描记录！\n\n这是不可恢复的操作，请谨慎确认。\n\n如需继续，请在下方输入框中输入 \"clear\" 后点击确定。")
+            .setView(dialogView)
+            .setPositiveButton("确定") { dialog, _ ->
+                val input = remarkEditText.text.toString().trim()
+                if (input == "clear") {
+                    lifecycleScope.launch {
+                        db.scanResultDao().deleteAll()
+                        loadHistory()
+                        Toast.makeText(requireContext(), "已清空所有记录", Toast.LENGTH_SHORT).show()
+                    }
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(requireContext(), "输入不正确，清空操作已取消", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }
             }
             .setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
                 dialog.dismiss()
