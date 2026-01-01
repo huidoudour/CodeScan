@@ -16,6 +16,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorSurface"
                 app:title="@string/title_history"
                 app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                 app:menu="@menu/history_menu"
