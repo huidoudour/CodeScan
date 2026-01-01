@@ -60,6 +60,9 @@ android {
     }
     packaging {
         // 支持 16 KB 页面大小的 ARM 二进制文件对齐
+        jniLibs {
+            useLegacyPackaging = false
+        }
         resources.pickFirsts += "lib/arm64-v8a/libbarhopper_v3.so"
         resources.pickFirsts += "lib/arm64-v8a/libimage_processing_util_jni.so"
     }

@@ -44,11 +44,6 @@ class ExportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 设置工具栏导航图标点击事件
-        binding.toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-
         arguments?.getString("content_to_export")?.let {
             binding.inputText.setText(it)
         }
@@ -65,10 +60,6 @@ class ExportFragment : Fragment() {
         binding.generateQrButton.setOnClickListener {
             binding.textInputLayout.hint = getString(R.string.hint_export_input_qr)
             generateCode(BarcodeFormat.QR_CODE, -1) // No length limit for QR
-        }
-
-        binding.exportAllButton.setOnClickListener {
-            exportAllRecords()
         }
     }
 
@@ -132,94 +123,6 @@ class ExportFragment : Fragment() {
             text.any { !it.isDigit() } -> 
                 Pair(false, "条形码数据不符合规范\n\nEAN-13 只能使用 0-9 数字，你的数据包含其他字符\n\n能否需要改用二维码来存储这个内容？")
             else -> Pair(true, "")
-        }
-    }
-
-    private fun exportAllRecords() {
-        // 在后台线程中执行数据库操作
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                // 获取所有扫描记录
-                val scanResults = db.scanResultDao().getAll()
-                
-                if (scanResults.isEmpty()) {
-                    Toast.makeText(requireContext(), "没有记录可导出", Toast.LENGTH_SHORT).show()
-                    return@launch
-                }
-                
-                // 将记录转换为JSON格式
-                val json = convertToJson(scanResults)
-                
-                // 保存JSON到文件并分享
-                saveAndShareJson(json)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(requireContext(), getString(R.string.toast_generic_error, e.message), Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-    
-    private fun convertToJson(scanResults: List<ScanResult>): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        
-        val json = StringBuilder()
-        json.append("[\n")
-        
-        scanResults.forEachIndexed { index, scanResult ->
-            // 转义JSON中的特殊字符
-            val content = scanResult.content.replace("\\", "\\\\").replace("\"", "\\\"")
-            val remark = (scanResult.remark ?: "").replace("\\", "\\\\").replace("\"", "\\\"")
-            
-            json.append("  {\n")
-            json.append("    \"content\": \"${content}\",\n")
-            json.append("    \"remark\": \"${remark}\",\n")
-            json.append("    \"timestamp\": \"${dateFormat.format(Date(scanResult.timestamp))}\"\n")
-            json.append("  }")
-            
-            if (index < scanResults.size - 1) {
-                json.append(",")
-            }
-            json.append("\n")
-        }
-        
-        json.append("]")
-        return json.toString()
-    }
-    
-    private fun saveAndShareJson(json: String) {
-        // 在IO线程中创建文件
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                // 创建临时文件
-                val fileName = "scan_records_${System.currentTimeMillis()}.json"
-                val file = File(requireContext().cacheDir, fileName)
-                val writer = FileWriter(file)
-                writer.write(json)
-                writer.close()
-                
-                // 在主线程中启动分享意图
-                CoroutineScope(Dispatchers.Main).launch {
-                    val uri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "${requireContext().packageName}.fileprovider",
-                        file
-                    )
-                    
-                    val shareIntent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        type = "application/json"
-                        putExtra(Intent.EXTRA_STREAM, uri)
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
-                    
-                    startActivity(Intent.createChooser(shareIntent, "Share JSON"))
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(requireContext(), getString(R.string.toast_generic_error, e.message), Toast.LENGTH_LONG).show()
-                }
-            }
         }
     }
 

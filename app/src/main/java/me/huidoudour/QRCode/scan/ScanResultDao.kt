@@ -19,4 +19,7 @@ interface ScanResultDao {
 
     @Delete
     suspend fun delete(scanResult: ScanResult)
+    
+    @Query("DELETE FROM scan_results")
+    suspend fun deleteAll()
 }
