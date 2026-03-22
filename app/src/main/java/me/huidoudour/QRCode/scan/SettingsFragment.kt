@@ -28,12 +28,12 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         updateLanguageDisplay()
-        updateVersionDisplay()
-        
+        updateVersionInfo()
+
         binding.languageSettingItem.setOnClickListener {
             showLanguageSelectionDialog()
         }
-        
+
         binding.aboutCard.setOnClickListener {
             val intent = Intent(requireContext(), MeActivity::class.java)
             startActivity(intent)
@@ -44,18 +44,18 @@ class SettingsFragment : Fragment() {
         val currentLanguage = getCurrentLanguage()
         binding.currentLanguage.text = currentLanguage
     }
-    
-    private fun updateVersionDisplay() {
-        val versionName = try {
+
+    private fun updateVersionInfo() {
+        val versionInfo = try {
             val packageInfo = requireContext().packageManager
                 .getPackageInfo(requireContext().packageName, 0)
-            packageInfo.versionName
+            "v${packageInfo.versionName} (${packageInfo.versionCode})"
         } catch (e: Exception) {
-            "Unknown"
+            "v1.0.0 (1)"
         }
         
-        // 更新版本号显示
-        binding.versionText.text = "v$versionName"
+        // 更新版本信息显示
+        binding.versionText.text = versionInfo
     }
 
     private fun getCurrentLanguage(): String {
