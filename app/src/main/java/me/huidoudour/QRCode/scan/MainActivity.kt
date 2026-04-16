@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.navigationrail.NavigationRailView
 import me.huidoudour.QRCode.scan.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 

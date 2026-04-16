@@ -265,12 +265,18 @@ class HistoryFragment : Fragment() {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val jsonArray = JSONArray()
         
+        // 获取当前语言的 JSON 键名
+        val keyData = getString(R.string.json_key_data)
+        val keyType = getString(R.string.json_key_type)
+        val keyRemark = getString(R.string.json_key_remark)
+        val keyTime = getString(R.string.json_key_time)
+        
         scanResults.forEach { scanResult ->
             val jsonObject = JSONObject().apply {
-                put("数据", scanResult.content)
-                put("类型", scanResult.codeType)
-                put("备注", scanResult.remark ?: "")
-                put("时间", dateFormat.format(Date(scanResult.timestamp)))
+                put(keyData, scanResult.content)
+                put(keyType, scanResult.codeType)
+                put(keyRemark, scanResult.remark ?: "")
+                put(keyTime, dateFormat.format(Date(scanResult.timestamp)))
             }
             jsonArray.put(jsonObject)
         }
@@ -336,33 +342,27 @@ class HistoryFragment : Fragment() {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 var successCount = 0
                 
+                // 获取所有语言的键名映射
+                val dataKeys = listOf("数据", "數據", "データ", "Данные", "Data")
+                val typeKeys = listOf("类型", "類型", "タイプ", "Тип", "Type")
+                val remarkKeys = listOf("备注", "備註", "備考", "Примечание", "Remark")
+                val timeKeys = listOf("时间", "時間", "時間", "Время", "Time")
+                
                 for (i in 0 until jsonArray.length()) {
                     val jsonObject = jsonArray.getJSONObject(i)
                     
-                    // 支持新格式（中文key）和旧格式（英文key）
-                    val content = if (jsonObject.has("数据")) {
-                        jsonObject.getString("数据")
-                    } else {
-                        jsonObject.optString("content", "")
-                    }
+                    // 支持多语言格式（中文key）和旧格式（英文key）
+                    val content = findJsonValue(jsonObject, dataKeys) ?: 
+                                  jsonObject.optString("content", "")
                     
-                    val codeType = if (jsonObject.has("类型")) {
-                        jsonObject.getString("类型")
-                    } else {
-                        jsonObject.optString("codeType", "UNKNOWN")
-                    }
+                    val codeType = findJsonValue(jsonObject, typeKeys) ?: 
+                                   jsonObject.optString("codeType", "UNKNOWN")
                     
-                    val remark = if (jsonObject.has("备注")) {
-                        jsonObject.getString("备注")
-                    } else {
-                        jsonObject.optString("remark", "")
-                    }
+                    val remark = findJsonValue(jsonObject, remarkKeys) ?: 
+                                 jsonObject.optString("remark", "")
                     
-                    val timeStr = if (jsonObject.has("时间")) {
-                        jsonObject.getString("时间")
-                    } else {
-                        jsonObject.optString("timestamp", "")
-                    }
+                    val timeStr = findJsonValue(jsonObject, timeKeys) ?: 
+                                  jsonObject.optString("timestamp", "")
                     
                     val timestamp = try {
                         dateFormat.parse(timeStr)?.time ?: System.currentTimeMillis()
@@ -400,6 +400,18 @@ class HistoryFragment : Fragment() {
                 }
             }
         }
+    }
+    
+    /**
+     * 从 JSONObject 中查找第一个存在的键的值
+     */
+    private fun findJsonValue(jsonObject: JSONObject, keys: List<String>): String? {
+        for (key in keys) {
+            if (jsonObject.has(key)) {
+                return jsonObject.getString(key)
+            }
+        }
+        return null
     }
 
     override fun onDestroyView() {

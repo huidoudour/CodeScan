@@ -32,7 +32,7 @@ import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class ScannerActivity : AppCompatActivity() {
+class ScannerActivity : BaseActivity() {
 
     private lateinit var binding: FragmentScannerBinding
     private var cameraExecutor: ExecutorService? = null

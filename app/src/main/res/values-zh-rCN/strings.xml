@@ -40,10 +40,26 @@
     <string name="hint_remark_edit">备注</string>
     <string name="settings_language">语言</string>
     <string name="settings_language_summary">更改应用程序语言</string>
+    <string name="settings_quick_scan_icon">快速扫描图标</string>
+    <string name="settings_quick_scan_icon_summary">在桌面显示快速扫描图标</string>
     <string name="settings_about_summary">二维码扫描器</string>
     <string name="language_default">系统默认</string>
     <string name="language_en">英语</string>
-    <string name="language_zh">中文</string>
+    <string name="language_zh_cn">简体中文</string>
+    <string name="language_zh_tw">繁體中文</string>
+    <string name="language_ja">日语</string>
+    <string name="language_ru">俄语</string>
+    
+    <!-- Code Types -->
+    <string name="code_type_qr">二维码</string>
+    <string name="code_type_barcode">条形码 (%1$s)</string>
+    <string name="code_type_special">特殊码 (%1$s)</string>
+    
+    <!-- Export JSON Keys -->
+    <string name="json_key_data">数据</string>
+    <string name="json_key_type">类型</string>
+    <string name="json_key_remark">备注</string>
+    <string name="json_key_time">时间</string>
     <string name="settings_about">关于</string>
     
     <!-- About Page -->
@@ -105,4 +121,7 @@ EAN-13 只能使用 0-9 数字，你的的数据包含其他字符
     
     <!-- Quick Scan Fragment -->
     <string name="opening_link">正在打开链接...</string>
+    
+    <!-- Language Switch -->
+    <string name="language_changed_restart">语言已更改，应用即将重启</string>
 </resources>

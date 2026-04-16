@@ -36,7 +36,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 @OptIn(ExperimentalGetImage::class)
-class QuickScanActivity : AppCompatActivity() {
+class QuickScanActivity : BaseActivity() {
 
     private lateinit var binding: ActivityScannerLayoutBinding
     private lateinit var previewView: PreviewView

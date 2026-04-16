@@ -14,8 +14,11 @@
 .cxx
 local.properties
 log.txt
+*.log
 /BUILD_VARIANTS.md
 /IMPROVEMENTS.md
 /QUICK_START.md
 /.kotlin/app-debug.apk
 /.idea/
+/.kotlin
+/.lingma
