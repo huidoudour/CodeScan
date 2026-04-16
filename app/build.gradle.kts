@@ -1,17 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
-}
-
-kapt {
-    correctErrorTypes = true
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "me.huidoudour.QRCode.scan"
-    //noinspection GradleDependency
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "me.huidoudour.QRCode.scan"
@@ -31,16 +26,6 @@ android {
             reset()
             include("arm64-v8a", "x86_64")
             isUniversalApk = true
-        }
-    }
-
-    // 配置输出文件名称
-    bundle {
-        density {
-            enableSplit = false
-        }
-        abi {
-            enableSplit = false
         }
     }
 
@@ -91,8 +76,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
     buildFeatures {
         viewBinding = true
@@ -111,24 +98,28 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     
     // 二维码扫描库
-    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    implementation(libs.mlkit.barcode.scanning)
+    
+    // Guava for ListenableFuture (CameraX required)
+    implementation(libs.guava)
+    implementation(libs.androidx.concurrent.futures)
     
     // 必要的CameraX依赖
-    implementation("androidx.camera:camera-core:1.3.1")
-    implementation("androidx.camera:camera-camera2:1.3.1")
-    implementation("androidx.camera:camera-lifecycle:1.3.1")
-    implementation("androidx.camera:camera-view:1.3.1")
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
     
     // Room数据库依赖
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
     
     // ZXing二维码生成库
-    implementation("com.google.zxing:core:3.5.1")
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation(libs.zxing.core)
+    implementation(libs.zxing.android.embedded)
 
     //MT管理器文件提供器
-    debugImplementation("com.github.L-JINBIN:MTDataFilesProvider:v1.0.0")
-    implementation("com.github.L-JINBIN:MTDataFilesProvider:v1.0.0")
+    debugImplementation(libs.mt.data.files.provider.debug)
+    implementation(libs.mt.data.files.provider)
 }

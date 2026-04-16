@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -112,7 +113,7 @@ class QuickScanActivity : BaseActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    @Suppress("OPT_IN_USAGE")
+    @androidx.annotation.OptIn(ExperimentalGetImage::class)
     private fun bindCameraUseCases() {
         val cameraProvider = cameraProvider ?: return
 

@@ -37,11 +37,11 @@ class LanguageManager {
                 }
             } else {
                 val locale = when (languageCode) {
-                    LANGUAGE_ENGLISH -> Locale("en")
+                    LANGUAGE_ENGLISH -> Locale.forLanguageTag("en")
                     LANGUAGE_CHINESE_SIMPLIFIED -> Locale.SIMPLIFIED_CHINESE
                     LANGUAGE_CHINESE_TRADITIONAL -> Locale.TRADITIONAL_CHINESE
                     LANGUAGE_JAPANESE -> Locale.JAPANESE
-                    LANGUAGE_RUSSIAN -> Locale("ru")
+                    LANGUAGE_RUSSIAN -> Locale.forLanguageTag("ru")
                     else -> Locale.getDefault()
                 }
                 updateResources(context, locale)
