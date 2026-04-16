@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.huidoudour.QRCode.scan.databinding.FragmentHistoryBinding
@@ -28,10 +27,6 @@ import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import android.os.Environment
-import java.io.IOException
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 
 class HistoryFragment : Fragment() {
 

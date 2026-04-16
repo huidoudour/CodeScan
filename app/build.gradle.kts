@@ -10,14 +10,16 @@ kapt {
 
 android {
     namespace = "me.huidoudour.QRCode.scan"
+    //noinspection GradleDependency
     compileSdk = 34
 
     defaultConfig {
         applicationId = "me.huidoudour.QRCode.scan"
         minSdk = 28
+        //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 313
-        versionName = "3.1.3"
+        versionCode = 327
+        versionName = "3.2.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

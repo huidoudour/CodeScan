@@ -42,6 +42,8 @@
     <string name="settings_language_summary">Change the application language</string>
     <string name="settings_quick_scan_icon">Quick Scan Icon</string>
     <string name="settings_quick_scan_icon_summary">Show quick scan icon on home screen</string>
+    <string name="quick_scan_icon_enabled">Quick scan icon enabled</string>
+    <string name="quick_scan_icon_disabled">Quick scan icon disabled</string>
     <string name="settings_about_summary">CodeScan is a QR code and barcode scanner application</string>
     <string name="language_default">System Default</string>
     <string name="language_en">English</string>

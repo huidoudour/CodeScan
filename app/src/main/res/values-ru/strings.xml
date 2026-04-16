@@ -42,6 +42,8 @@
     <string name="settings_language_summary">Изменить язык приложения</string>
     <string name="settings_quick_scan_icon">Иконка быстрого сканирования</string>
     <string name="settings_quick_scan_icon_summary">Показывать иконку быстрого сканирования на главном экране</string>
+    <string name="quick_scan_icon_enabled">Иконка быстрого сканирования включена</string>
+    <string name="quick_scan_icon_disabled">Иконка быстрого сканирования отключена</string>
     <string name="settings_about_summary">Сканер QR-кодов</string>
     <string name="language_default">Системный по умолчанию</string>
     <string name="language_en">Английский</string>

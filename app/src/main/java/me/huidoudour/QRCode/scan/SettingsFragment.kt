@@ -1,6 +1,8 @@
 package me.huidoudour.QRCode.scan
 
+import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +31,7 @@ class SettingsFragment : Fragment() {
         
         updateLanguageDisplay()
         updateVersionInfo()
+        setupQuickScanIconSwitch()
 
         binding.languageSettingItem.setOnClickListener {
             showLanguageSelectionDialog()
@@ -49,6 +52,7 @@ class SettingsFragment : Fragment() {
         val versionInfo = try {
             val packageInfo = requireContext().packageManager
                 .getPackageInfo(requireContext().packageName, 0)
+            @Suppress("DEPRECATION")
             "v${packageInfo.versionName} (${packageInfo.versionCode})"
         } catch (e: Exception) {
             "v1.0.0 (1)"
@@ -56,6 +60,53 @@ class SettingsFragment : Fragment() {
         
         // 更新版本信息显示
         binding.versionText.text = versionInfo
+    }
+    
+    private fun setupQuickScanIconSwitch() {
+        // 读取保存的设置，默认为 true（显示图标）
+        val sharedPref = requireContext().getSharedPreferences("app_preferences", android.content.Context.MODE_PRIVATE)
+        val showQuickScanIcon = sharedPref.getBoolean("show_quick_scan_icon", true)
+        
+        // 设置开关状态
+        binding.quickScanIconSwitch.isChecked = showQuickScanIcon
+        
+        // 监听开关变化
+        binding.quickScanIconSwitch.setOnCheckedChangeListener { _, isChecked ->
+            setQuickScanIconEnabled(isChecked)
+            
+            // 显示提示
+            val message = if (isChecked) {
+                getString(R.string.quick_scan_icon_enabled)
+            } else {
+                getString(R.string.quick_scan_icon_disabled)
+            }
+            android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show()
+            
+            // 保存设置
+            with(sharedPref.edit()) {
+                putBoolean("show_quick_scan_icon", isChecked)
+                apply()
+            }
+        }
+    }
+    
+    private fun setQuickScanIconEnabled(enabled: Boolean) {
+        val componentName = ComponentName(
+            requireContext(),
+            "me.huidoudour.QRCode.scan.QuickScanActivity"
+        )
+        
+        val newState = if (enabled) {
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+        } else {
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+        }
+        
+        requireContext().packageManager.setComponentEnabledSetting(
+            componentName,
+            newState,
+            PackageManager.DONT_KILL_APP
+        )
     }
 
     private fun getCurrentLanguage(): String {
@@ -151,7 +202,8 @@ class SettingsFragment : Fragment() {
                 startActivity(intent)
                 // 退出当前应用
                 activity?.finishAffinity()
-                // 添加过渡动画
+                // 添加过渡动画（API 34+ 已废弃，但为了兼容性保留）
+                @Suppress("DEPRECATION")
                 activity?.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             }, 300)
         }

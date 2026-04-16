@@ -42,6 +42,8 @@
     <string name="settings_language_summary">更改應用程式語言</string>
     <string name="settings_quick_scan_icon">快速掃描圖標</string>
     <string name="settings_quick_scan_icon_summary">在桌面顯示快速掃描圖標</string>
+    <string name="quick_scan_icon_enabled">已啟用快速掃描圖標</string>
+    <string name="quick_scan_icon_disabled">已禁用快速掃描圖標</string>
     <string name="settings_about_summary">二維碼掃描器</string>
     <string name="language_default">系統預設</string>
     <string name="language_en">英語</string>

@@ -1,11 +1,9 @@
 package me.huidoudour.QRCode.scan
 
 import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
-import java.util.*
+import java.util.Locale
 
 class LanguageManager {
     companion object {
@@ -32,8 +30,8 @@ class LanguageManager {
                     baseContext.createConfigurationContext(newConfig)
                 } else {
                     // 对于旧版本，直接使用系统默认的 locale
-                    @Suppress("DEPRECATION")
                     val newConfig = android.content.res.Configuration(configuration)
+                    @Suppress("DEPRECATION")
                     newConfig.locale = java.util.Locale.getDefault()
                     baseContext.createConfigurationContext(newConfig)
                 }
@@ -104,6 +102,7 @@ class LanguageManager {
         /**
          * 获取显示用的语言名称
          */
+        @Suppress("UNUSED_PARAMETER")
         fun getLanguageDisplayName(context: android.content.Context, languageCode: String): String {
             return when (languageCode) {
                 LANGUAGE_ENGLISH -> "English"

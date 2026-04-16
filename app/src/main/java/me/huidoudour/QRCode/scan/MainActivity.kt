@@ -2,9 +2,7 @@ package me.huidoudour.QRCode.scan
 
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigationrail.NavigationRailView
 import me.huidoudour.QRCode.scan.databinding.ActivityMainBinding

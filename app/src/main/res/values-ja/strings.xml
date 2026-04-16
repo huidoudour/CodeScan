@@ -42,6 +42,8 @@
     <string name="settings_language_summary">アプリケーションの言語を変更</string>
     <string name="settings_quick_scan_icon">クイックスキャンアイコン</string>
     <string name="settings_quick_scan_icon_summary">ホーム画面にクイックスキャンアイコンを表示</string>
+    <string name="quick_scan_icon_enabled">クイックスキャンアイコンを有効にしました</string>
+    <string name="quick_scan_icon_disabled">クイックスキャンアイコンを無効にしました</string>
     <string name="settings_about_summary">QRコードスキャナー</string>
     <string name="language_default">システムデフォルト</string>
     <string name="language_en">英語</string>
