@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodeScan</string>
+    <string name="app_version">v3.0</string>
+    <string name="button_rescan">Повторное сканирование</string>
+    <string name="toast_saved">Сохранено</string>
+    <string name="dialog_title_scan_result">Результат сканирования</string>
+    <string name="button_save">Сохранить</string>
+    <string name="hint_export_input_ean13">Введите текст EAN-13</string>
+    <string name="hint_export_input_code128">Введите текст Code-128</string>
+    <string name="hint_export_input_qr">Введите текст QR-кода</string>
+    <string name="hint_export_input_unified">Введите текст для экспорта</string>
+    <string name="button_generate_ean13">Сгенерировать штрих-код EAN-13</string>
+    <string name="button_generate_code128">Сгенерировать CODE-128</string>
+    <string name="button_generate_qr">Сгенерировать QR-код из любого текста</string>
+    <string name="button_export_all">Экспортировать все записи</string>
+    <string name="scanner_instruction_align">Наведите на QR-код или штрих-код</string>
+    <string name="scanner_instruction_position">Поместите QR-код или штрих-код в рамку</string>
+    <string name="history_empty_hint">Начните сканирование QR-кодов или штрих-кодов для создания записей</string>
+    <string name="toast_ean13_length_error">Для EAN-13 требуется 12 цифр</string>
+    <string name="no_scan_records">Нет записей сканирования</string>
+    <string name="title_scan">Сканировать</string>
+    <string name="title_history">История</string>
+    <string name="title_export">Экспорт</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_export">Экспорт</string>
+    <string name="toast_generation_error">Ошибка генерации: %1$s</string>
+    <string name="toast_generic_error">Ошибка: %1$s</string>
+    <string name="hint_remark_optional">Введите примечание (необязательно)</string>
+    <string name="dialog_title_select_action">Выберите действие</string>
+    <string name="dialog_title_edit_result">Редактировать результат сканирования</string>
+    <string name="action_edit">Редактировать</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="camera_permission_denied">Требуется разрешение камеры</string>
+    <string name="hint_remark">Примечание</string>
+    
+    <!-- Settings Page -->
+    <string name="title_settings">Настройки</string>
+    <string name="hint_content_edit">Содержание</string>
+    <string name="hint_remark_edit">Примечание</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_language_summary">Изменить язык приложения</string>
+    <string name="settings_quick_scan_icon">Иконка быстрого сканирования</string>
+    <string name="settings_quick_scan_icon_summary">Показывать иконку быстрого сканирования на главном экране</string>
+    <string name="quick_scan_icon_enabled">Иконка быстрого сканирования включена</string>
+    <string name="quick_scan_icon_disabled">Иконка быстрого сканирования отключена</string>
+    <string name="settings_about_summary">Сканер QR-кодов</string>
+    <string name="language_default">Системный по умолчанию</string>
+    <string name="language_en">Английский</string>
+    <string name="language_zh_cn">Упрощенный китайский</string>
+    <string name="language_zh_tw">Традиционный китайский</string>
+    <string name="language_ja">Японский</string>
+    <string name="language_ru">Русский</string>
+    
+    <!-- Code Types -->
+    <string name="code_type_qr">QR-код</string>
+    <string name="code_type_barcode">Штрих-код (%1$s)</string>
+    <string name="code_type_special">Специальный код (%1$s)</string>
+    
+    <!-- Export JSON Keys -->
+    <string name="json_key_data">Данные</string>
+    <string name="json_key_type">Тип</string>
+    <string name="json_key_remark">Примечание</string>
+    <string name="json_key_time">Время</string>
+    <string name="settings_about">О приложении</string>
+    
+    <!-- About Page -->
+    <string name="about_description">Ты защищаешь мир, я защищаю тебя</string>
+    <string name="about_features">Поддерживает QR-коды, EAN-13, CODE-128 и другие форматы</string>
+    <string name="about_developer">亻尔女子，我是huidoudour（慧兜兜）</string>
+    <string name="visit_github">ωНайди меняω</string>
+    <string name="generated_qr_code">Сгенерированный QR-код</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="flashlight_on">Вспышка включена</string>
+    <string name="flashlight_off">Вспышка выключена</string>
+    <string name="flashlight_not_supported">Устройство не поддерживает вспышку</string>
+    <string name="no_valid_qr_code">Действительный QR-код не обнаружен</string>
+    <string name="no_qr_code_found">QR-код или штрих-код не найден на изображении</string>
+    <string name="recognition_failed">Ошибка распознавания: %1$s</string>
+    <string name="read_image_failed">Не удалось прочитать изображение: %1$s</string>
+    
+    <!-- Export Fragment -->
+    <string name="export_input_required">Введите текст для экспорта</string>
+    <string name="export_ean13_digit_count_error">Штрих-код EAN-13 требует 12 цифр, ваши данные содержат %1$d цифр. Это содержимое не может сгенерировать стандартный штрих-код EAN-13, попробуйте: \n1. Изменить содержимое до 12 цифр \n2. Использовать CODE-128 или QR-код</string>
+    <string name="export_ean13_digits_only_error">Штрих-код EAN-13 поддерживает только цифры (0-9), ваше содержимое содержит нецифровые символы. Попробуйте: \n1. Удалить нецифровые символы \n2. Использовать CODE-128 или QR-код</string>
+    <string name="export_ean13_generation_failed">Невозможно сгенерировать штрих-код EAN-13: %1$s\nПопробуйте использовать CODE-128 или QR-код</string>
+    <string name="export_ean13_format_invalid">Формат штрих-кода EAN-13 недействителен. Попробуйте: \n1. Убедитесь, что ввод содержит 12 действительных цифр \n2. Используйте CODE-128 или QR-код</string>
+    <string name="export_ean13_validation_error_length">Данные штрих-кода не соответствуют спецификации
+
+EAN-13 требует ровно 12 цифр, у вас %1$d цифр
+
+Можете отредактировать или выбрать использование QR-кода для хранения этого содержимого?</string>
+    <string name="export_ean13_validation_error_chars">Данные штрих-кода не соответствуют спецификации
+
+EAN-13 поддерживает только цифры 0-9, ваши данные содержат другие символы
+
+Следует ли использовать QR-код для хранения этого содержимого?</string>
+    
+    <!-- History Fragment -->
+    <string name="confirm_delete_title">Подтверждение удаления</string>
+    <string name="confirm_delete_message">Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.</string>
+    <string name="button_confirm">Подтвердить</string>
+    <string name="history_clear_all_title">Очистить все записи</string>
+    <string name="history_clear_all_message">Вы уверены, что хотите удалить все записи сканирования? Это действие нельзя отменить.</string>
+    <string name="history_final_confirmation_title">Окончательное подтверждение</string>
+    <string name="history_final_confirmation_message">Предупреждение: Эта операция навсегда удалит все записи сканирования!
+
+Это необратимая операция, пожалуйста, подтвердите внимательно.
+
+Чтобы продолжить, введите \"clear\" в поле ввода ниже и нажмите OK.</string>
+    <string name="history_clear_confirmation_hint">Введите clear для подтверждения</string>
+    <string name="history_cleared_success">Все записи очищены</string>
+    <string name="history_clear_cancelled">Неверный ввод, операция очистки отменена</string>
+    <string name="history_no_records_to_export">Нет записей для экспорта</string>
+    <string name="history_export_failed">Ошибка экспорта: %1$s</string>
+    <string name="history_export_title">Экспорт записей</string>
+    <string name="history_import_success">Импорт успешен: %1$d записей</string>
+    <string name="button_open_link">Открыть ссылку</string>
+    <string name="no_browser_found">Приложение браузера не найдено</string>
+    <string name="history_import_failed">Ошибка импорта: %1$s</string>
+    <string name="history_export_saved_to_data">Файл сохранен во внешнее хранилище</string>
+    
+    <!-- Quick Scan Fragment -->
+    <string name="opening_link">Открытие ссылки...</string>
+    
+    <!-- Language Switch -->
+    <string name="language_changed_restart">Язык изменен, приложение перезапустится</string>
+</resources>

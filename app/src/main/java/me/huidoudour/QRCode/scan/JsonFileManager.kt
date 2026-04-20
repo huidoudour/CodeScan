@@ -174,7 +174,8 @@ class JsonFileManager(private val context: Context) {
                         val rawRemark = jsonObject.getString("备注")
                         if (rawRemark.isEmpty()) null else rawRemark
                     } else {
-                        jsonObject.optString("remark", null)?.takeIf { it.isNotEmpty() }
+                        val rawRemark = jsonObject.optString("remark", "")
+                        if (rawRemark.isEmpty()) null else rawRemark
                     }
                     
                     val timeStr = if (jsonObject.has("时间")) {

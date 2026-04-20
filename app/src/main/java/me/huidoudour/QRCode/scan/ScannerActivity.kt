@@ -11,28 +11,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import me.huidoudour.QRCode.scan.databinding.FragmentScannerBinding
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class ScannerActivity : AppCompatActivity() {
+class ScannerActivity : BaseActivity() {
 
     private lateinit var binding: FragmentScannerBinding
     private var cameraExecutor: ExecutorService? = null
@@ -190,11 +183,6 @@ class ScannerActivity : AppCompatActivity() {
     }
     
     private fun saveScanResult(result: String) {
-        val scanResult = ScanResult(
-            content = result,
-            codeType = if (isWebLink(result)) "QR_CODE" else "UNKNOWN"
-        )
-        
         // 这里可以添加保存到数据库的逻辑
         Toast.makeText(this, "Scanned: $result", Toast.LENGTH_LONG).show()
         

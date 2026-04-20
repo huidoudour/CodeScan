@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodeScan</string>
+    <string name="app_version">v3.0</string>
+    <string name="button_rescan">重新掃描</string>
+    <string name="toast_saved">已儲存</string>
+    <string name="dialog_title_scan_result">掃描結果</string>
+    <string name="button_save">儲存</string>
+    <string name="hint_export_input_ean13">請輸入EAN-13文本</string>
+    <string name="hint_export_input_code128">請輸入Code-128文本</string>
+    <string name="hint_export_input_qr">請輸入二維碼文本</string>
+    <string name="hint_export_input_unified">請輸入需要匯出的文本</string>
+    <string name="button_generate_ean13">生成 EAN-13 標準的條形碼</string>
+    <string name="button_generate_code128">生成 CODE-128</string>
+    <string name="button_generate_qr">從任意文本生成二維碼</string>
+    <string name="button_export_all">匯出所有記錄</string>
+    <string name="scanner_instruction_align">對準二維碼或條形碼</string>
+    <string name="scanner_instruction_position">將二維碼或條形碼置於框內</string>
+    <string name="history_empty_hint">開始掃描二維碼或條形碼來創建記錄</string>
+    <string name="toast_ean13_length_error">必須輸入EAN-13 標準的序列</string>
+    <string name="no_scan_records">暫無掃描記錄</string>
+    <string name="title_scan">掃描</string>
+    <string name="title_history">記錄</string>
+    <string name="title_export">匯出</string>
+    <string name="action_delete">刪除</string>
+    <string name="action_export">匯出</string>
+    <string name="toast_generation_error">生成時出錯：%1$s</string>
+    <string name="toast_generic_error">出現錯誤：%1$s</string>
+    <string name="hint_remark_optional">輸入備註（可選）</string>
+    <string name="dialog_title_select_action">選取操作</string>
+    <string name="dialog_title_edit_result">編輯掃描結果</string>
+    <string name="action_edit">編輯</string>
+    <string name="button_cancel">算了</string>
+    <string name="camera_permission_denied">想要相機權限</string>
+    <string name="hint_remark">備註</string>
+    
+    <!-- Settings Page -->
+    <string name="title_settings">設置</string>
+    <string name="hint_content_edit">內容</string>
+    <string name="hint_remark_edit">備註</string>
+    <string name="settings_language">語言</string>
+    <string name="settings_language_summary">更改應用程式語言</string>
+    <string name="settings_quick_scan_icon">快速掃描圖標</string>
+    <string name="settings_quick_scan_icon_summary">在桌面顯示快速掃描圖標</string>
+    <string name="quick_scan_icon_enabled">已啟用快速掃描圖標</string>
+    <string name="quick_scan_icon_disabled">已禁用快速掃描圖標</string>
+    <string name="settings_about_summary">二維碼掃描器</string>
+    <string name="language_default">系統預設</string>
+    <string name="language_en">英語</string>
+    <string name="language_zh_cn">簡體中文</string>
+    <string name="language_zh_tw">繁體中文</string>
+    <string name="language_ja">日語</string>
+    <string name="language_ru">俄語</string>
+    
+    <!-- Code Types -->
+    <string name="code_type_qr">二維碼</string>
+    <string name="code_type_barcode">條形碼 (%1$s)</string>
+    <string name="code_type_special">特殊碼 (%1$s)</string>
+    
+    <!-- Export JSON Keys -->
+    <string name="json_key_data">數據</string>
+    <string name="json_key_type">類型</string>
+    <string name="json_key_remark">備註</string>
+    <string name="json_key_time">時間</string>
+    <string name="settings_about">關於</string>
+    
+    <!-- About Page -->
+    <string name="about_description">你保護世界，我保護你</string>
+    <string name="about_features">支援二維碼、EAN-13、CODE-128 等多種格式</string>
+    <string name="about_developer">亻尔女子，我是huidoudour（慧兜兜）</string>
+    <string name="visit_github">ω尋找我ω</string>
+    <string name="generated_qr_code">生成的二維碼</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="flashlight_on">閃光燈已開啟</string>
+    <string name="flashlight_off">閃光燈已關閉</string>
+    <string name="flashlight_not_supported">設備不支援閃光燈</string>
+    <string name="no_valid_qr_code">未識別到有效二維碼</string>
+    <string name="no_qr_code_found">圖片中未找到二維碼或條形碼</string>
+    <string name="recognition_failed">識別失敗：%1$s</string>
+    <string name="read_image_failed">讀取圖片失敗：%1$s</string>
+    
+    <!-- Export Fragment -->
+    <string name="export_input_required">請輸入需要匯出的文本</string>
+    <string name="export_ean13_digit_count_error">EAN-13 條形碼需要 12 位數字，你的數據是 %1$d 位。該內容無法生成標準 EAN-13 條形碼，請嘗試：\n1. 調整內容為 12 位數字\n2. 改用 CODE-128 或二維碼生成</string>
+    <string name="export_ean13_digits_only_error">EAN-13 條形碼只支援數字（0-9），你的內容包含非數字字符。請嘗試：\n1. 刪除非數字字符\n2. 改用 CODE-128 或二維碼生成</string>
+    <string name="export_ean13_generation_failed">無法生成 EAN-13 條形碼：%1$s\n請嘗試改用 CODE-128 或二維碼生成</string>
+    <string name="export_ean13_format_invalid">EAN-13 條形碼格式不有效。請嘗試：\n1. 確保輸入的是 12 位有效數字\n2. 改用 CODE-128 或二維碼生成</string>
+    <string name="export_ean13_validation_error_length">條形碼數據不符合規範
+
+EAN-13 需要正好 12 位數字，你的是 %1$d 位
+
+能否撤改或選擇使用二維碼來儲存這個內容？</string>
+    <string name="export_ean13_validation_error_chars">條形碼數據不符合規範
+
+EAN-13 只能使用 0-9 數字，你的的數據包含其他字符
+
+能否需要改用二維碼來儲存這個內容？</string>
+    
+    <!-- History Fragment -->
+    <string name="confirm_delete_title">確認刪除</string>
+    <string name="confirm_delete_message">確定要刪除這條記錄嗎？此操作不可恢復。</string>
+    <string name="button_confirm">確認</string>
+    <string name="history_clear_all_title">清空所有記錄</string>
+    <string name="history_clear_all_message">確定要刪除所有掃描記錄嗎？此操作不可恢復。</string>
+    <string name="history_final_confirmation_title">最終確認</string>
+    <string name="history_final_confirmation_message">警告：此操作將永久刪除所有掃描記錄！
+
+這是不可恢復的操作，請謹慎確認。
+
+如需繼續，請在下方輸入框中輸入 \"clear\" 後點擊確定。</string>
+    <string name="history_clear_confirmation_hint">請輸入 clear 確認</string>
+    <string name="history_cleared_success">已清空所有記錄</string>
+    <string name="history_clear_cancelled">輸入不正確，清空操作已取消</string>
+    <string name="history_no_records_to_export">沒有記錄可匯出</string>
+    <string name="history_export_failed">匯出失敗：%1$s</string>
+    <string name="history_export_title">匯出記錄</string>
+    <string name="history_import_success">匯入成功：%1$d 條記錄</string>
+    <string name="button_open_link">打開連結</string>
+    <string name="no_browser_found">未找到瀏覽器應用</string>
+    <string name="history_import_failed">匯入失敗：%1$s</string>
+    <string name="history_export_saved_to_data">文件已儲存到外部儲存</string>
+    
+    <!-- Quick Scan Fragment -->
+    <string name="opening_link">正在打開連結...</string>
+    
+    <!-- Language Switch -->
+    <string name="language_changed_restart">語言已更改，應用即將重啟</string>
+</resources>

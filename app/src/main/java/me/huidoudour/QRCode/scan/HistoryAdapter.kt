@@ -40,9 +40,11 @@ class HistoryAdapter(
         
         // 设置码类型
         val codeTypeDisplay = when (scanResult.codeType) {
-            "QR_CODE" -> "二维码"
-            "CODE_128", "CODE_39", "CODE_93", "EAN_13", "EAN_8", "UPC_A", "UPC_E", "CODABAR", "ITF" -> "条形码 (${scanResult.codeType})"
-            "DATA_MATRIX", "AZTEC", "PDF417" -> "特殊码 (${scanResult.codeType})"
+            "QR_CODE" -> holder.itemView.context.getString(R.string.code_type_qr)
+            "CODE_128", "CODE_39", "CODE_93", "EAN_13", "EAN_8", "UPC_A", "UPC_E", "CODABAR", "ITF" -> 
+                holder.itemView.context.getString(R.string.code_type_barcode, scanResult.codeType)
+            "DATA_MATRIX", "AZTEC", "PDF417" -> 
+                holder.itemView.context.getString(R.string.code_type_special, scanResult.codeType)
             else -> scanResult.codeType
         }
         holder.codeTypeTextView.text = codeTypeDisplay

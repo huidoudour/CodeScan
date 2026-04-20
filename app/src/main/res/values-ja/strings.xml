@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodeScan</string>
+    <string name="app_version">v3.0</string>
+    <string name="button_rescan">再スキャン</string>
+    <string name="toast_saved">保存しました</string>
+    <string name="dialog_title_scan_result">スキャン結果</string>
+    <string name="button_save">保存</string>
+    <string name="hint_export_input_ean13">EAN-13テキストを入力してください</string>
+    <string name="hint_export_input_code128">Code-128テキストを入力してください</string>
+    <string name="hint_export_input_qr">QRコードテキストを入力してください</string>
+    <string name="hint_export_input_unified">エクスポートするテキストを入力してください</string>
+    <string name="button_generate_ean13">EAN-13バーコードを生成</string>
+    <string name="button_generate_code128">CODE-128を生成</string>
+    <string name="button_generate_qr">任意のテキストからQRコードを生成</string>
+    <string name="button_export_all">すべての記録をエクスポート</string>
+    <string name="scanner_instruction_align">QRコードまたはバーコードを合わせる</string>
+    <string name="scanner_instruction_position">QRコードまたはバーコードをフレーム内に配置</string>
+    <string name="history_empty_hint">QRコードまたはバーコードをスキャンして記録を作成</string>
+    <string name="toast_ean13_length_error">EAN-13には12桁の数字が必要です</string>
+    <string name="no_scan_records">スキャン記録がありません</string>
+    <string name="title_scan">スキャン</string>
+    <string name="title_history">履歴</string>
+    <string name="title_export">エクスポート</string>
+    <string name="action_delete">削除</string>
+    <string name="action_export">エクスポート</string>
+    <string name="toast_generation_error">生成エラー：%1$s</string>
+    <string name="toast_generic_error">エラー：%1$s</string>
+    <string name="hint_remark_optional">備考を入力（任意）</string>
+    <string name="dialog_title_select_action">操作を選択</string>
+    <string name="dialog_title_edit_result">スキャン結果を編集</string>
+    <string name="action_edit">編集</string>
+    <string name="button_cancel">キャンセル</string>
+    <string name="camera_permission_denied">カメラ権限が必要です</string>
+    <string name="hint_remark">備考</string>
+    
+    <!-- Settings Page -->
+    <string name="title_settings">設定</string>
+    <string name="hint_content_edit">内容</string>
+    <string name="hint_remark_edit">備考</string>
+    <string name="settings_language">言語</string>
+    <string name="settings_language_summary">アプリケーションの言語を変更</string>
+    <string name="settings_quick_scan_icon">クイックスキャンアイコン</string>
+    <string name="settings_quick_scan_icon_summary">ホーム画面にクイックスキャンアイコンを表示</string>
+    <string name="quick_scan_icon_enabled">クイックスキャンアイコンを有効にしました</string>
+    <string name="quick_scan_icon_disabled">クイックスキャンアイコンを無効にしました</string>
+    <string name="settings_about_summary">QRコードスキャナー</string>
+    <string name="language_default">システムデフォルト</string>
+    <string name="language_en">英語</string>
+    <string name="language_zh_cn">簡体字中国語</string>
+    <string name="language_zh_tw">繁体字中国語</string>
+    <string name="language_ja">日本語</string>
+    <string name="language_ru">ロシア語</string>
+    
+    <!-- Code Types -->
+    <string name="code_type_qr">QRコード</string>
+    <string name="code_type_barcode">バーコード (%1$s)</string>
+    <string name="code_type_special">特殊コード (%1$s)</string>
+    
+    <!-- Export JSON Keys -->
+    <string name="json_key_data">データ</string>
+    <string name="json_key_type">タイプ</string>
+    <string name="json_key_remark">備考</string>
+    <string name="json_key_time">時間</string>
+    <string name="settings_about">について</string>
+    
+    <!-- About Page -->
+    <string name="about_description">あなたが世界を守り、私があなたを守る</string>
+    <string name="about_features">QRコード、EAN-13、CODE-128など様々な形式をサポート</string>
+    <string name="about_developer">亻尔女子、私はhuidoudour（慧兜兜）です</string>
+    <string name="visit_github">ω私を見つけてω</string>
+    <string name="generated_qr_code">生成されたQRコード</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="flashlight_on">フラッシュをオンにしました</string>
+    <string name="flashlight_off">フラッシュをオフにしました</string>
+    <string name="flashlight_not_supported">デバイスはフラッシュをサポートしていません</string>
+    <string name="no_valid_qr_code">有効なQRコードが検出されませんでした</string>
+    <string name="no_qr_code_found">画像にQRコードまたはバーコードが見つかりません</string>
+    <string name="recognition_failed">認識失敗：%1$s</string>
+    <string name="read_image_failed">画像読み取り失敗：%1$s</string>
+    
+    <!-- Export Fragment -->
+    <string name="export_input_required">エクスポートするテキストを入力してください</string>
+    <string name="export_ean13_digit_count_error">EAN-13バーコードには12桁の数字が必要です。あなたのデータは%1$d桁です。このコンテンツでは標準的なEAN-13バーコードを生成できません。次の方法を試してください：\n1. コンテンツを12桁の数字に調整\n2. CODE-128またはQRコードを使用</string>
+    <string name="export_ean13_digits_only_error">EAN-13バーコードは数字（0-9）のみをサポートしています。あなたのコンテンツには非数字の文字が含まれています。次の方法を試してください：\n1. 非数字の文字を削除\n2. CODE-128またはQRコードを使用</string>
+    <string name="export_ean13_generation_failed">EAN-13バーコードを生成できません：%1$s\nCODE-128またはQRコードの使用を試してください</string>
+    <string name="export_ean13_format_invalid">EAN-13バーコードの形式が無効です。次の方法を試してください：\n1. 入力が12桁の有効な数字であることを確認\n2. CODE-128またはQRコードを使用</string>
+    <string name="export_ean13_validation_error_length">バーコードデータが仕様に適合しません
+
+EAN-13には正確に12桁の数字が必要です。あなたのものは%1$d桁です
+
+編集するか、QRコードを使用してこのコンテンツを保存することを選択できますか？</string>
+    <string name="export_ean13_validation_error_chars">バーコードデータが仕様に適合しません
+
+EAN-13は0-9の数字のみを使用できます。あなたのデータには他の文字が含まれています
+
+代わりにQRコードを使用してこのコンテンツを保存する必要がありますか？</string>
+    
+    <!-- History Fragment -->
+    <string name="confirm_delete_title">削除の確認</string>
+    <string name="confirm_delete_message">この記録を削除してもよろしいですか？この操作は元に戻せません。</string>
+    <string name="button_confirm">確認</string>
+    <string name="history_clear_all_title">すべての記録をクリア</string>
+    <string name="history_clear_all_message">すべてのスキャン記録を削除してもよろしいですか？この操作は元に戻せません。</string>
+    <string name="history_final_confirmation_title">最終確認</string>
+    <string name="history_final_confirmation_message">警告：この操作により、すべてのスキャン記録が永久に削除されます！
+
+これは不可逆的な操作ですので、慎重に確認してください。
+
+続行するには、下の入力ボックスに「clear」と入力してOKをクリックしてください。</string>
+    <string name="history_clear_confirmation_hint">確認のためにclearと入力してください</string>
+    <string name="history_cleared_success">すべての記録をクリアしました</string>
+    <string name="history_clear_cancelled">入力が正しくありません。クリア操作はキャンセルされました</string>
+    <string name="history_no_records_to_export">エクスポートする記録がありません</string>
+    <string name="history_export_failed">エクスポート失敗：%1$s</string>
+    <string name="history_export_title">記録をエクスポート</string>
+    <string name="history_import_success">インポート成功：%1$d件の記録</string>
+    <string name="button_open_link">リンクを開く</string>
+    <string name="no_browser_found">ブラウザアプリが見つかりません</string>
+    <string name="history_import_failed">インポート失敗：%1$s</string>
+    <string name="history_export_saved_to_data">ファイルは外部ストレージに保存されました</string>
+    
+    <!-- Quick Scan Fragment -->
+    <string name="opening_link">リンクを開いています...</string>
+    
+    <!-- Language Switch -->
+    <string name="language_changed_restart">言語が変更されました。アプリは再起動します</string>
+</resources>

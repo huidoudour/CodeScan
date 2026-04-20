@@ -40,10 +40,28 @@
     <string name="hint_remark_edit">Remark</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_summary">Change the application language</string>
+    <string name="settings_quick_scan_icon">Quick Scan Icon</string>
+    <string name="settings_quick_scan_icon_summary">Show quick scan icon on home screen</string>
+    <string name="quick_scan_icon_enabled">Quick scan icon enabled</string>
+    <string name="quick_scan_icon_disabled">Quick scan icon disabled</string>
     <string name="settings_about_summary">CodeScan is a QR code and barcode scanner application</string>
     <string name="language_default">System Default</string>
     <string name="language_en">English</string>
-    <string name="language_zh">中文</string>
+    <string name="language_zh_cn">Simplified Chinese</string>
+    <string name="language_zh_tw">Traditional Chinese</string>
+    <string name="language_ja">Japanese</string>
+    <string name="language_ru">Russian</string>
+    
+    <!-- Code Types -->
+    <string name="code_type_qr">QR Code</string>
+    <string name="code_type_barcode">Barcode (%1$s)</string>
+    <string name="code_type_special">Special Code (%1$s)</string>
+    
+    <!-- Export JSON Keys -->
+    <string name="json_key_data">Data</string>
+    <string name="json_key_type">Type</string>
+    <string name="json_key_remark">Remark</string>
+    <string name="json_key_time">Time</string>
     <string name="settings_about">About</string>
     
     <!-- About Page -->
@@ -94,4 +112,7 @@
     
     <!-- Quick Scan Fragment -->
     <string name="opening_link">Opening link...</string>
+    
+    <!-- Language Switch -->
+    <string name="language_changed_restart">Language changed, app will restart</string>
 </resources>
