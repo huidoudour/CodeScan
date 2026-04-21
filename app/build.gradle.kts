@@ -13,8 +13,8 @@ android {
         minSdk = 28
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 336
-        versionName = "3.3.6"
+        versionCode = 337
+        versionName = "3.3.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

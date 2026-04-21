@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <group
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:pivotX="54"
+        android:pivotY="54">
+        
+        <!-- 左上角方框（带圆角）- 蓝色 -->
+        <path
+            android:strokeColor="#2196F3"
+            android:strokeWidth="6"
+            android:fillColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M 30 30 L 48 30 L 48 48 L 30 48 Z" />
+        
+        <!-- 右上角方框（带圆角）- 橙色 -->
+        <path
+            android:strokeColor="#FF9800"
+            android:strokeWidth="6"
+            android:fillColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M 60 30 L 78 30 L 78 48 L 60 48 Z" />
+        
+        <!-- 左下角方框（带圆角）- 紫色 -->
+        <path
+            android:strokeColor="#9C27B0"
+            android:strokeWidth="6"
+            android:fillColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M 30 60 L 48 60 L 48 78 L 30 78 Z" />
+        
+        <!-- 右下角竖线组（扫描线效果）- 多彩 -->
+        <path
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:pathData="M 60 60 L 60 78" />
+        
+        <path
+            android:strokeColor="#F44336"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:pathData="M 69 60 L 69 78" />
+        
+        <path
+            android:strokeColor="#00BCD4"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:pathData="M 78 60 L 78 78" />
+    </group>
+</vector>

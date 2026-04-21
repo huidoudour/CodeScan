@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" 
+     width="512" 
+     height="512" 
+     viewBox="-10 -10 128 128">
+    
+    <!-- 透明背景 -->
+    <rect x="-10" y="-10" width="128" height="128" fill="none"/>
+    
+    <!-- 放大前景图 (从0.7放大到1.15倍) -->
+    <g transform="scale(1.15) translate(-8.1, -8.1)">
+        
+        <!-- 左上角方框（带圆角）- 深绿色 -->
+        <rect x="30" y="30" width="18" height="18" rx="3" ry="3"
+              fill="none" 
+              stroke="#2A5F2A" 
+              stroke-width="6" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"/>
+        
+        <!-- 右上角方框（带圆角）- 深绿色 -->
+        <rect x="60" y="30" width="18" height="18" rx="3" ry="3"
+              fill="none" 
+              stroke="#2A5F2A" 
+              stroke-width="6" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"/>
+        
+        <!-- 左下角方框（带圆角）- 深绿色 -->
+        <rect x="30" y="60" width="18" height="18" rx="3" ry="3"
+              fill="none" 
+              stroke="#2A5F2A" 
+              stroke-width="6" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"/>
+        
+        <!-- 右下角竖线组（扫描线效果）- 浅绿色 -->
+        <line x1="60" y1="60" x2="60" y2="78"
+              stroke="#4A8F4A" 
+              stroke-width="4" 
+              stroke-linecap="round"/>
+        
+        <line x1="69" y1="60" x2="69" y2="78"
+              stroke="#4A8F4A" 
+              stroke-width="4" 
+              stroke-linecap="round"/>
+        
+        <line x1="78" y1="60" x2="78" y2="78"
+              stroke="#4A8F4A" 
+              stroke-width="4" 
+              stroke-linecap="round"/>
+    </g>
+</svg>

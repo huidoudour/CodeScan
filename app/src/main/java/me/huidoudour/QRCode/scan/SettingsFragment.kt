@@ -33,6 +33,7 @@ class SettingsFragment : Fragment() {
         updateVersionInfo()
         updateThemeDisplay()
         setupQuickScanIconSwitch()
+        setupAppIconLongClick()
 
         binding.languageSettingItem.setOnClickListener {
             showLanguageSelectionDialog()
@@ -112,6 +113,103 @@ class SettingsFragment : Fragment() {
                 putBoolean("show_quick_scan_icon", isChecked)
                 apply()
             }
+        }
+    }
+    
+    private fun setupAppIconLongClick() {
+        binding.appIconImage.setOnLongClickListener {
+            showAppIconSelectionDialog()
+            true
+        }
+    }
+    
+    private fun showAppIconSelectionDialog() {
+        val iconThemes = arrayOf(
+            "默认绿色",
+            "多彩主题"
+        )
+        
+        val sharedPref = requireContext().getSharedPreferences("app_preferences", android.content.Context.MODE_PRIVATE)
+        val currentIcon = sharedPref.getString("app_icon_theme", "default") ?: "default"
+        
+        val selectedIndex = when (currentIcon) {
+            "default" -> 0
+            "colorful" -> 1
+            else -> 0
+        }
+        
+        MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
+            .setTitle("选择应用图标")
+            .setSingleChoiceItems(iconThemes, selectedIndex) { dialog, which ->
+                val selectedIcon = when (which) {
+                    0 -> "default"
+                    1 -> "colorful"
+                    else -> "default"
+                }
+                
+                // 保存图标设置
+                with(sharedPref.edit()) {
+                    putString("app_icon_theme", selectedIcon)
+                    apply()
+                }
+                
+                // 应用图标
+                applyAppIcon(selectedIcon)
+                
+                // 显示提示
+                android.widget.Toast.makeText(
+                    requireContext(), 
+                    "图标已更改，可能需要几秒钟生效", 
+                    android.widget.Toast.LENGTH_LONG
+                ).show()
+                
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.button_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setBackgroundInsetStart(32)
+            .setBackgroundInsetEnd(32)
+            .show()
+    }
+    
+    private fun applyAppIcon(iconTheme: String) {
+        val packageManager = requireContext().packageManager
+        
+        // 禁用所有图标别名
+        val aliases = listOf(
+            "me.huidoudour.QRCode.scan.MainActivityAliasDefault",
+            "me.huidoudour.QRCode.scan.MainActivityAliasColorful"
+        )
+        
+        aliases.forEach { alias ->
+            try {
+                val componentName = ComponentName(requireContext(), alias)
+                packageManager.setComponentEnabledSetting(
+                    componentName,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+            } catch (e: Exception) {
+                // 忽略错误
+            }
+        }
+        
+        // 启用选中的图标
+        val selectedAlias = when (iconTheme) {
+            "colorful" -> "me.huidoudour.QRCode.scan.MainActivityAliasColorful"
+            else -> "me.huidoudour.QRCode.scan.MainActivityAliasDefault"
+        }
+        
+        try {
+            val componentName = ComponentName(requireContext(), selectedAlias)
+            packageManager.setComponentEnabledSetting(
+                componentName,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
     
