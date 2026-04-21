@@ -3,10 +3,11 @@
 ## 特性
 
 ### 二维码、条形码扫描并记录
-- ✅ 二维码扫描记录
-- ✅ 条形码扫描记录
-- ✅ 有导入导出功能
-- ~~❎ 有语言切换功能~~ 
+- 二维码扫描记录
+- 条形码扫描记录
+- 有导入导出功能
+- 有语言切换功能
+- 数据库输出示例
 
 ## Supported Versions
 [![Android](https://img.shields.io/badge/Android-9--14-3DDC84.svg?logo=android&logoColor=white)]()[![Min SDK](https://img.shields.io/badge/Min%20SDK-28-important.svg)]()[![Target SDK](https://img.shields.io/badge/Target%20SDK-34-blue.svg)]()
