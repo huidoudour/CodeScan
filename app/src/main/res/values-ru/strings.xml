@@ -124,5 +124,31 @@ EAN-13 поддерживает только цифры 0-9, ваши данны
     <string name="opening_link">Открытие ссылки...</string>
     
     <!-- Language Switch -->
-    <string name="language_changed_restart">Язык изменен, приложение перезапустится</string>
+    <string name="language_changed">Язык изменен</string>
+    <string name="theme_changed">Тема изменена</string>
+    
+    <!-- Startup Records -->
+    <string name="startup_records_title">Записи запуска</string>
+    <string name="startup_records_empty">Записей запуска пока нет</string>
+    <string name="startup_page_main">Главная страница</string>
+    <string name="startup_page_quick">Быстрое сканирование</string>
+    <string name="startup_page_label">Страница: %1$s</string>
+    <string name="action_clear_all">Очистить все</string>
+    <string name="clear_all_records_title">Очистить все записи</string>
+    <string name="clear_all_records_message">Вы уверены, что хотите очистить все записи запуска? Это действие нельзя отменить.</string>
+    <string name="records_cleared_success">Записи успешно очищены</string>
+    <string name="no_records_to_export">Нет записей для экспорта</string>
+    <string name="export_success">Экспорт выполнен успешно</string>
+    <string name="export_failed">Ошибка экспорта: %1$s</string>
+    
+    <!-- Theme Settings -->
+    <string name="settings_theme">Тема</string>
+    <string name="theme_system">Системная по умолчанию</string>
+    <string name="theme_light">Светлая тема</string>
+    <string name="theme_dark">Тёмная тема</string>
+    
+    <!-- JSON Keys for Startup Records -->
+    <string name="json_key_id">ID</string>
+    <string name="json_key_timestamp">Временная метка</string>
+    <string name="json_key_startup_page">Страница запуска</string>
 </resources>

@@ -31,21 +31,46 @@ class SettingsFragment : Fragment() {
         
         updateLanguageDisplay()
         updateVersionInfo()
+        updateThemeDisplay()
         setupQuickScanIconSwitch()
 
         binding.languageSettingItem.setOnClickListener {
             showLanguageSelectionDialog()
+        }
+        
+        binding.themeSettingItem.setOnClickListener {
+            showThemeSelectionDialog()
         }
 
         binding.aboutCard.setOnClickListener {
             val intent = Intent(requireContext(), MeActivity::class.java)
             startActivity(intent)
         }
+        
+        // 长按关于按钮进入启动记录页面
+        binding.aboutCard.setOnLongClickListener {
+            val intent = Intent(requireContext(), StartupRecordsActivity::class.java)
+            startActivity(intent)
+            true
+        }
     }
 
     private fun updateLanguageDisplay() {
         val currentLanguage = getCurrentLanguage()
         binding.currentLanguage.text = currentLanguage
+    }
+    
+    private fun updateThemeDisplay() {
+        val sharedPref = requireContext().getSharedPreferences("app_preferences", android.content.Context.MODE_PRIVATE)
+        val themeMode = sharedPref.getString("theme_mode", "system") ?: "system"
+        
+        val themeText = when (themeMode) {
+            "light" -> getString(R.string.theme_light)
+            "dark" -> getString(R.string.theme_dark)
+            else -> getString(R.string.theme_system)
+        }
+        
+        binding.currentTheme.text = themeText
     }
 
     private fun updateVersionInfo() {
@@ -88,6 +113,71 @@ class SettingsFragment : Fragment() {
                 apply()
             }
         }
+    }
+    
+    private fun showThemeSelectionDialog() {
+        val themes = arrayOf(
+            getString(R.string.theme_system),
+            getString(R.string.theme_light),
+            getString(R.string.theme_dark)
+        )
+        
+        val sharedPref = requireContext().getSharedPreferences("app_preferences", android.content.Context.MODE_PRIVATE)
+        val currentTheme = sharedPref.getString("theme_mode", "system") ?: "system"
+        
+        val selectedIndex = when (currentTheme) {
+            "system" -> 0
+            "light" -> 1
+            "dark" -> 2
+            else -> 0
+        }
+        
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
+            .setTitle(R.string.settings_theme)
+            .setSingleChoiceItems(themes, selectedIndex) { dialog, which ->
+                val selectedTheme = when (which) {
+                    0 -> "system"
+                    1 -> "light"
+                    2 -> "dark"
+                    else -> "system"
+                }
+                
+                // 保存主题设置
+                with(sharedPref.edit()) {
+                    putString("theme_mode", selectedTheme)
+                    apply()
+                }
+                
+                // 应用主题
+                applyTheme(selectedTheme)
+                
+                // 更新显示
+                updateThemeDisplay()
+                
+                // 显示提示
+                val message = getString(R.string.theme_changed)
+                android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show()
+                
+                // 重新创建 Activity 以应用主题更改
+                activity?.recreate()
+                
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.button_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setBackgroundInsetStart(32)
+            .setBackgroundInsetEnd(32)
+            .show()
+    }
+    
+    private fun applyTheme(themeMode: String) {
+        val nightMode = when (themeMode) {
+            "light" -> androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+            "dark" -> androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+            else -> androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(nightMode)
     }
     
     private fun setQuickScanIconEnabled(enabled: Boolean) {
@@ -177,37 +267,15 @@ class SettingsFragment : Fragment() {
         // 更新显示
         updateLanguageDisplay()
         
-        // 重启应用以应用语言更改
-        restartApp()
+        // 显示提示
+        val message = getString(R.string.language_changed)
+        android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show()
+        
+        // 重新创建 Activity 以应用语言更改（不退出应用）
+        activity?.recreate()
     }
 
-    private fun restartApp() {
-        // 使用 PackageManager 获取启动 Intent，确保完全重启
-        val intent = requireContext().packageManager
-            .getLaunchIntentForPackage(requireContext().packageName)
-        
-        if (intent != null) {
-            // 清除所有 Activity 并重新启动
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            
-            // 显示提示
-            android.widget.Toast.makeText(
-                requireContext(),
-                getString(R.string.language_changed_restart),
-                android.widget.Toast.LENGTH_SHORT
-            ).show()
-            
-            // 延迟启动，让用户看到提示
-            android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                startActivity(intent)
-                // 退出当前应用
-                activity?.finishAffinity()
-                // 添加过渡动画（API 34+ 已废弃，但为了兼容性保留）
-                @Suppress("DEPRECATION")
-                activity?.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-            }, 300)
-        }
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

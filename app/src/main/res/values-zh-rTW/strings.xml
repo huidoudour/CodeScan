@@ -124,5 +124,6 @@ EAN-13 只能使用 0-9 數字，你的的數據包含其他字符
     <string name="opening_link">正在打開連結...</string>
     
     <!-- Language Switch -->
-    <string name="language_changed_restart">語言已更改，應用即將重啟</string>
+    <string name="language_changed">語言已更改</string>
+    <string name="theme_changed">主題已更改</string>
 </resources>

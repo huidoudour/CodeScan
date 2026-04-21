@@ -114,5 +114,31 @@
     <string name="opening_link">Opening link...</string>
     
     <!-- Language Switch -->
-    <string name="language_changed_restart">Language changed, app will restart</string>
+    <string name="language_changed">Language changed</string>
+    <string name="theme_changed">Theme changed</string>
+    
+    <!-- Startup Records -->
+    <string name="startup_records_title">Startup Records</string>
+    <string name="startup_records_empty">No startup records yet</string>
+    <string name="startup_page_main">Main Page</string>
+    <string name="startup_page_quick">Quick Scan</string>
+    <string name="startup_page_label">Page: %1$s</string>
+    <string name="action_clear_all">Clear All</string>
+    <string name="clear_all_records_title">Clear All Records</string>
+    <string name="clear_all_records_message">Are you sure you want to clear all startup records? This cannot be undone.</string>
+    <string name="records_cleared_success">Records cleared successfully</string>
+    <string name="no_records_to_export">No records to export</string>
+    <string name="export_success">Export successful</string>
+    <string name="export_failed">Export failed: %1$s</string>
+    
+    <!-- Theme Settings -->
+    <string name="settings_theme">Theme</string>
+    <string name="theme_system">System Default</string>
+    <string name="theme_light">Light Mode</string>
+    <string name="theme_dark">Dark Mode</string>
+    
+    <!-- JSON Keys for Startup Records -->
+    <string name="json_key_id">ID</string>
+    <string name="json_key_timestamp">Timestamp</string>
+    <string name="json_key_startup_page">Startup Page</string>
 </resources>

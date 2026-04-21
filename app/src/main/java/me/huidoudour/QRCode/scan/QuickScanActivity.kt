@@ -58,6 +58,9 @@ class QuickScanActivity : BaseActivity() {
         binding = ActivityScannerLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 记录快速扫描启动
+        recordAppStartup("quick")
+
         // 设置状态栏文字颜色适配
         updateStatusBarStyle()
 
@@ -357,6 +360,13 @@ class QuickScanActivity : BaseActivity() {
 
     private fun isDarkMode(): Boolean {
         return (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
+    }
+    
+    private fun recordAppStartup(page: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val dbHelper = StartupRecordDatabaseHelper(this@QuickScanActivity)
+            dbHelper.insertRecord(System.currentTimeMillis(), page)
+        }
     }
 
     override fun onDestroy() {

@@ -125,5 +125,31 @@ EAN-13 只能使用 0-9 数字，你的的数据包含其他字符
     <string name="opening_link">正在打开链接...</string>
     
     <!-- Language Switch -->
-    <string name="language_changed_restart">语言已更改，应用即将重启</string>
+    <string name="language_changed">语言已更改</string>
+    <string name="theme_changed">主题已更改</string>
+    
+    <!-- Startup Records -->
+    <string name="startup_records_title">启动记录</string>
+    <string name="startup_records_empty">暂无启动记录</string>
+    <string name="startup_page_main">主要</string>
+    <string name="startup_page_quick">快速</string>
+    <string name="startup_page_label">页面：%1$s</string>
+    <string name="action_clear_all">清空全部</string>
+    <string name="clear_all_records_title">清空所有记录</string>
+    <string name="clear_all_records_message">确定要清空所有启动记录吗？此操作不可恢复。</string>
+    <string name="records_cleared_success">记录已清空</string>
+    <string name="no_records_to_export">没有记录可导出</string>
+    <string name="export_success">导出成功</string>
+    <string name="export_failed">导出失败：%1$s</string>
+    
+    <!-- Theme Settings -->
+    <string name="settings_theme">主题</string>
+    <string name="theme_system">跟随系统</string>
+    <string name="theme_light">日间模式</string>
+    <string name="theme_dark">夜间模式</string>
+    
+    <!-- JSON Keys for Startup Records -->
+    <string name="json_key_id">ID</string>
+    <string name="json_key_timestamp">时间戳</string>
+    <string name="json_key_startup_page">启动页面</string>
 </resources>

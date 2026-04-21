@@ -124,5 +124,31 @@ EAN-13は0-9の数字のみを使用できます。あなたのデータには�
     <string name="opening_link">リンクを開いています...</string>
     
     <!-- Language Switch -->
-    <string name="language_changed_restart">言語が変更されました。アプリは再起動します</string>
+    <string name="language_changed">言語が変更されました</string>
+    <string name="theme_changed">テーマが変更されました</string>
+    
+    <!-- Startup Records -->
+    <string name="startup_records_title">起動記録</string>
+    <string name="startup_records_empty">起動記録はまだありません</string>
+    <string name="startup_page_main">メインページ</string>
+    <string name="startup_page_quick">クイックスキャン</string>
+    <string name="startup_page_label">ページ：%1$s</string>
+    <string name="action_clear_all">すべてクリア</string>
+    <string name="clear_all_records_title">すべての記録をクリア</string>
+    <string name="clear_all_records_message">すべての起動記録をクリアしてもよろしいですか？この操作は元に戻せません。</string>
+    <string name="records_cleared_success">記録が正常にクリアされました</string>
+    <string name="no_records_to_export">エクスポートする記録がありません</string>
+    <string name="export_success">エクスポート成功</string>
+    <string name="export_failed">エクスポート失敗：%1$s</string>
+    
+    <!-- Theme Settings -->
+    <string name="settings_theme">テーマ</string>
+    <string name="theme_system">システムデフォルト</string>
+    <string name="theme_light">ライトモード</string>
+    <string name="theme_dark">ダークモード</string>
+    
+    <!-- JSON Keys for Startup Records -->
+    <string name="json_key_id">ID</string>
+    <string name="json_key_timestamp">タイムスタンプ</string>
+    <string name="json_key_startup_page">起動ページ</string>
 </resources>

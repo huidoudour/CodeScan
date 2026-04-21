@@ -13,8 +13,8 @@ android {
         minSdk = 28
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 327
-        versionName = "3.2.7"
+        versionCode = 336
+        versionName = "3.3.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -122,4 +122,8 @@ dependencies {
     //MT管理器文件提供器
     debugImplementation(libs.mt.data.files.provider.debug)
     implementation(libs.mt.data.files.provider)
+
+    // SQLite Android
+    debugImplementation(libs.sqlite.android)
+    implementation(libs.sqlite.android)
 }

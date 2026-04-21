@@ -3,6 +3,9 @@ package me.huidoudour.QRCode.scan
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainApplication : Application() {
     
@@ -24,7 +27,8 @@ class MainApplication : Application() {
     
     override fun onCreate() {
         super.onCreate()
-        // 不需要在这里再次应用语言设置，attachBaseContext 已经处理了
+        // 记录应用启动
+        recordAppStartup("main")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -35,6 +39,13 @@ class MainApplication : Application() {
         if (languageCode.isNotEmpty()) {
             // 只有当用户选择了特定语言时才重新应用
             LanguageManager.setLocale(this, languageCode)
+        }
+    }
+    
+    private fun recordAppStartup(page: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val dbHelper = StartupRecordDatabaseHelper(this@MainApplication)
+            dbHelper.insertRecord(System.currentTimeMillis(), page)
         }
     }
 }
