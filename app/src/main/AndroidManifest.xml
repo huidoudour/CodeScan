@@ -21,14 +21,9 @@
         <!-- 主Activity - 默认不显示，通过alias控制 -->
         <activity
             android:name=".MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:launchMode="singleTask"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:enabled="false" />
         
         <!-- 默认绿色图标 -->
         <activity-alias
@@ -50,7 +45,7 @@
             android:targetActivity=".MainActivity"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_colorful"
-            android:roundIcon="@mipmap/ic_launcher_colorful_round"
+            android:roundIcon="@mipmap/ic_launcher_round_colorful"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,20 +53,42 @@
             </intent-filter>
         </activity-alias>
         
-        <!-- 快速扫描Activity，具有独立桌面图标和独立任务栈-->
+        <!-- 快速扫描Activity - 默认不显示，通过alias控制 -->
         <activity
             android:name=".QuickScanActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_icon_new"
+            android:exported="false"
             android:theme="@style/Theme.CodeScan"
-            android:roundIcon="@mipmap/ic_icon_new_round"
             android:launchMode="singleTask"
-            android:taskAffinity="me.huidoudour.QRCode.scan.quickscan">
+            android:taskAffinity="me.huidoudour.QRCode.scan.quickscan"
+            android:enabled="false" />
+        
+        <!-- 快速扫描 - 默认绿色图标 -->
+        <activity-alias
+            android:name=".QuickScanActivityAliasDefault"
+            android:targetActivity=".QuickScanActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_new"
+            android:roundIcon="@mipmap/ic_launcher_round_new"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
+        
+        <!-- 快速扫描 - 多彩图标 -->
+        <activity-alias
+            android:name=".QuickScanActivityAliasColorful"
+            android:targetActivity=".QuickScanActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_new_colorful"
+            android:roundIcon="@mipmap/ic_launcher_round_new_colorful"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
         
         <activity
             android:name=".MeActivity"
@@ -98,7 +115,7 @@
             android:value="true" />
         <meta-data
             android:name="me.huidoudour.core.version"
-            android:value="23" />
+            android:value="27" />
 
     </application>
 

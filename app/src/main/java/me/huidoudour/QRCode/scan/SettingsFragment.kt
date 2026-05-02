@@ -176,13 +176,13 @@ class SettingsFragment : Fragment() {
     private fun applyAppIcon(iconTheme: String) {
         val packageManager = requireContext().packageManager
         
-        // 禁用所有图标别名
-        val aliases = listOf(
+        // 禁用所有主应用图标别名
+        val mainAliases = listOf(
             "me.huidoudour.QRCode.scan.MainActivityAliasDefault",
             "me.huidoudour.QRCode.scan.MainActivityAliasColorful"
         )
         
-        aliases.forEach { alias ->
+        mainAliases.forEach { alias ->
             try {
                 val componentName = ComponentName(requireContext(), alias)
                 packageManager.setComponentEnabledSetting(
@@ -195,14 +195,50 @@ class SettingsFragment : Fragment() {
             }
         }
         
-        // 启用选中的图标
-        val selectedAlias = when (iconTheme) {
+        // 禁用所有快速扫描图标别名
+        val quickScanAliases = listOf(
+            "me.huidoudour.QRCode.scan.QuickScanActivityAliasDefault",
+            "me.huidoudour.QRCode.scan.QuickScanActivityAliasColorful"
+        )
+        
+        quickScanAliases.forEach { alias ->
+            try {
+                val componentName = ComponentName(requireContext(), alias)
+                packageManager.setComponentEnabledSetting(
+                    componentName,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+            } catch (e: Exception) {
+                // 忽略错误
+            }
+        }
+        
+        // 启用选中的主应用图标
+        val selectedMainAlias = when (iconTheme) {
             "colorful" -> "me.huidoudour.QRCode.scan.MainActivityAliasColorful"
             else -> "me.huidoudour.QRCode.scan.MainActivityAliasDefault"
         }
         
         try {
-            val componentName = ComponentName(requireContext(), selectedAlias)
+            val componentName = ComponentName(requireContext(), selectedMainAlias)
+            packageManager.setComponentEnabledSetting(
+                componentName,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        
+        // 启用选中的快速扫描图标（与主应用同步）
+        val selectedQuickScanAlias = when (iconTheme) {
+            "colorful" -> "me.huidoudour.QRCode.scan.QuickScanActivityAliasColorful"
+            else -> "me.huidoudour.QRCode.scan.QuickScanActivityAliasDefault"
+        }
+        
+        try {
+            val componentName = ComponentName(requireContext(), selectedQuickScanAlias)
             packageManager.setComponentEnabledSetting(
                 componentName,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
@@ -279,10 +315,18 @@ class SettingsFragment : Fragment() {
     }
     
     private fun setQuickScanIconEnabled(enabled: Boolean) {
-        val componentName = ComponentName(
-            requireContext(),
-            "me.huidoudour.QRCode.scan.QuickScanActivity"
-        )
+        // 获取当前图标主题
+        val sharedPref = requireContext().getSharedPreferences("app_preferences", android.content.Context.MODE_PRIVATE)
+        val iconTheme = sharedPref.getString("icon_theme", "default") ?: "default"
+        
+        // 根据当前主题确定要启用/禁用的alias
+        val aliasName = if (iconTheme == "colorful") {
+            "me.huidoudour.QRCode.scan.QuickScanActivityAliasColorful"
+        } else {
+            "me.huidoudour.QRCode.scan.QuickScanActivityAliasDefault"
+        }
+        
+        val componentName = ComponentName(requireContext(), aliasName)
         
         val newState = if (enabled) {
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED

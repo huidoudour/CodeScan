@@ -10,51 +10,54 @@
         android:scaleY="0.7"
         android:pivotX="54"
         android:pivotY="54">
-        
+
         <!-- 左上角方框（带圆角） -->
         <path
-            android:strokeColor="#2A5F2A"
+            android:strokeColor="#2196F3"
             android:strokeWidth="6"
             android:fillColor="#00000000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 30 30 L 48 30 L 48 48 L 30 48 Z" />
-        
+
         <!-- 右上角方框（带圆角） -->
         <path
-            android:strokeColor="#2A5F2A"
+            android:strokeColor="#FF9800"
             android:strokeWidth="6"
             android:fillColor="#00000000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 60 30 L 78 30 L 78 48 L 60 48 Z" />
-        
+
         <!-- 左下角方框（带圆角） -->
         <path
-            android:strokeColor="#2A5F2A"
+            android:strokeColor="#9C27B0"
             android:strokeWidth="6"
             android:fillColor="#00000000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 30 60 L 48 60 L 48 78 L 30 78 Z" />
-        
-        <!-- 右下角竖线组（扫描线效果） -->
+
+        <!-- 右下角竖线组（扫描线效果，使用不同颜色突出） -->
         <path
-            android:strokeColor="#4A8F4A"
+            android:strokeColor="#4CAF50"
             android:strokeWidth="4"
             android:strokeLineCap="round"
             android:pathData="M 60 60 L 60 78" />
-        
+
         <path
-            android:strokeColor="#4A8F4A"
-            android:strokeWidth="4"
-            android:strokeLineCap="round"
-            android:pathData="M 69 60 L 69 78" />
-        
-        <path
-            android:strokeColor="#4A8F4A"
+            android:strokeColor="#00BCD4"
             android:strokeWidth="4"
             android:strokeLineCap="round"
             android:pathData="M 78 60 L 78 78" />
+
+        <!-- 右下角小闪电符号（纯折线样式，居中放置） -->
+        <path
+            android:strokeColor="#F44336"
+            android:strokeWidth="3.5"
+            android:fillColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M 69 60 L 65 69 L 73 69 L 69 78" />
     </group>
 </vector>
