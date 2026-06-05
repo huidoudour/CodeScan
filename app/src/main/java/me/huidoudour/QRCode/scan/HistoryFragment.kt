@@ -1,6 +1,5 @@
 package me.huidoudour.QRCode.scan
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,8 +19,6 @@ import me.huidoudour.QRCode.scan.databinding.FragmentHistoryBinding
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
-import java.io.File
-import java.io.FileWriter
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -37,9 +33,19 @@ class HistoryFragment : Fragment() {
     private lateinit var adapter: HistoryAdapter
     private lateinit var jsonFileManager: JsonFileManager
     
-    // 文件选择器
+    // 文件选择器（导入用）
     private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { importFromJson(it) }
+    }
+
+    // 暂存待导出的 JSON 数据，供 SAF 回调使用
+    private var pendingExportJson: String? = null
+
+    // SAF 创建文件启动器（导出用）
+    private val createDocumentLauncher = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("application/json")
+    ) { uri: Uri? ->
+        uri?.let { writeJsonToUri(it) }
     }
 
     override fun onCreateView(
@@ -248,7 +254,11 @@ class HistoryFragment : Fragment() {
                 }
                 
                 val json = convertToJson(scanResults)
-                saveAndShareJson(json)
+                pendingExportJson = json
+                
+                // 使用 SAF 让用户选择保存位置
+                val exportFileName = jsonFileManager.getExportFileName()
+                createDocumentLauncher.launch(exportFileName)
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(requireContext(), getString(R.string.history_export_failed, e.message), Toast.LENGTH_LONG).show()
@@ -279,43 +289,26 @@ class HistoryFragment : Fragment() {
         return jsonArray.toString(2)
     }
     
-    private fun saveAndShareJson(json: String) {
+    /**
+     * 将暂存的 JSON 数据写入 SAF 用户选择的文件 URI
+     */
+    private fun writeJsonToUri(uri: Uri) {
+        val json = pendingExportJson
+        pendingExportJson = null
+        
+        if (json == null) {
+            Toast.makeText(requireContext(), getString(R.string.history_export_failed, "数据为空"), Toast.LENGTH_SHORT).show()
+            return
+        }
+
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                // 从私有目录获取最新文件
-                val autoSaveFile = jsonFileManager.getFileInPrivateDir()
-                if (!autoSaveFile.exists()) {
-                    // 如果私有目录文件不存在，保存当前数据
-                    jsonFileManager.saveAllScanResultsToPrivateDir(db.scanResultDao().getAll())
+                requireContext().contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    outputStream.write(json.toByteArray(Charsets.UTF_8))
                 }
                 
-                // 创建临时导出文件
-                val exportFileName = jsonFileManager.getExportFileName()
-                val exportFile = File(requireContext().cacheDir, exportFileName)
-                
-                // 将当前数据写入临时导出文件
-                FileWriter(exportFile).use { writer ->
-                    writer.write(json)
-                }
-                    
                 launch(Dispatchers.Main) {
-                    val uri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "${requireContext().packageName}.fileprovider",
-                        exportFile
-                    )
-                        
-                    val shareIntent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        type = "application/json"
-                        putExtra(Intent.EXTRA_STREAM, uri)
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
-                        
-                    startActivity(Intent.createChooser(shareIntent, getString(R.string.history_export_title)))
-                        
-                    // 提示用户文件已保存到外部存储目录
-                    Toast.makeText(requireContext(), getString(R.string.history_export_saved_to_data), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.export_success), Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
