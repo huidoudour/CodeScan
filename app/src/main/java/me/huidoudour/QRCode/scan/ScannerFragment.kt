@@ -120,7 +120,7 @@ class ScannerFragment : Fragment() {
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
 
-            val qrCodeAnalyzer = QrCodeAnalyzer { result, codeType ->
+            val qrCodeAnalyzer = QRCodeAnalyzer { result, codeType ->
                 if (isScanning) {
                     isScanning = false
                     requireActivity().runOnUiThread {

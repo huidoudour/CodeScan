@@ -6,11 +6,12 @@ plugins {
 
 android {
     namespace = "me.huidoudour.QRCode.scan"
+    //noinspection GradleDependency
     compileSdk = 36
 
     defaultConfig {
         applicationId = "me.huidoudour.QRCode.scan"
-        minSdk = 28
+        minSdk = 29
         //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 345

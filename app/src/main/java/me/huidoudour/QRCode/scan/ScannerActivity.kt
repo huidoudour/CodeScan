@@ -110,7 +110,7 @@ class ScannerActivity : BaseActivity() {
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
             .also {
-                it.setAnalyzer(cameraExecutor!!, QRCodeAnalyzer { result ->
+                it.setAnalyzer(cameraExecutor!!, QRCodeAnalyzer { result, codeType ->
                     handleScanResult(result)
                 })
             }
@@ -224,38 +224,3 @@ class ScannerActivity : BaseActivity() {
     }
 }
 
-// QRCode分析器
-class QRCodeAnalyzer(private val onResult: (String) -> Unit) : ImageAnalysis.Analyzer {
-    private val options = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_EAN_13, Barcode.FORMAT_CODE_128)
-        .build()
-    
-    private val scanner: BarcodeScanner = BarcodeScanning.getClient(options)
-    
-    @androidx.camera.core.ExperimentalGetImage
-    override fun analyze(imageProxy: androidx.camera.core.ImageProxy) {
-        val mediaImage = imageProxy.image
-        if (mediaImage != null) {
-            val image = com.google.mlkit.vision.common.InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
-            
-            scanner.process(image)
-                .addOnSuccessListener { barcodes ->
-                    for (barcode in barcodes) {
-                        val rawValue = barcode.rawValue
-                        if (rawValue != null) {
-                            onResult(rawValue)
-                            break
-                        }
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Log.e("QRCodeAnalyzer", "Barcode scanning failed", e)
-                }
-                .addOnCompleteListener {
-                    imageProxy.close()
-                }
-        } else {
-            imageProxy.close()
-        }
-    }
-}

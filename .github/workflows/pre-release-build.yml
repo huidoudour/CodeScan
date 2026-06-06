@@ -67,14 +67,25 @@ jobs:
 
       - name: Check if tag exists and create/update pre-release
         run: |
+          NOTES="## 预发布说明
+          
+          这是一个用于测试的预发布版本。
+          
+          ### APK 文件
+          - 通用 APK 支持所有架构
+          - 也提供针对特定架构的 APK，以减小下载体积
+          
+          ### 注意事项
+          - 此版本可能包含正式版中不存在的 Bug
+          - 欢迎通过仓库的 Issue 反馈问题"
+          
           # 检查标签是否已存在
           if gh release view ${{ env.TAG_NAME }} --json tagName > /dev/null 2>&1; then
             if [[ "${{ github.event.inputs.update_existing }}" == "true" ]]; then
               echo "Tag ${{ env.TAG_NAME }} already exists, updating pre-release..."
-              # 更新现有预发布
               gh release edit ${{ env.TAG_NAME }} \
-                --title "${{ github.event.inputs.release_title || 'Pre-Release ${{ env.TAG_NAME }}' }}" \
-                --notes "## Pre-Release Notes\nThis is a pre-release version for testing purposes.\n\n### APK Files:\n- The universal APK supports all architectures\n- Architecture-specific APKs are also provided for smaller download sizes\n\n### Notes:\n- This version may contain bugs not present in the stable release\n- Feedback is welcome via the repository's issue tracker" \
+                --title "${{ github.event.inputs.release_title || format('Pre-Release {0}', env.TAG_NAME) }}" \
+                --notes "$NOTES" \
                 --draft=false \
                 --prerelease=true
             else
@@ -83,10 +94,9 @@ jobs:
             fi
           else
             echo "Tag ${{ env.TAG_NAME }} does not exist, creating new pre-release..."
-            # 创建新预发布
             gh release create ${{ env.TAG_NAME }} \
-              --title "${{ github.event.inputs.release_title || 'Pre-Release ${{ env.TAG_NAME }}' }}" \
-              --notes "## Pre-Release Notes\nThis is a pre-release version for testing purposes.\n\n### APK Files:\n- The universal APK supports all architectures\n- Architecture-specific APKs are also provided for smaller download sizes\n\n### Notes:\n- This version may contain bugs not present in the stable release\n- Feedback is welcome via the repository's issue tracker" \
+              --title "${{ github.event.inputs.release_title || format('Pre-Release {0}', env.TAG_NAME) }}" \
+              --notes "$NOTES" \
               --draft=false \
               --prerelease=true
           fi

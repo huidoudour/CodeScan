@@ -67,14 +67,24 @@ jobs:
 
       - name: Check if tag exists and create/update release
         run: |
+          NOTES="## 版本说明
+          
+          下载安装即可使用
+          
+          ### APK 文件
+          - 通用 APK 支持所有架构
+          - 也提供针对特定架构的 APK，以减小下载体积
+          
+          ### 更新日志
+          <!-- 请在此处添加更新日志 -->"
+          
           # 检查标签是否已存在
           if gh release view ${{ env.TAG_NAME }} --json tagName > /dev/null 2>&1; then
             if [[ "${{ github.event.inputs.update_existing }}" == "true" ]]; then
               echo "Tag ${{ env.TAG_NAME }} already exists, updating release..."
-              # 更新现有发布
               gh release edit ${{ env.TAG_NAME }} \
-                --title "${{ github.event.inputs.release_title || 'Release ${{ env.TAG_NAME }}' }}" \
-                --notes "## Release Notes\nThank you for downloading this release!\n\n### APK Files:\n- The universal APK supports all architectures\n- Architecture-specific APKs are also provided for smaller download sizes\n\n### Changelog:\n<!-- Add changelog here -->" \
+                --title "${{ github.event.inputs.release_title || format('Release {0}', env.TAG_NAME) }}" \
+                --notes "$NOTES" \
                 --draft=false \
                 --prerelease=false
             else
@@ -83,10 +93,9 @@ jobs:
             fi
           else
             echo "Tag ${{ env.TAG_NAME }} does not exist, creating new release..."
-            # 创建新发布
             gh release create ${{ env.TAG_NAME }} \
-              --title "${{ github.event.inputs.release_title || 'Release ${{ env.TAG_NAME }}' }}" \
-              --notes "## Release Notes\nThank you for downloading this release!\n\n### APK Files:\n- The universal APK supports all architectures\n- Architecture-specific APKs are also provided for smaller download sizes\n\n### Changelog:\n<!-- Add changelog here -->" \
+              --title "${{ github.event.inputs.release_title || format('Release {0}', env.TAG_NAME) }}" \
+              --notes "$NOTES" \
               --draft=false \
               --prerelease=false
           fi

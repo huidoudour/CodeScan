@@ -3,6 +3,13 @@ name: Android CI
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - 'app/src/**'
+      - 'app/build.gradle.kts'
+      - 'app/AndroidManifest.xml'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - '.github/workflows/android.yml'
   pull_request:
     branches: [ "master" ]
 
