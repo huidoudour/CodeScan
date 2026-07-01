@@ -101,29 +101,28 @@ class LanguageManager {
             }
         }
         
-        fun getAvailableLanguages(): List<Pair<String, String>> {
+        fun getAvailableLanguages(context: android.content.Context): List<Pair<String, String>> {
             return listOf(
-                Pair("", "System Default / 系统默认"),
-                Pair(LANGUAGE_ENGLISH, "English"),
-                Pair(LANGUAGE_CHINESE_SIMPLIFIED, "简体中文"),
-                Pair(LANGUAGE_CHINESE_TRADITIONAL, "繁體中文"),
-                Pair(LANGUAGE_JAPANESE, "日本語"),
-                Pair(LANGUAGE_RUSSIAN, "Русский")
+                Pair("", context.getString(R.string.language_default)),
+                Pair(LANGUAGE_ENGLISH, context.getString(R.string.language_en)),
+                Pair(LANGUAGE_CHINESE_SIMPLIFIED, context.getString(R.string.language_zh_cn)),
+                Pair(LANGUAGE_CHINESE_TRADITIONAL, context.getString(R.string.language_zh_tw)),
+                Pair(LANGUAGE_JAPANESE, context.getString(R.string.language_ja)),
+                Pair(LANGUAGE_RUSSIAN, context.getString(R.string.language_ru))
             )
         }
         
         /**
          * 获取显示用的语言名称
          */
-        @Suppress("UNUSED_PARAMETER")
         fun getLanguageDisplayName(context: android.content.Context, languageCode: String): String {
             return when (languageCode) {
-                LANGUAGE_ENGLISH -> "English"
-                LANGUAGE_CHINESE_SIMPLIFIED -> "简体中文"
-                LANGUAGE_CHINESE_TRADITIONAL -> "繁體中文"
-                LANGUAGE_JAPANESE -> "日本語"
-                LANGUAGE_RUSSIAN -> "Русский"
-                else -> "System Default / 系统默认"
+                LANGUAGE_ENGLISH -> context.getString(R.string.language_en)
+                LANGUAGE_CHINESE_SIMPLIFIED -> context.getString(R.string.language_zh_cn)
+                LANGUAGE_CHINESE_TRADITIONAL -> context.getString(R.string.language_zh_tw)
+                LANGUAGE_JAPANESE -> context.getString(R.string.language_ja)
+                LANGUAGE_RUSSIAN -> context.getString(R.string.language_ru)
+                else -> context.getString(R.string.language_default)
             }
         }
     }

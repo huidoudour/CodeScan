@@ -10,7 +10,7 @@
         android:scaleY="0.7"
         android:pivotX="54"
         android:pivotY="54">
-        
+
         <!-- 左上角方框（带圆角） -->
         <path
             android:strokeColor="#2A5F2A"
@@ -19,7 +19,7 @@
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 30 30 L 48 30 L 48 48 L 30 48 Z" />
-        
+
         <!-- 右上角方框（带圆角） -->
         <path
             android:strokeColor="#2A5F2A"
@@ -28,7 +28,7 @@
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 60 30 L 78 30 L 78 48 L 60 48 Z" />
-        
+
         <!-- 左下角方框（带圆角） -->
         <path
             android:strokeColor="#2A5F2A"
@@ -37,62 +37,31 @@
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 30 60 L 48 60 L 48 78 L 30 78 Z" />
-        
-        <!-- 右下角竖线组（扫描线效果） -->
+
+        <!-- 右下角竖线组（扫描线效果，使用不同颜色突出） -->
         <path
-            android:strokeColor="#4A8F4A"
+            android:strokeColor="#4CAF50"
             android:strokeWidth="4"
             android:strokeLineCap="round"
             android:pathData="M 60 60 L 60 78" />
-        
+
         <path
-            android:strokeColor="#4A8F4A"
-            android:strokeWidth="4"
-            android:strokeLineCap="round"
-            android:pathData="M 69 60 L 69 78" />
-        
-        <path
-            android:strokeColor="#4A8F4A"
+            android:strokeColor="#4CAF50"
             android:strokeWidth="4"
             android:strokeLineCap="round"
             android:pathData="M 78 60 L 78 78" />
+
+        <!-- 右下角小闪电符号（纯折线样式，居中放置） -->
+        <path
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="3.5"
+            android:fillColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M 69 60 L 65 69 L 73 69 L 69 78" />
     </group>
-    <group
-        android:translateX="-10"
-        android:translateY="-10"
-        android:scaleX="1"
-        android:scaleY="1">
-
-            <!-- Debug 扇形标识（右下角，放大但不超过背景圆角） -->
-        <path
-            android:fillColor="#9E9E9E"
-            android:pathData="M100,100 L100,80 A20,20 0 0,0 80,100 Z"/>
-
-        <!-- 芯片标识图标（居中放置） -->
-        <!-- 芯片主体：规则正方形 -->
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M89,89 h6 v6 h-6 Z"/>
-
-        <!-- 芯片引脚：左（2个） -->
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M88,90 h1 v1 h-1 Z M88,93 h1 v1 h-1 Z"/>
-
-        <!-- 芯片引脚：右（2个） -->
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M95,90 h1 v1 h-1 Z M95,93 h1 v1 h-1 Z"/>
-
-        <!-- 芯片引脚：上（2个） -->
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M90,88 h1 v1 h-1 Z M93,88 h1 v1 h-1 Z"/>
-
-        <!-- 芯片引脚：下（2个） -->
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M90,95 h1 v1 h-1 Z M93,95 h1 v1 h-1 Z"/>
-
-    </group>
+    <!-- 右下角小圆圈 -->
+    <path
+        android:pathData="M75,82 A4,4 0 1,1 75.01,82 Z"
+        android:fillColor="#4A8F4A"/>
 </vector>

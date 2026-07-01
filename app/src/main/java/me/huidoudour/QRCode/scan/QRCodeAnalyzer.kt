@@ -11,7 +11,7 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
 class QRCodeAnalyzer(
-    private val onQrCodeScanned: (result: String, codeType: String) -> Unit
+    private val onQrCodeScanned: (results: List<Pair<String, String>>) -> Unit
 ) : ImageAnalysis.Analyzer {
 
     private val options = BarcodeScannerOptions.Builder()
@@ -30,8 +30,7 @@ class QRCodeAnalyzer(
     private var previewHeight = 0f
 
     /**
-     * 设置扫描框的边界（在预览坐标系中）
-     */
+     * 设置扫描框的边界（在预览坐标系中�?     */
     fun setScanFrameBounds(left: Float, top: Float, right: Float, bottom: Float) {
         scanFrameLeft = left
         scanFrameTop = top
@@ -41,24 +40,21 @@ class QRCodeAnalyzer(
     }
 
     /**
-     * 设置相机图像的尺寸
-     */
+     * 设置相机图像的尺�?     */
     fun setImageSize(width: Int, height: Int) {
         imageWidth = width
         imageHeight = height
     }
 
     /**
-     * 设置预览视图的尺寸
-     */
+     * 设置预览视图的尺�?     */
     fun setPreviewSize(width: Float, height: Float) {
         previewWidth = width
         previewHeight = height
     }
 
     /**
-     * 获取条形码类型名称
-     */
+     * 获取条形码类型名�?     */
     private fun getBarcodeTypeName(format: Int): String = when (format) {
         Barcode.FORMAT_CODE_128 -> "CODE_128"
         Barcode.FORMAT_CODE_39 -> "CODE_39"
@@ -77,31 +73,29 @@ class QRCodeAnalyzer(
     }
 
     /**
-     * 检查条形码是否在扫描框范围内
-     */
+     * 检查条形码是否在扫描框范围�?     */
     private fun isBarcodeInScanFrame(barcode: Barcode): Boolean {
         if (!frameBoundsCalculated || imageWidth == 0 || imageHeight == 0 || previewWidth == 0f || previewHeight == 0f) {
-            return true // 如果没有设置边界或尺寸，接受所有条形码
+            return true
         }
 
         val cornerPoints = barcode.cornerPoints ?: return false
         if (cornerPoints.isEmpty()) return false
 
-        // 计算预览坐标与图像坐标的比例
-        val scaleX = previewWidth / imageWidth
-        val scaleY = previewHeight / imageHeight
+        // FILL_CENTER �任��ͼ��ȱ���������Ԥ�������������־��вü�
+        val fillScale = maxOf(previewWidth / imageWidth, previewHeight / imageHeight)
+        val cropOffsetX = (imageWidth * fillScale - previewWidth) / 2f
+        val cropOffsetY = (imageHeight * fillScale - previewHeight) / 2f
 
-        // 检查条形码的所有角点是否都在扫描框内
-        for (point in cornerPoints) {
-            val previewX = point.x * scaleX
-            val previewY = point.y * scaleY
-            if (previewX < scanFrameLeft || previewX > scanFrameRight ||
-                previewY < scanFrameTop || previewY > scanFrameBottom
-            ) {
-                return false
-            }
-        }
-        return true
+        // �������������ĵ㣨���нǵ��ƽ��ֵ����ֻ������ĵ��Ƿ���ɨ�����
+        val centerX = cornerPoints.map { it.x }.average().toFloat()
+        val centerY = cornerPoints.map { it.y }.average().toFloat()
+
+        val previewX = centerX * fillScale - cropOffsetX
+        val previewY = centerY * fillScale - cropOffsetY
+
+        return previewX >= scanFrameLeft && previewX <= scanFrameRight &&
+                previewY >= scanFrameTop && previewY <= scanFrameBottom
     }
 
     @OptIn(ExperimentalGetImage::class)
@@ -118,12 +112,15 @@ class QRCodeAnalyzer(
 
             scanner.process(image)
                 .addOnSuccessListener { barcodes ->
-                    if (barcodes.isNotEmpty() && barcodes[0].rawValue != null) {
-                        // 检查条形码是否在扫描框范围内
-                        if (isBarcodeInScanFrame(barcodes[0])) {
-                            val barcode = barcodes[0]
-                            val codeType = getBarcodeTypeName(barcode.format)
-                            onQrCodeScanned(barcode.rawValue!!, codeType)
+                    if (barcodes.isNotEmpty()) {
+                        // 收集所有在扫描框内的有效条形码
+                        val validBarcodes = barcodes.filter { barcode ->
+                            barcode.rawValue != null && isBarcodeInScanFrame(barcode)
+                        }.map { barcode ->
+                            Pair(barcode.rawValue!!, getBarcodeTypeName(barcode.format))
+                        }.distinctBy { it.first } // 去重，相同内容的码只保留一�?                        
+                        if (validBarcodes.isNotEmpty()) {
+                            onQrCodeScanned(validBarcodes)
                         }
                     }
                 }

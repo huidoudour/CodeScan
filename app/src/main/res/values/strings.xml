@@ -6,6 +6,11 @@
     <string name="toast_saved">Saved</string>
     <string name="dialog_title_scan_result">Scan Result</string>
     <string name="button_save">Save</string>
+    <string name="button_save_all">Save All</string>
+    <string name="multi_result_hint_single">1 code detected</string>
+    <string name="multi_result_hint">%d codes detected</string>
+    <string name="toast_all_saved">All saved</string>
+    <string name="toast_item_saved">Saved</string>
     <string name="hint_export_input_ean13">Please enter EAN-13 text</string>
     <string name="hint_export_input_code128">Please enter Code-128 text</string>
     <string name="hint_export_input_qr">Please enter QR code text</string>
@@ -141,4 +146,24 @@
     <string name="json_key_id">ID</string>
     <string name="json_key_timestamp">Timestamp</string>
     <string name="json_key_startup_page">Startup Page</string>
+    
+    <!-- Additional UI Strings -->
+    <string name="gallery_feature_not_implemented">Gallery feature not implemented</string>
+    <string name="scanned_result_format">Scanned: %1$s</string>
+    <string name="cannot_open_link">Cannot open link</string>
+    <string name="scan_result_saved">Scan result saved</string>
+    <string name="cannot_read_image">Cannot read image</string>
+    <string name="error_processing_image">Error processing image</string>
+    <string name="no_barcode_detected">No barcode detected</string>
+    <string name="barcode_recognition_failed">Barcode recognition failed</string>
+    <string name="barcode_generation_failed_generic">Failed to generate barcode</string>
+    <string name="input_format_error">Invalid input format</string>
+    <string name="app_icon_theme_default">Default Green</string>
+    <string name="app_icon_theme_colorful">Colorful Theme</string>
+    <string name="dialog_title_select_app_icon">Select App Icon</string>
+    <string name="toast_icon_changed">Icon changed, may take a few seconds to take effect</string>
+    <string name="table_header_id">ID</string>
+    <string name="table_header_time">Time</string>
+    <string name="table_header_startup_page">Startup Page</string>
+    <string name="export_data_empty">Data is empty</string>
 </resources>

@@ -81,7 +81,7 @@ class ScannerActivity : BaseActivity() {
             }
             R.id.action_gallery -> {
                 // 这里可以添加从相册选择图片的功能
-                Toast.makeText(this, "Gallery feature not implemented", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.gallery_feature_not_implemented, Toast.LENGTH_SHORT).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -95,7 +95,7 @@ class ScannerActivity : BaseActivity() {
                 cameraProvider = cameraProviderFuture.get()
                 bindCameraUseCases()
             } catch (e: Exception) {
-                Log.e(TAG, "Use case binding failed", e)
+               Log.e(TAG, "相机用例绑定失败", e)
             }
         }, ContextCompat.getMainExecutor(this))
     }
@@ -110,8 +110,10 @@ class ScannerActivity : BaseActivity() {
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
             .also {
-                it.setAnalyzer(cameraExecutor!!, QRCodeAnalyzer { result, codeType ->
-                    handleScanResult(result)
+                it.setAnalyzer(cameraExecutor!!, QRCodeAnalyzer { results ->
+                    if (results.isNotEmpty()) {
+                        handleScanResult(results[0].first)
+                    }
                 })
             }
         
@@ -125,7 +127,7 @@ class ScannerActivity : BaseActivity() {
             binding.toolbar.menu.findItem(R.id.action_flash)?.isEnabled = camera.cameraInfo.hasFlashUnit()
             
         } catch (e: Exception) {
-            Log.e(TAG, "Binding use cases failed", e)
+           Log.e(TAG, "绑定用例失败", e)
         }
     }
     
@@ -145,7 +147,7 @@ class ScannerActivity : BaseActivity() {
                 Toast.makeText(this, R.string.flashlight_not_supported, Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Flash toggle failed", e)
+           Log.e(TAG, "闪光灯切换失败", e)
         }
     }
     
@@ -184,7 +186,7 @@ class ScannerActivity : BaseActivity() {
     
     private fun saveScanResult(result: String) {
         // 这里可以添加保存到数据库的逻辑
-        Toast.makeText(this, "Scanned: $result", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.scanned_result_format, result), Toast.LENGTH_LONG).show()
         
         // 延迟后重新启动相机
         binding.root.postDelayed({

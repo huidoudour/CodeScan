@@ -65,10 +65,10 @@
     <string name="settings_about">について</string>
     
     <!-- About Page -->
-    <string name="about_description">あなたが世界を守り、私があなたを守る</string>
+    <string name="about_description">你保护世界，我保护你</string>
     <string name="about_features">QRコード、EAN-13、CODE-128など様々な形式をサポート</string>
-    <string name="about_developer">亻尔女子、私はhuidoudour（慧兜兜）です</string>
-    <string name="visit_github">ω私を見つけてω</string>
+    <string name="about_developer">亻尔女子，我是huidoudour（慧兜兜）</string>
+    <string name="visit_github">ω寻找我ω</string>
     <string name="generated_qr_code">生成されたQRコード</string>
     <string name="hello_world">Hello World!</string>
     <string name="flashlight_on">フラッシュをオンにしました</string>
@@ -151,4 +151,24 @@ EAN-13は0-9の数字のみを使用できます。あなたのデータには�
     <string name="json_key_id">ID</string>
     <string name="json_key_timestamp">タイムスタンプ</string>
     <string name="json_key_startup_page">起動ページ</string>
+    
+    <!-- Additional UI Strings -->
+    <string name="gallery_feature_not_implemented">ギャラリー機能は未実装です</string>
+    <string name="scanned_result_format">スキャン結果：%1$s</string>
+    <string name="cannot_open_link">リンクを開けません</string>
+    <string name="scan_result_saved">スキャン結果を保存しました</string>
+    <string name="cannot_read_image">画像を読み取れません</string>
+    <string name="error_processing_image">画像処理中にエラーが発生しました</string>
+    <string name="no_barcode_detected">バーコードが検出されませんでした</string>
+    <string name="barcode_recognition_failed">バーコード認識に失敗しました</string>
+    <string name="barcode_generation_failed_generic">バーコードの生成に失敗しました</string>
+    <string name="input_format_error">入力形式が無効です</string>
+    <string name="app_icon_theme_default">デフォルトグリーン</string>
+    <string name="app_icon_theme_colorful">カラフルテーマ</string>
+    <string name="dialog_title_select_app_icon">アプリアイコンを選択</string>
+    <string name="toast_icon_changed">アイコンが変更されました。反映まで数秒かかる場合があります</string>
+    <string name="table_header_id">ID</string>
+    <string name="table_header_time">時間</string>
+    <string name="table_header_startup_page">起動ページ</string>
+    <string name="export_data_empty">データが空です</string>
 </resources>
