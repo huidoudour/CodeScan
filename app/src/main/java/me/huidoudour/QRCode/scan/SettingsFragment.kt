@@ -89,9 +89,9 @@ class SettingsFragment : Fragment() {
     }
     
     private fun setupQuickScanIconSwitch() {
-        // 读取保存的设置，默认为 true（显示图标）
+        // 读取保存的设置，默认为 false（不显示图标）
         val sharedPref = requireContext().getSharedPreferences("app_preferences", android.content.Context.MODE_PRIVATE)
-        val showQuickScanIcon = sharedPref.getBoolean("show_quick_scan_icon", true)
+        val showQuickScanIcon = sharedPref.getBoolean("show_quick_scan_icon", false)
         
         // 设置开关状态
         binding.quickScanIconSwitch.isChecked = showQuickScanIcon

@@ -7,13 +7,13 @@ import java.util.Locale
 
 class LanguageManager {
     companion object {
-        // 支持的语言列表
+        // 支持的语言列表（Android 资源限定符格式：语言-r地区）
         const val LANGUAGE_SYSTEM = ""
-        const val LANGUAGE_ENGLISH = "en"
-        const val LANGUAGE_CHINESE_SIMPLIFIED = "zh"
-        const val LANGUAGE_CHINESE_TRADITIONAL = "zh-TW"
-        const val LANGUAGE_JAPANESE = "ja"
-        const val LANGUAGE_RUSSIAN = "ru"
+        const val LANGUAGE_ENGLISH = "en-rUS"
+        const val LANGUAGE_CHINESE_SIMPLIFIED = "zh-rCN"
+        const val LANGUAGE_CHINESE_TRADITIONAL = "zh-rTW"
+        const val LANGUAGE_JAPANESE = "ja-rJP"
+        const val LANGUAGE_RUSSIAN = "ru-rRU"
         
         fun setLocale(context: Context, languageCode: String): Context {
             return if (languageCode.isEmpty()) {
@@ -36,14 +36,9 @@ class LanguageManager {
                     baseContext.createConfigurationContext(newConfig)
                 }
             } else {
-                val locale = when (languageCode) {
-                    LANGUAGE_ENGLISH -> Locale.forLanguageTag("en")
-                    LANGUAGE_CHINESE_SIMPLIFIED -> Locale.SIMPLIFIED_CHINESE
-                    LANGUAGE_CHINESE_TRADITIONAL -> Locale.TRADITIONAL_CHINESE
-                    LANGUAGE_JAPANESE -> Locale.JAPANESE
-                    LANGUAGE_RUSSIAN -> Locale.forLanguageTag("ru")
-                    else -> Locale.getDefault()
-                }
+                // 将 Android 格式 (zh-rCN) 转为 BCP 47 格式 (zh-CN) 以创建 Locale
+                val bcp47 = languageCode.replace("-r", "-")
+                val locale = Locale.forLanguageTag(bcp47)
                 updateResources(context, locale)
             }
         }
@@ -77,7 +72,25 @@ class LanguageManager {
 
         fun getCurrentLanguage(context: Context): String {
             val sharedPref = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-            return sharedPref.getString("language_preference", "") ?: ""
+            val saved = sharedPref.getString("language_preference", "") ?: ""
+            // 迁移旧格式到新格式（Android 资源限定符：语言-r地区）
+            return migrateLanguageCode(saved, sharedPref)
+        }
+
+        private fun migrateLanguageCode(code: String, prefs: android.content.SharedPreferences): String {
+            // 兼容旧版 BCP 47 格式 (en-US) 和纯语言代码 (en)
+            val migrated = when (code) {
+                "en", "en-US" -> LANGUAGE_ENGLISH
+                "zh", "zh-CN" -> LANGUAGE_CHINESE_SIMPLIFIED
+                "zh-TW" -> LANGUAGE_CHINESE_TRADITIONAL
+                "ja", "ja-JP" -> LANGUAGE_JAPANESE
+                "ru", "ru-RU" -> LANGUAGE_RUSSIAN
+                else -> code
+            }
+            if (migrated != code) {
+                prefs.edit().putString("language_preference", migrated).apply()
+            }
+            return migrated
         }
         
         fun saveLanguage(context: Context, languageCode: String) {

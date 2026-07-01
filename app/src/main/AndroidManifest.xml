@@ -67,8 +67,8 @@
             android:name=".QuickScanActivityAliasDefault"
             android:targetActivity=".QuickScanActivity"
             android:exported="true"
-            android:icon="@mipmap/ic_launcher_new"
-            android:roundIcon="@mipmap/ic_launcher_round_new"
+            android:icon="@mipmap/ic_launcher_quick"
+            android:roundIcon="@mipmap/ic_launcher_round_quick"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -81,8 +81,8 @@
             android:name=".QuickScanActivityAliasColorful"
             android:targetActivity=".QuickScanActivity"
             android:exported="true"
-            android:icon="@mipmap/ic_launcher_new_colorful"
-            android:roundIcon="@mipmap/ic_launcher_round_new_colorful"
+            android:icon="@mipmap/ic_launcher_quick_colorful"
+            android:roundIcon="@mipmap/ic_launcher_round_quick_colorful"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

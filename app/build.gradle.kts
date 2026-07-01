@@ -80,16 +80,6 @@ android {
             }
         }
     }
-    packaging {
-        // 支持 16 KB 页面大小的 ARM 二进制文件对齐
-        jniLibs {
-            useLegacyPackaging = false
-            // 启用页面对齐工具
-            keepDebugSymbols += "**/*.so"
-        }
-        resources.pickFirsts += "lib/arm64-v8a/libbarhopper_v3.so"
-        resources.pickFirsts += "lib/arm64-v8a/libimage_processing_util_jni.so"
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
