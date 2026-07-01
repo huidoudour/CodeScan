@@ -125,8 +125,8 @@ class SettingsFragment : Fragment() {
     
     private fun showAppIconSelectionDialog() {
         val iconThemes = arrayOf(
-            "默认绿色",
-            "多彩主题"
+            getString(R.string.app_icon_theme_default),
+            getString(R.string.app_icon_theme_colorful)
         )
         
         val sharedPref = requireContext().getSharedPreferences("app_preferences", android.content.Context.MODE_PRIVATE)
@@ -139,7 +139,7 @@ class SettingsFragment : Fragment() {
         }
         
         MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
-            .setTitle("选择应用图标")
+            .setTitle(getString(R.string.dialog_title_select_app_icon))
             .setSingleChoiceItems(iconThemes, selectedIndex) { dialog, which ->
                 val selectedIcon = when (which) {
                     0 -> "default"
@@ -159,7 +159,7 @@ class SettingsFragment : Fragment() {
                 // 显示提示
                 android.widget.Toast.makeText(
                     requireContext(), 
-                    "图标已更改，可能需要几秒钟生效", 
+                    getString(R.string.toast_icon_changed), 
                     android.widget.Toast.LENGTH_LONG
                 ).show()
                 

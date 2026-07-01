@@ -65,10 +65,10 @@
     <string name="settings_about">О приложении</string>
     
     <!-- About Page -->
-    <string name="about_description">Ты защищаешь мир, я защищаю тебя</string>
+    <string name="about_description">你保护世界，我保护你</string>
     <string name="about_features">Поддерживает QR-коды, EAN-13, CODE-128 и другие форматы</string>
     <string name="about_developer">亻尔女子，我是huidoudour（慧兜兜）</string>
-    <string name="visit_github">ωНайди меняω</string>
+    <string name="visit_github">ω寻找我ω</string>
     <string name="generated_qr_code">Сгенерированный QR-код</string>
     <string name="hello_world">Hello World!</string>
     <string name="flashlight_on">Вспышка включена</string>
@@ -151,4 +151,24 @@ EAN-13 поддерживает только цифры 0-9, ваши данны
     <string name="json_key_id">ID</string>
     <string name="json_key_timestamp">Временная метка</string>
     <string name="json_key_startup_page">Страница запуска</string>
+    
+    <!-- Additional UI Strings -->
+    <string name="gallery_feature_not_implemented">Функция галереи не реализована</string>
+    <string name="scanned_result_format">Сканировано: %1$s</string>
+    <string name="cannot_open_link">Не удалось открыть ссылку</string>
+    <string name="scan_result_saved">Результат сканирования сохранен</string>
+    <string name="cannot_read_image">Не удалось прочитать изображение</string>
+    <string name="error_processing_image">Ошибка обработки изображения</string>
+    <string name="no_barcode_detected">Штрих-код не обнаружен</string>
+    <string name="barcode_recognition_failed">Ошибка распознавания штрих-кода</string>
+    <string name="barcode_generation_failed_generic">Не удалось сгенерировать штрих-код</string>
+    <string name="input_format_error">Неверный формат ввода</string>
+    <string name="app_icon_theme_default">Зеленый по умолчанию</string>
+    <string name="app_icon_theme_colorful">Красочная тема</string>
+    <string name="dialog_title_select_app_icon">Выберите значок приложения</string>
+    <string name="toast_icon_changed">Значок изменен, может потребоваться несколько секунд</string>
+    <string name="table_header_id">ID</string>
+    <string name="table_header_time">Время</string>
+    <string name="table_header_startup_page">Страница запуска</string>
+    <string name="export_data_empty">Данные пусты</string>
 </resources>

@@ -65,10 +65,10 @@
     <string name="settings_about">關於</string>
     
     <!-- About Page -->
-    <string name="about_description">你保護世界，我保護你</string>
+    <string name="about_description">你保护世界，我保护你</string>
     <string name="about_features">支援二維碼、EAN-13、CODE-128 等多種格式</string>
     <string name="about_developer">亻尔女子，我是huidoudour（慧兜兜）</string>
-    <string name="visit_github">ω尋找我ω</string>
+    <string name="visit_github">ω寻找我ω</string>
     <string name="generated_qr_code">生成的二維碼</string>
     <string name="hello_world">Hello World!</string>
     <string name="flashlight_on">閃光燈已開啟</string>
@@ -89,12 +89,12 @@
 
 EAN-13 需要正好 12 位數字，你的是 %1$d 位
 
-能否撤改或選擇使用二維碼來儲存這個內容？</string>
+能否修改或選擇使用二維碼來儲存這個內容？</string>
     <string name="export_ean13_validation_error_chars">條形碼數據不符合規範
 
-EAN-13 只能使用 0-9 數字，你的的數據包含其他字符
+EAN-13 只能使用 0-9 數字，你的數據包含其他字符
 
-能否需要改用二維碼來儲存這個內容？</string>
+是否需要改用二維碼來儲存這個內容？</string>
     
     <!-- History Fragment -->
     <string name="confirm_delete_title">確認刪除</string>
@@ -126,4 +126,49 @@ EAN-13 只能使用 0-9 數字，你的的數據包含其他字符
     <!-- Language Switch -->
     <string name="language_changed">語言已更改</string>
     <string name="theme_changed">主題已更改</string>
+    
+    <!-- Startup Records -->
+    <string name="startup_records_title">啟動記錄</string>
+    <string name="startup_records_empty">暫無啟動記錄</string>
+    <string name="startup_page_main">主要</string>
+    <string name="startup_page_quick">快速</string>
+    <string name="startup_page_label">頁面：%1$s</string>
+    <string name="action_clear_all">清空全部</string>
+    <string name="clear_all_records_title">清空所有記錄</string>
+    <string name="clear_all_records_message">確定要清空所有啟動記錄嗎？此操作不可恢復。</string>
+    <string name="records_cleared_success">記錄已清空</string>
+    <string name="no_records_to_export">沒有記錄可匯出</string>
+    <string name="export_success">匯出成功</string>
+    <string name="export_failed">匯出失敗：%1$s</string>
+    
+    <!-- Theme Settings -->
+    <string name="settings_theme">主題</string>
+    <string name="theme_system">跟隨系統</string>
+    <string name="theme_light">日間模式</string>
+    <string name="theme_dark">夜間模式</string>
+    
+    <!-- JSON Keys for Startup Records -->
+    <string name="json_key_id">ID</string>
+    <string name="json_key_timestamp">時間戳</string>
+    <string name="json_key_startup_page">啟動頁面</string>
+    
+    <!-- Additional UI Strings -->
+    <string name="gallery_feature_not_implemented">相冊功能未實現</string>
+    <string name="scanned_result_format">掃描結果：%1$s</string>
+    <string name="cannot_open_link">無法開啟連結</string>
+    <string name="scan_result_saved">掃描結果已儲存</string>
+    <string name="cannot_read_image">無法讀取圖片</string>
+    <string name="error_processing_image">處理圖片時出錯</string>
+    <string name="no_barcode_detected">未檢測到二維碼</string>
+    <string name="barcode_recognition_failed">二維碼識別失敗</string>
+    <string name="barcode_generation_failed_generic">生成條形碼失敗</string>
+    <string name="input_format_error">輸入格式錯誤</string>
+    <string name="app_icon_theme_default">預設綠色</string>
+    <string name="app_icon_theme_colorful">多彩主題</string>
+    <string name="dialog_title_select_app_icon">選擇應用圖標</string>
+    <string name="toast_icon_changed">圖標已更改，可能需要幾秒鐘生效</string>
+    <string name="table_header_id">ID</string>
+    <string name="table_header_time">時間</string>
+    <string name="table_header_startup_page">啟動頁面</string>
+    <string name="export_data_empty">數據為空</string>
 </resources>

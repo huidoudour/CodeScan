@@ -49,7 +49,7 @@ class QuickScanActivity : BaseActivity() {
         if (isGranted) {
             startCamera()
         } else {
-            Toast.makeText(this, "需要相机权限才能使用扫描功能", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.camera_permission_denied, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -173,7 +173,7 @@ class QuickScanActivity : BaseActivity() {
             toolbar.menu.findItem(R.id.action_flash)?.isEnabled = camera.cameraInfo.hasFlashUnit()
 
         } catch (e: Exception) {
-            Log.e(TAG, "Binding use cases failed", e)
+           Log.e(TAG, "绑定用例失败", e)
         }
     }
 
@@ -204,7 +204,7 @@ class QuickScanActivity : BaseActivity() {
                     startActivity(intent)
                 } catch (e: Exception) {
                     // 如果浏览器不可用，显示错误信息并允许继续扫描
-                    Toast.makeText(this@QuickScanActivity, "无法打开链接", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@QuickScanActivity, R.string.cannot_open_link, Toast.LENGTH_SHORT).show()
                 }
                 isScanning = true  // 操作完成后允许继续扫描
             } else {
@@ -225,20 +225,20 @@ class QuickScanActivity : BaseActivity() {
         val textInputLayout = dialogView.findViewById<TextInputLayout>(R.id.textInputLayout)
         val remarkEditText = dialogView.findViewById<TextInputEditText>(R.id.remarkEditText)
 
-        textInputLayout.hint = "备注（可选）"
+        textInputLayout.hint = getString(R.string.hint_remark_optional)
 
         MaterialAlertDialogBuilder(this@QuickScanActivity, R.style.Theme_CodeScan_Dialog)
-            .setTitle("扫描结果")
+            .setTitle(getString(R.string.dialog_title_scan_result))
             .setMessage(content)
             .setView(dialogView)
-            .setPositiveButton("保存") { dialog, _ ->
+            .setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
                 val remark = remarkEditText.text.toString()
                 saveScanResult(content, codeType, if (remark.isEmpty()) "" else remark)
-                Toast.makeText(this@QuickScanActivity, "扫描结果已保存", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QuickScanActivity, R.string.scan_result_saved, Toast.LENGTH_SHORT).show()
                 isScanning = true  // 保存后允许继续扫描
                 dialog.dismiss()
             }
-            .setNegativeButton("取消") { dialog, _ ->
+            .setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
                 isScanning = true  // 用户取消，允许继续扫描
                 dialog.dismiss()
             }
@@ -274,13 +274,13 @@ class QuickScanActivity : BaseActivity() {
                 camera.cameraControl.enableTorch(!isFlashOn)
                 isFlashOn = !isFlashOn
                 
-                val message = if (isFlashOn) "闪光灯已开启" else "闪光灯已关闭"
+                val message = if (isFlashOn) R.string.flashlight_on else R.string.flashlight_off
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "设备不支持闪光灯", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.flashlight_not_supported, Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Flash toggle failed", e)
+           Log.e(TAG, "闪光灯切换失败", e)
         }
     }
 
@@ -309,11 +309,11 @@ class QuickScanActivity : BaseActivity() {
             if (bitmap != null) {
                 analyzeImageForBarcode(bitmap)
             } else {
-                Toast.makeText(this, "无法读取图片", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.cannot_read_image, Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error processing image from gallery", e)
-            Toast.makeText(this, "处理图片时出错", Toast.LENGTH_SHORT).show()
+           Log.e(TAG, "处理相册图片时出错", e)
+            Toast.makeText(this, R.string.error_processing_image, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -331,12 +331,12 @@ class QuickScanActivity : BaseActivity() {
                     isScanning = true
                     handleScanResult(barcodes[0])
                 } else {
-                    Toast.makeText(this, "未检测到二维码", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.no_barcode_detected, Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener { e ->
-                Log.e(TAG, "Barcode analysis failed", e)
-                Toast.makeText(this, "二维码识别失败", Toast.LENGTH_SHORT).show()
+               Log.e(TAG, "条形码分析失败", e)
+                Toast.makeText(this, R.string.barcode_recognition_failed, Toast.LENGTH_SHORT).show()
             }
     }
 

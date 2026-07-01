@@ -90,12 +90,12 @@
 
 EAN-13 需要正好 12 位数字，你的是 %1$d 位
 
-能否撤改或选择使用二维码来存储这个内容？</string>
+能否修改或选择使用二维码来存储这个内容？</string>
     <string name="export_ean13_validation_error_chars">条形码数据不符合规范
 
-EAN-13 只能使用 0-9 数字，你的的数据包含其他字符
+EAN-13 只能使用 0-9 数字，你的数据包含其他字符
 
-能否需要改用二维码来存储这个内容？</string>
+是否需要改用二维码来存储这个内容？</string>
     
     <!-- History Fragment -->
     <string name="confirm_delete_title">确认删除</string>
@@ -152,4 +152,24 @@ EAN-13 只能使用 0-9 数字，你的的数据包含其他字符
     <string name="json_key_id">ID</string>
     <string name="json_key_timestamp">时间戳</string>
     <string name="json_key_startup_page">启动页面</string>
+    
+    <!-- Additional UI Strings -->
+    <string name="gallery_feature_not_implemented">相册功能未实现</string>
+    <string name="scanned_result_format">扫描结果：%1$s</string>
+    <string name="cannot_open_link">无法打开链接</string>
+    <string name="scan_result_saved">扫描结果已保存</string>
+    <string name="cannot_read_image">无法读取图片</string>
+    <string name="error_processing_image">处理图片时出错</string>
+    <string name="no_barcode_detected">未检测到二维码</string>
+    <string name="barcode_recognition_failed">二维码识别失败</string>
+    <string name="barcode_generation_failed_generic">生成条形码失败</string>
+    <string name="input_format_error">输入格式错误</string>
+    <string name="app_icon_theme_default">默认绿色</string>
+    <string name="app_icon_theme_colorful">多彩主题</string>
+    <string name="dialog_title_select_app_icon">选择应用图标</string>
+    <string name="toast_icon_changed">图标已更改，可能需要几秒钟生效</string>
+    <string name="table_header_id">ID</string>
+    <string name="table_header_time">时间</string>
+    <string name="table_header_startup_page">启动页面</string>
+    <string name="export_data_empty">数据为空</string>
 </resources>

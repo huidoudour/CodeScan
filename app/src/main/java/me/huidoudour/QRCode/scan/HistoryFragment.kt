@@ -190,7 +190,7 @@ class HistoryFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
             .setTitle(getString(R.string.history_clear_all_title))
             .setMessage(getString(R.string.history_clear_all_message))
-            .setPositiveButton("确定") { dialog, _ ->
+            .setPositiveButton(getString(R.string.button_confirm)) { dialog, _ ->
                 dialog.dismiss()
                 // 显示第二级确认
                 showSecondConfirmDialog()
@@ -219,7 +219,7 @@ class HistoryFragment : Fragment() {
             .setTitle(getString(R.string.history_final_confirmation_title))
             .setMessage(getString(R.string.history_final_confirmation_message))
             .setView(dialogView)
-            .setPositiveButton("确定") { dialog, _ ->
+            .setPositiveButton(getString(R.string.button_confirm)) { dialog, _ ->
                 val input = remarkEditText.text.toString().trim()
                 if (input == "clear") {
                     lifecycleScope.launch {
@@ -297,7 +297,7 @@ class HistoryFragment : Fragment() {
         pendingExportJson = null
         
         if (json == null) {
-            Toast.makeText(requireContext(), getString(R.string.history_export_failed, "数据为空"), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.history_export_failed, getString(R.string.export_data_empty)), Toast.LENGTH_SHORT).show()
             return
         }
 

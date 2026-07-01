@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="8dp">
+
+    <!-- 顶部行：码类型 + 单条保存按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- 码类型标签 -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/codeTypeChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            app:chipBackgroundColor="?attr/colorPrimaryContainer"
+            app:chipMinHeight="24dp"
+            android:paddingHorizontal="2dp"
+            android:clickable="false"
+            android:checkable="false"
+            style="@style/Widget.Material3.Chip.Suggestion" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- 单个保存按钮 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="32dp"
+            android:text="@string/button_save"
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+            style="@style/Widget.Material3.Button.TextButton" />
+
+    </LinearLayout>
+
+    <!-- 扫描结果内容 -->
+    <TextView
+        android:id="@+id/resultContentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="?attr/colorOnSurface"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:textIsSelectable="true" />
+
+    <!-- 备注输入 -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/itemTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_remark_optional"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:hintTextColor="?attr/colorPrimary"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/itemRemarkEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurface"
+            android:maxLines="2"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

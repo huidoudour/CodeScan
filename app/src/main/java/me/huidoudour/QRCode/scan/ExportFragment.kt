@@ -99,14 +99,14 @@ class ExportFragment : Fragment() {
                 }
                 Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
             } else {
-                val errorMsg = e.message ?: "生成条形码失败"
+                val errorMsg = e.message ?: getString(R.string.barcode_generation_failed_generic)
                 Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
             }
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
             val errorMsg = when {
                 format == BarcodeFormat.EAN_13 -> getString(R.string.export_ean13_format_invalid)
-                else -> e.message ?: "输入格式错误"
+                else -> e.message ?: getString(R.string.input_format_error)
             }
             Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
         }

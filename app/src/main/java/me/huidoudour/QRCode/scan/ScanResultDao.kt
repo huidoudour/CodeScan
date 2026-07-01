@@ -11,6 +11,9 @@ interface ScanResultDao {
     @Insert
     suspend fun insert(scanResult: ScanResult)
 
+    @Insert
+    suspend fun insertAll(scanResults: List<ScanResult>)
+
     @Query("SELECT * FROM scan_results ORDER BY timestamp DESC")
     suspend fun getAll(): List<ScanResult>
 

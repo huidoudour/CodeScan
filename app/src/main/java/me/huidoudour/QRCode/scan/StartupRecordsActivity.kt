@@ -75,17 +75,17 @@ class StartupRecordsActivity : BaseActivity() {
         // 添加表头
         val headerRow = LayoutInflater.from(this).inflate(R.layout.item_table_row, tableLayout, false) as TableRow
         (headerRow.findViewById<TextView>(R.id.tvId)).apply {
-            text = "ID"
+            text = getString(R.string.table_header_id)
             setTextColor(getColor(android.R.color.darker_gray))
             textSize = 14f
         }
         (headerRow.findViewById<TextView>(R.id.tvTime)).apply {
-            text = "时间"
+            text = getString(R.string.table_header_time)
             setTextColor(getColor(android.R.color.darker_gray))
             textSize = 14f
         }
         (headerRow.findViewById<TextView>(R.id.tvPage)).apply {
-            text = "启动页面"
+            text = getString(R.string.table_header_startup_page)
             setTextColor(getColor(android.R.color.darker_gray))
             textSize = 14f
         }
@@ -255,7 +255,7 @@ class StartupRecordsActivity : BaseActivity() {
             .setTitle(getString(R.string.history_final_confirmation_title))
             .setMessage(getString(R.string.history_final_confirmation_message))
             .setView(dialogView)
-            .setPositiveButton("确定") { dialog, _ ->
+            .setPositiveButton(getString(R.string.button_confirm)) { dialog, _ ->
                 val input = remarkEditText.text.toString().trim()
                 if (input == "clear") {
                     lifecycleScope.launch(Dispatchers.IO) {
