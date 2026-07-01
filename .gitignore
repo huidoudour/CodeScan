@@ -1,12 +1,9 @@
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+/.idea/
+!/.idea/icon.svg
+!/.idea/.name
 .DS_Store
 /build
 /captures
@@ -19,7 +16,7 @@ log.txt
 /IMPROVEMENTS.md
 /QUICK_START.md
 /.kotlin/app-debug.apk
-/.idea/
+
 /.kotlin
 /.lingma
 /.cache

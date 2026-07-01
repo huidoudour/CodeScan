@@ -30,6 +30,10 @@ android {
         }
     }
 
+    val useSignKey = rootProject.hasProperty("storeFile") &&
+        rootProject.hasProperty("storePassword") &&
+        rootProject.hasProperty("keyAlias") &&
+        rootProject.hasProperty("keyPassword")
     signingConfigs {
         create("config") {
             // 如果在工作流环境中使用命令行参数传入签名信息，则使用这些参数
@@ -38,6 +42,19 @@ android {
                 storePassword = System.getProperty("android.injected.signing.store.password")
                 keyAlias = System.getProperty("android.injected.signing.key.alias")
                 keyPassword = System.getProperty("android.injected.signing.key.password")
+                enableV1Signing = true
+                enableV2Signing = true
+                enableV3Signing = true
+                enableV4Signing = false
+            }
+        }
+        if (useSignKey) {
+            create("sign_key") {
+                storeFile = file(rootProject.property("storeFile") as String)
+                storePassword = rootProject.property("storePassword") as String
+                keyAlias = rootProject.property("keyAlias") as String
+                keyPassword = rootProject.property("keyPassword") as String
+                enableV1Signing = true
                 enableV2Signing = true
                 enableV3Signing = true
                 enableV4Signing = false
@@ -53,7 +70,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("config")
+            signingConfig = if (useSignKey) signingConfigs.getByName("sign_key") else signingConfigs.getByName("config")
         }
         debug {
             isMinifyEnabled = false
@@ -122,9 +139,4 @@ dependencies {
 
     //MT管理器文件提供器
     debugImplementation(libs.mt.data.files.provider.debug)
-    implementation(libs.mt.data.files.provider)
-
-    // SQLite Android
-    debugImplementation(libs.sqlite.android)
-    implementation(libs.sqlite.android)
 }

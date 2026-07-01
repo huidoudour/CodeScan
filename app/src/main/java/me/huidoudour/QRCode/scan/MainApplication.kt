@@ -44,8 +44,8 @@ class MainApplication : Application() {
     
     private fun recordAppStartup(page: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val dbHelper = StartupRecordDatabaseHelper(this@MainApplication)
-            dbHelper.insertRecord(System.currentTimeMillis(), page)
+            val dao = AppDatabase.getDatabase(this@MainApplication).startupRecordDao()
+            dao.insert(AppStartupRecord(timestamp = System.currentTimeMillis(), startupPage = page))
         }
     }
 }

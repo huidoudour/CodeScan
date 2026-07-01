@@ -24,7 +24,7 @@ import java.util.Locale
 class StartupRecordsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityStartupRecordsBinding
-    private lateinit var dbHelper: StartupRecordDatabaseHelper
+    private lateinit var dao: StartupRecordDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +34,8 @@ class StartupRecordsActivity : BaseActivity() {
         // 设置状态栏文字颜色适配
         updateStatusBarStyle()
 
-        // 初始化数据库助手
-        dbHelper = StartupRecordDatabaseHelper(this)
+        // 初始化 DAO
+        dao = AppDatabase.getDatabase(this).startupRecordDao()
 
         // 设置 Toolbar
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
@@ -48,7 +48,7 @@ class StartupRecordsActivity : BaseActivity() {
 
     private fun loadStartupRecords() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val records = dbHelper.getAllRecords()
+            val records = dao.getAll()
             
             launch(Dispatchers.Main) {
                 if (records.isEmpty()) {
@@ -131,7 +131,7 @@ class StartupRecordsActivity : BaseActivity() {
     private fun exportRecords() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val records = dbHelper.getAllRecords()
+                val records = dao.getAll()
 
                 if (records.isEmpty()) {
                     launch(Dispatchers.Main) {
@@ -187,7 +187,7 @@ class StartupRecordsActivity : BaseActivity() {
                 contentResolver.openOutputStream(uri)?.use { outputStream ->
                     lifecycleScope.launch(Dispatchers.IO) {
                         try {
-                            val records = dbHelper.getAllRecords()
+                            val records = dao.getAll()
 
                             val jsonBuilder = StringBuilder("[")
                             records.forEachIndexed { index, record ->
@@ -259,7 +259,7 @@ class StartupRecordsActivity : BaseActivity() {
                 val input = remarkEditText.text.toString().trim()
                 if (input == "clear") {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        dbHelper.deleteAllRecords()
+                        dao.deleteAll()
                         launch(Dispatchers.Main) {
                             Toast.makeText(
                                 this@StartupRecordsActivity,

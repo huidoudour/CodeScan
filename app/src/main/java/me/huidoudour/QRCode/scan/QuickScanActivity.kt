@@ -364,8 +364,8 @@ class QuickScanActivity : BaseActivity() {
     
     private fun recordAppStartup(page: String) {
         lifecycleScope.launch(Dispatchers.IO) {
-            val dbHelper = StartupRecordDatabaseHelper(this@QuickScanActivity)
-            dbHelper.insertRecord(System.currentTimeMillis(), page)
+            val dao = AppDatabase.getDatabase(this@QuickScanActivity).startupRecordDao()
+            dao.insert(AppStartupRecord(timestamp = System.currentTimeMillis(), startupPage = page))
         }
     }
 

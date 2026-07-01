@@ -10,6 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @Database(entities = [ScanResult::class, AppStartupRecord::class], version = 5, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun scanResultDao(): ScanResultDao
+    abstract fun startupRecordDao(): StartupRecordDao
 
     companion object {
         @Volatile

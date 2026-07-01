@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 108 108">
+  <!-- 背景阴影层 -->
+  <path d="M 8 0 H 100 A 8 8 0 0 1 108 8 V 100 A 8 8 0 0 1 100 108 H 8 A 8 8 0 0 1 0 100 V 8 A 8 8 0 0 1 8 0 Z" 
+        fill="#2A5F2A" opacity="0.15"/>
+  
+  <!-- 主背景 -->
+  <path d="M 8 0 H 100 A 8 8 0 0 1 108 8 V 100 A 8 8 0 0 1 100 108 H 8 A 8 8 0 0 1 0 100 V 8 A 8 8 0 0 1 8 0 Z" 
+        fill="#D8F5C5"/>
+  
+  <!-- 前景图形组（缩放0.7） -->
+  <g transform="translate(54, 54) scale(0.7) translate(-54, -54)">
+    <!-- 左上角方框 -->
+    <rect x="30" y="30" width="18" height="18" 
+          stroke="#2A5F2A" stroke-width="6" fill="none" 
+          stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- 右上角方框 -->
+    <rect x="60" y="30" width="18" height="18" 
+          stroke="#2A5F2A" stroke-width="6" fill="none" 
+          stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- 左下角方框 -->
+    <rect x="30" y="60" width="18" height="18" 
+          stroke="#2A5F2A" stroke-width="6" fill="none" 
+          stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- 右下角竖线1 -->
+    <line x1="60" y1="60" x2="60" y2="78" 
+          stroke="#4A8F4A" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- 右下角竖线2 -->
+    <line x1="69" y1="60" x2="69" y2="78" 
+          stroke="#4A8F4A" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- 右下角竖线3 -->
+    <line x1="78" y1="60" x2="78" y2="78" 
+          stroke="#4A8F4A" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>
