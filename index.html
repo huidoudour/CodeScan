@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>CodeScan - 二维码扫描应用</title>
+    <link rel="icon" type="image/svg+xml" href="ic_colorful.svg">
+    <link rel="alternate icon" type="image/png" href="ic_launcher_transparent.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css?v=20260502">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="app-icon">
+                <img src="ic_colorful.svg" alt="CodeScan Icon" onerror="this.src='./ic_normal.svg'; this.onerror=null;">
+            </div>
+            <h1>CodeScan 二维码扫描应用</h1>
+            <p class="subtitle">快速、准确、易用的二维码扫描解决方案</p>
+            <a href="https://github.com/huidoudour/CodeScan" target="_blank" class="github-link">
+                <i class="fab fa-github"></i> 访问 GitHub 仓库
+            </a>
+        </header>
+
+        <section class="intro">
+            <p>CodeScan 是一款功能强大的二维码和条形码扫描应用，采用先进的图像处理技术，支持多种格式的快速识别。所有数据本地处理，确保您的隐私安全。</p>
+        </section>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h3 class="feature-title">快速扫描</h3>
+                <p class="feature-desc">使用先进的图像处理技术，快速识别各种二维码和条形码，支持多种格式包括QR码、Data Matrix、PDF417等。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">高效处理</h3>
+                <p class="feature-desc">优化的算法确保在各种光照条件下都能准确识别，支持连续扫描和批量处理功能。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3 class="feature-title">历史记录</h3>
+                <p class="feature-desc">自动保存扫描历史，方便您随时查看和管理之前的扫描结果，支持搜索和导出功能。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h3 class="feature-title">智能编辑</h3>
+                <p class="feature-desc">扫描后可直接编辑内容，支持复制、分享、保存等多种操作，满足不同使用场景需求。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">隐私安全</h3>
+                <p class="feature-desc">所有数据本地处理，无需网络连接，确保您的隐私安全，扫描内容不会上传到任何服务器。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="feature-title">多平台支持</h3>
+                <p class="feature-desc">基于Android平台开发，适配各种设备尺寸，提供流畅的用户体验和现代化的界面设计。</p>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">6+</div>
+                <div class="stat-label">核心功能</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">2026</div>
+                <div class="stat-label">持续更新</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">开源</div>
+                <div class="stat-label">完全免费</div>
+            </div>
+        </div>
+
+        <section class="download-section">
+            <h2>下载应用</h2>
+            <div class="download-options">
+                <div class="download-option">
+                    <h4>通用版本</h4>
+                    <p>支持所有Android设备</p>
+                </div>
+                <div class="download-option">
+                    <h4>ARM64-v8a</h4>
+                    <p>为64位设备优化</p>
+                </div>
+                <div class="download-option">
+                    <h4>定期构建</h4>
+                    <p>最新功能预览版本</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 CodeScan | 由 huidoudour 开发</p>
+            <p>最后更新日期: <span id="currentDate"></span></p>
+            <div class="footer-links">
+                <a href="https://github.com/huidoudour" class="footer-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <span class="link-separator">|</span>
+                <a href="https://github.com/huidoudour/CodeScan/issues" class="footer-link" target="_blank">
+                    <i class="fas fa-bug"></i> 反馈问题
+                </a>
+                <span class="link-separator">|</span>
+                <a href="https://github.com/huidoudour/CodeScan/releases" class="footer-link" target="_blank">
+                    <i class="fas fa-download"></i> 下载
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>
