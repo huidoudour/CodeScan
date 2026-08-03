@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CodeScan</string>
+    <string name="dis_name">QRCodeScan</string>
     <string name="app_version">v3.0</string>
     <string name="toast_ean13_length_error">Input must be 12 digits long for EAN-13</string>
     <string name="toast_generation_error">Error generating code: %1$s</string>

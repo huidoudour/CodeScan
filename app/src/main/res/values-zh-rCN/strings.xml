@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CodeScan</string>
+    <string name="dis_name">图形码扫描</string>
     <string name="app_version">v3.0</string>
     <string name="button_rescan">重新扫描</string>
     <string name="toast_saved">已保存</string>

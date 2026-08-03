@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CodeScan</string>
+    <string name="dis_name">QRCodeScan</string>
     <string name="app_version">v3.0</string>
     <string name="button_rescan">再スキャン</string>
     <string name="toast_saved">保存しました</string>

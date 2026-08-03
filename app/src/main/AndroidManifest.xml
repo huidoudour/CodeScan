@@ -23,6 +23,7 @@
             android:name=".MainActivity"
             android:exported="false"
             android:launchMode="singleTask"
+            android:label="@string/dis_name"
             android:enabled="false" />
         
         <!-- 默认绿色图标 -->
