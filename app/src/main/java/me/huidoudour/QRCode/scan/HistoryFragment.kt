@@ -1,5 +1,6 @@
 package me.huidoudour.QRCode.scan
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,19 +34,25 @@ class HistoryFragment : Fragment() {
     private lateinit var adapter: HistoryAdapter
     private lateinit var jsonFileManager: JsonFileManager
     
-    // 文件选择器（导入用）
-    private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { importFromJson(it) }
+    // 文件选择器（导入用），优先使用 FileManager，未安装则回退系统 SAF
+    private val filePickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri -> importFromJson(uri) }
+        }
     }
 
     // 暂存待导出的 JSON 数据，供 SAF 回调使用
     private var pendingExportJson: String? = null
 
-    // SAF 创建文件启动器（导出用）
+    // 文件创建启动器（导出用），优先使用 FileManager，未安装则回退系统 SAF
     private val createDocumentLauncher = registerForActivityResult(
-        ActivityResultContracts.CreateDocument("application/json")
-    ) { uri: Uri? ->
-        uri?.let { writeJsonToUri(it) }
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri -> writeJsonToUri(uri) }
+        }
     }
 
     override fun onCreateView(
@@ -80,7 +87,8 @@ class HistoryFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_import_json -> {
-                    filePickerLauncher.launch("application/json")
+                    val intent = FileManagerHelper.buildOpenFileIntent(requireContext(), "application/json")
+                    filePickerLauncher.launch(intent)
                     true
                 }
                 R.id.action_clear_all -> {
@@ -256,9 +264,10 @@ class HistoryFragment : Fragment() {
                 val json = convertToJson(scanResults)
                 pendingExportJson = json
                 
-                // 使用 SAF 让用户选择保存位置
+                // 优先使用 FileManager 选择保存位置，未安装则回退系统 SAF
                 val exportFileName = jsonFileManager.getExportFileName()
-                createDocumentLauncher.launch(exportFileName)
+                val intent = FileManagerHelper.buildCreateFileIntent(requireContext(), exportFileName, "application/json")
+                createDocumentLauncher.launch(intent)
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(requireContext(), getString(R.string.history_export_failed, e.message), Toast.LENGTH_LONG).show()

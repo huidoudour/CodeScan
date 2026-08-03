@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# ── 剥离未使用的 Google Play Services / datatransport 残留 ──
+# 如果 Gradle exclude 未能完全阻止传递依赖，R8 会在 release 构建时彻底移除
+-dontwarn com.google.android.datatransport.**
+-dontwarn com.google.android.gms.common.api.GoogleApiActivity

@@ -1,7 +1,38 @@
+@file:Suppress("DEPRECATION")
+import java.text.SimpleDateFormat
+import java.util.Date
+
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+}
+
+// ── Git 版本控制 ──
+val baseVersionCode = 300
+val baseVersionName = "3.6"
+val backVersionCode = 368
+
+fun Project.gitCommitCount(): Int = try {
+    providers.exec { commandLine("git", "rev-list", "--count", "HEAD") }
+        .standardOutput.asText.get().trim().toInt()
+} catch (_: Exception) { backVersionCode }
+
+fun Project.gitHash(): String = try {
+    providers.exec { commandLine("git", "rev-parse", "--short=7", "HEAD") }
+        .standardOutput.asText.get().trim()
+} catch (_: Exception) {
+    SimpleDateFormat("MMddHHmm").format(Date())
+}
+
+// 统一计算版本信息，供 defaultConfig 与构建结束打印共用
+val appVersionCode = baseVersionCode + gitCommitCount()
+val appVersionName = "${baseVersionName}.${gitCommitCount()}.${gitHash()}"
+
+// 构建结束后打印版本号（assemble/bundle 任务完成时输出）
+tasks.matching { it.name.startsWith("assemble") || it.name.startsWith("bundle") }.configureEach {
+    doLast {
+        println(">>>[$name]:OK | Version $appVersionName($appVersionCode)<<<")
+    }
 }
 
 android {
@@ -14,8 +45,8 @@ android {
         minSdk = 29
         //noinspection OldTargetApi
         targetSdk = 34
-        versionCode = 368
-        versionName = "3.6.9"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,20 +65,8 @@ android {
         rootProject.hasProperty("storePassword") &&
         rootProject.hasProperty("keyAlias") &&
         rootProject.hasProperty("keyPassword")
+
     signingConfigs {
-        create("config") {
-            // 如果在工作流环境中使用命令行参数传入签名信息，则使用这些参数
-            if (System.getProperty("android.injected.signing.store.file") != null) {
-                storeFile = file(System.getProperty("android.injected.signing.store.file"))
-                storePassword = System.getProperty("android.injected.signing.store.password")
-                keyAlias = System.getProperty("android.injected.signing.key.alias")
-                keyPassword = System.getProperty("android.injected.signing.key.password")
-                enableV1Signing = true
-                enableV2Signing = true
-                enableV3Signing = true
-                enableV4Signing = false
-            }
-        }
         if (useSignKey) {
             create("sign_key") {
                 storeFile = file(rootProject.property("storeFile") as String)
@@ -63,6 +82,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig = if (useSignKey) {
+                signingConfigs.getByName("sign_key")
+            } else {
+                signingConfigs.getByName("debug")
+            }
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -70,24 +96,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = if (useSignKey) signingConfigs.getByName("sign_key") else signingConfigs.getByName("config")
-        }
-        debug {
-            isMinifyEnabled = false
-            // Debug模式只在有签名参数时才使用签名配置
-            if (System.getProperty("android.injected.signing.store.file") != null) {
-                signingConfig = signingConfigs.getByName("config")
+            signingConfig = if (useSignKey) {
+                signingConfigs.getByName("sign_key")
+            } else {
+                signingConfigs.getByName("debug")
             }
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
     }
     buildFeatures {
         viewBinding = true
@@ -128,5 +146,8 @@ dependencies {
     implementation(libs.zxing.android.embedded)
 
     //MT管理器文件提供器
-    debugImplementation(libs.mt.data.files.provider.debug)
+    implementation(libs.mt.data.files.provider)
+
+    debugImplementation(libs.rxjava)
+    debugImplementation(libs.rxandroid)
 }

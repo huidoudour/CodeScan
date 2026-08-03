@@ -2,10 +2,18 @@
 <manifest xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+    <!-- Android 11+ 包可见性：声明需要查询 FileManager 是否已安装 -->
+    <queries>
+        <package android:name="me.huidoudour.file.manager" />
+    </queries>
+
+    <uses-permission
+        android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
-    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-feature
+        android:name="android.hardware.camera.any" />
 
     <application
         android:name=".MainApplication"
@@ -70,7 +78,7 @@
             android:exported="true"
             android:icon="@mipmap/ic_launcher_quick"
             android:roundIcon="@mipmap/ic_launcher_round_quick"
-            android:enabled="true">
+            android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -117,6 +125,22 @@
         <meta-data
             android:name="me.huidoudour.core.version"
             android:value="37" />
+        <meta-data
+            android:name="me.huidoudour.file.manager"
+            android:value="true" />
+
+        <!-- 移除传递依赖带入的多余组件 -->
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            tools:node="remove" />
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            tools:node="remove" />
+
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            tools:node="remove" />
 
     </application>
 

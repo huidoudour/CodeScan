@@ -1,6 +1,7 @@
 [versions]
-agp = "8.13.1"
-kotlin = "2.1.20"
+#noinspection AndroidGradlePluginVersion
+agp = "9.0.0"
+kotlin = "2.2.10"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -14,11 +15,12 @@ zxingEmbedded = "4.3.0"
 camera = "1.6.0"
 room = "2.8.4"
 mtDataFilesProvider = "v1.0.0"
-ksp = "2.1.20-1.0.31"
+ksp = "2.3.6"
 mlkitBarcodeScanning = "17.3.0"
 guava = "33.0.0-android"
 concurrentFutures = "1.2.0"
-sqliteAndroid = "3.49.0"
+rxandroid = "3.0.2"
+rxjava = "3.1.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,12 +40,12 @@ androidx-camera-view = { group = "androidx.camera", name = "camera-view", versio
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-mt-data-files-provider-debug = { group = "com.github.L-JINBIN", name = "MTDataFilesProvider", version.ref = "mtDataFilesProvider" }
 mt-data-files-provider = { group = "com.github.L-JINBIN", name = "MTDataFilesProvider", version.ref = "mtDataFilesProvider" }
 mlkit-barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "mlkitBarcodeScanning" }
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 androidx-concurrent-futures = { group = "androidx.concurrent", name = "concurrent-futures", version.ref = "concurrentFutures" }
-sqlite-android = { group = "com.github.requery", name = "sqlite-android", version.ref = "sqliteAndroid" }
+rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
+rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
