@@ -7,6 +7,8 @@ import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
 import android.util.Log
+import androidx.core.content.FileProvider
+import java.io.File
 
 /**
  * 文件管理器辅助类
@@ -20,6 +22,9 @@ object FileManagerHelper {
 
     /** FileManager 应用的包名 */
     const val FILE_MANAGER_PACKAGE = "me.huidoudour.file.manager"
+
+    /** FileManager 应用的主 Activity */
+    private const val FILE_MANAGER_ACTIVITY = "$FILE_MANAGER_PACKAGE.MainActivity"
 
     /** FileManager DocumentsProvider 的 authority */
     private const val FILE_MANAGER_DOCUMENTS_AUTHORITY = "me.huidoudour.file.manager.documents"
@@ -44,10 +49,6 @@ object FileManagerHelper {
      *
      * 优先使用 FileManager 的文件选择功能（ACTION_GET_CONTENT + 指定包名），
      * 如果 FileManager 未安装则回退到系统 SAF（ACTION_OPEN_DOCUMENT）。
-     *
-     * @param context  上下文
-     * @param mimeType 文件 MIME 类型，如 "application/json"、"image/*"、"*/*"
-     * @return 构建好的 Intent，可直接传给 ActivityResultLauncher
      */
     fun buildOpenFileIntent(context: Context, mimeType: String): Intent {
         return if (isFileManagerInstalled(context)) {
@@ -67,47 +68,37 @@ object FileManagerHelper {
     }
 
     /**
-     * 构建保存/创建文件的 Intent
+     * 构建通过 ACTION_SEND 分享导出文件到 FileManager 的 Intent。
      *
-     * 如果 FileManager 已安装，会通过 [DocumentsContract.EXTRA_INITIAL_URI]
-     * 将系统文件选择器的初始位置设置为 FileManager 的 DocumentsProvider 根目录，
-     * 用户可直接在 FileManager 的存储视图中选择保存位置。
-     * 如果 FileManager 未安装则使用标准 SAF 创建文件对话框。
+     * 先将数据写入缓存文件，再通过 FileProvider 生成 content URI，
+     * 最后用 ACTION_SEND 直接发给 FileManager 处理保存。
      *
-     * @param context  上下文
-     * @param fileName 建议的文件名
-     * @param mimeType 文件 MIME 类型
-     * @return 构建好的 Intent
+     * @param context    上下文（用于 FileProvider.getUriForFile）
+     * @param cacheFile  已写入数据的缓存文件
+     * @param mimeType   文件 MIME 类型
+     * @return 构建好的 Intent，可直接传给 ActivityResultLauncher
      */
-    fun buildCreateFileIntent(
+    fun buildShareExportIntent(
         context: Context,
-        fileName: String,
+        cacheFile: File,
         mimeType: String
     ): Intent {
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+        val uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider",
+            cacheFile
+        )
+        return Intent(Intent.ACTION_SEND).apply {
             setType(mimeType)
-            addCategory(Intent.CATEGORY_OPENABLE)
-            putExtra(Intent.EXTRA_TITLE, fileName)
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            setClassName(FILE_MANAGER_PACKAGE, FILE_MANAGER_ACTIVITY)
+            Log.d(TAG, "ACTION_SEND 导出到 FileManager: uri=$uri")
         }
-
-        // 如果 FileManager 已安装，设置初始 URI 指向 FileManager 的根目录
-        if (isFileManagerInstalled(context) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val rootUri = DocumentsContract.buildRootUri(
-                FILE_MANAGER_DOCUMENTS_AUTHORITY,
-                DOCUMENTS_ROOT_ID
-            )
-            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, rootUri)
-            Log.d(TAG, "使用 FileManager DocumentsProvider 作为保存初始位置")
-        } else {
-            Log.d(TAG, "使用系统 SAF 保存文件")
-        }
-
-        return intent
     }
 
     /**
      * 获取 FileManager 的 DocumentsProvider 根 Uri
-     * 可用于直接导航到 FileManager 的存储视图
      */
     fun getFileManagerRootUri(): Uri {
         return DocumentsContract.buildRootUri(

@@ -20,6 +20,7 @@ import me.huidoudour.QRCode.scan.databinding.FragmentHistoryBinding
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -43,16 +44,23 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    // 暂存待导出的 JSON 数据，供 SAF 回调使用
+    // 暂存待导出的 JSON 数据，供 SAF 回退时使用
     private var pendingExportJson: String? = null
 
-    // 文件创建启动器（导出用），优先使用 FileManager，未安装则回退系统 SAF
-    private val createDocumentLauncher = registerForActivityResult(
+    // 导出到 FileManager（ACTION_SEND）
+    private val exportToFileManagerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri -> writeJsonToUri(uri) }
+            Toast.makeText(requireContext(), getString(R.string.export_success), Toast.LENGTH_SHORT).show()
         }
+    }
+
+    // SAF 回退导出（FileManager 未安装时）
+    private val safExportLauncher = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("application/json")
+    ) { uri ->
+        uri?.let { writeJsonToUri(it) }
     }
 
     override fun onCreateView(
@@ -252,25 +260,44 @@ class HistoryFragment : Fragment() {
     }
     
     private fun exportAllRecords() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val scanResults = db.scanResultDao().getAll()
                 
                 if (scanResults.isEmpty()) {
-                    Toast.makeText(requireContext(), getString(R.string.history_no_records_to_export), Toast.LENGTH_SHORT).show()
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), getString(R.string.history_no_records_to_export), Toast.LENGTH_SHORT).show()
+                    }
                     return@launch
                 }
                 
                 val json = convertToJson(scanResults)
-                pendingExportJson = json
                 
-                // 优先使用 FileManager 选择保存位置，未安装则回退系统 SAF
-                val exportFileName = jsonFileManager.getExportFileName()
-                val intent = FileManagerHelper.buildCreateFileIntent(requireContext(), exportFileName, "application/json")
-                createDocumentLauncher.launch(intent)
+                if (FileManagerHelper.isFileManagerInstalled(requireContext())) {
+                    // FileManager 已安装：写缓存文件 → ACTION_SEND 发送
+                    val dir = File(requireContext().cacheDir, "shared")
+                    if (!dir.exists()) dir.mkdirs()
+                    val exportFile = File(dir, jsonFileManager.getExportFileName())
+                    exportFile.writeText(json, Charsets.UTF_8)
+                    
+                    launch(Dispatchers.Main) {
+                        val intent = FileManagerHelper.buildShareExportIntent(
+                            requireContext(), exportFile, "application/json"
+                        )
+                        exportToFileManagerLauncher.launch(intent)
+                    }
+                } else {
+                    // FileManager 未安装：SAF 回退
+                    pendingExportJson = json
+                    launch(Dispatchers.Main) {
+                        safExportLauncher.launch(jsonFileManager.getExportFileName())
+                    }
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(requireContext(), getString(R.string.history_export_failed, e.message), Toast.LENGTH_LONG).show()
+                launch(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), getString(R.string.history_export_failed, e.message), Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

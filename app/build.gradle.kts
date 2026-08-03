@@ -147,7 +147,4 @@ dependencies {
 
     //MT管理器文件提供器
     implementation(libs.mt.data.files.provider)
-
-    debugImplementation(libs.rxjava)
-    debugImplementation(libs.rxandroid)
 }

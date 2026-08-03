@@ -12,6 +12,15 @@
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
+
+    <!-- 显式移除传递依赖（play-services-base 等）带入的联网权限 -->
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        tools:node="remove" />
+
     <uses-feature
         android:name="android.hardware.camera.any" />
 
@@ -129,7 +138,7 @@
             android:name="me.huidoudour.file.manager"
             android:value="true" />
 
-        <!-- 移除传递依赖带入的多余组件 -->
+        <!-- 移除开发者认为的多余组件 -->
         <service
             android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
             tools:node="remove" />
@@ -140,6 +149,10 @@
 
         <service
             android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            tools:node="remove" />
+
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
             tools:node="remove" />
 
     </application>

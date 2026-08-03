@@ -17,6 +17,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.huidoudour.QRCode.scan.databinding.ActivityStartupRecordsBinding
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -128,6 +129,39 @@ class StartupRecordsActivity : BaseActivity() {
         }
     }
 
+    // 导出到 FileManager（ACTION_SEND）
+    private val exportToFileManagerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            Toast.makeText(this, getString(R.string.export_success), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // SAF 回退导出（FileManager 未安装时）
+    private val safExportLauncher = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("application/json")
+    ) { uri ->
+        if (uri != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    val records = dao.getAll()
+                    val json = buildExportJson(records)
+                    contentResolver.openOutputStream(uri)?.use { os ->
+                        os.write(json.toByteArray(Charsets.UTF_8))
+                    }
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(this@StartupRecordsActivity, getString(R.string.export_success), Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(this@StartupRecordsActivity, getString(R.string.export_failed, e.message), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+    }
+
     private fun exportRecords() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -135,93 +169,53 @@ class StartupRecordsActivity : BaseActivity() {
 
                 if (records.isEmpty()) {
                     launch(Dispatchers.Main) {
-                        Toast.makeText(
-                            this@StartupRecordsActivity,
-                            getString(R.string.no_records_to_export),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this@StartupRecordsActivity, getString(R.string.no_records_to_export), Toast.LENGTH_SHORT).show()
                     }
                     return@launch
                 }
 
-                // 构建 JSON
-                val jsonBuilder = StringBuilder("[")
-                records.forEachIndexed { index, record ->
-                    if (index > 0) jsonBuilder.append(",")
-                    jsonBuilder.append("{")
-                    jsonBuilder.append("\"").append(getString(R.string.json_key_id)).append("\":\"").append(record.id).append("\",")
-                    jsonBuilder.append("\"").append(getString(R.string.json_key_timestamp)).append("\":\"").append(formatTimestamp(record.timestamp)).append("\",")
-                    jsonBuilder.append("\"").append(getString(R.string.json_key_startup_page)).append("\":\"").append(getPageDisplayName(record.startupPage)).append("\"")
-                    jsonBuilder.append("}")
+                val json = buildExportJson(records)
+
+                if (FileManagerHelper.isFileManagerInstalled(this@StartupRecordsActivity)) {
+                    // FileManager 已安装：写缓存文件 → ACTION_SEND 发送
+                    val dir = File(cacheDir, "shared")
+                    if (!dir.exists()) dir.mkdirs()
+                    val exportFile = File(dir, "startup_records_${System.currentTimeMillis()}.json")
+                    exportFile.writeText(json, Charsets.UTF_8)
+
+                    launch(Dispatchers.Main) {
+                        val intent = FileManagerHelper.buildShareExportIntent(
+                            this@StartupRecordsActivity, exportFile, "application/json"
+                        )
+                        exportToFileManagerLauncher.launch(intent)
+                    }
+                } else {
+                    // FileManager 未安装：SAF 回退
+                    launch(Dispatchers.Main) {
+                        safExportLauncher.launch("startup_records_${System.currentTimeMillis()}.json")
+                    }
                 }
-                jsonBuilder.append("]")
-
-                val jsonContent = jsonBuilder.toString()
-
-                // 导出文件
-                val fileName = "startup_records_${System.currentTimeMillis()}.json"
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "application/json"
-                    putExtra(Intent.EXTRA_TITLE, fileName)
-                }
-
-                createDocumentLauncher.launch(intent)
             } catch (e: Exception) {
+                e.printStackTrace()
                 launch(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@StartupRecordsActivity,
-                        getString(R.string.export_failed, e.message),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@StartupRecordsActivity, getString(R.string.export_failed, e.message), Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    private val createDocumentLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.data?.let { uri ->
-                contentResolver.openOutputStream(uri)?.use { outputStream ->
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        try {
-                            val records = dao.getAll()
-
-                            val jsonBuilder = StringBuilder("[")
-                            records.forEachIndexed { index, record ->
-                                if (index > 0) jsonBuilder.append(",")
-                                jsonBuilder.append("{")
-                                jsonBuilder.append("\"").append(getString(R.string.json_key_id)).append("\":\"").append(record.id).append("\",")
-                                jsonBuilder.append("\"").append(getString(R.string.json_key_timestamp)).append("\":\"").append(formatTimestamp(record.timestamp)).append("\",")
-                                jsonBuilder.append("\"").append(getString(R.string.json_key_startup_page)).append("\":\"").append(getPageDisplayName(record.startupPage)).append("\"")
-                                jsonBuilder.append("}")
-                            }
-                            jsonBuilder.append("]")
-
-                            outputStream.write(jsonBuilder.toString().toByteArray())
-                            
-                            launch(Dispatchers.Main) {
-                                Toast.makeText(
-                                    this@StartupRecordsActivity,
-                                    getString(R.string.export_success),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        } catch (e: Exception) {
-                            launch(Dispatchers.Main) {
-                                Toast.makeText(
-                                    this@StartupRecordsActivity,
-                                    getString(R.string.export_failed, e.message),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
-                    }
-                }
-            }
+    private fun buildExportJson(records: List<AppStartupRecord>): String {
+        val jsonBuilder = StringBuilder("[")
+        records.forEachIndexed { index, record ->
+            if (index > 0) jsonBuilder.append(",")
+            jsonBuilder.append("{")
+            jsonBuilder.append("\"").append(getString(R.string.json_key_id)).append("\":\"").append(record.id).append("\",")
+            jsonBuilder.append("\"").append(getString(R.string.json_key_timestamp)).append("\":\"").append(formatTimestamp(record.timestamp)).append("\",")
+            jsonBuilder.append("\"").append(getString(R.string.json_key_startup_page)).append("\":\"").append(getPageDisplayName(record.startupPage)).append("\"")
+            jsonBuilder.append("}")
         }
+        jsonBuilder.append("]")
+        return jsonBuilder.toString()
     }
 
     private fun clearAllRecords() {
@@ -261,11 +255,7 @@ class StartupRecordsActivity : BaseActivity() {
                     lifecycleScope.launch(Dispatchers.IO) {
                         dao.deleteAll()
                         launch(Dispatchers.Main) {
-                            Toast.makeText(
-                                this@StartupRecordsActivity,
-                                getString(R.string.records_cleared_success),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@StartupRecordsActivity, getString(R.string.records_cleared_success), Toast.LENGTH_SHORT).show()
                             // 重新加载数据
                             loadStartupRecords()
                         }
