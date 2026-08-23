@@ -27,6 +27,8 @@ class MainApplication : Application() {
     
     override fun onCreate() {
         super.onCreate()
+        // 不使用 Material You 动态取色，统一使用主题中定义的固定淡蓝色系，
+        // 避免 Android 12+ 跟随系统壁纸生成的暗蓝偏色。
         // 记录应用启动
         recordAppStartup("main")
     }

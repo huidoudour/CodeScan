@@ -7,10 +7,9 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-// ── Git 版本控制 ──
 val baseVersionCode = 300
-val baseVersionName = "3.6"
-val backVersionCode = 368
+val baseVersionName = "3.7"
+val backVersionCode = 369
 
 fun Project.gitCommitCount(): Int = try {
     providers.exec { commandLine("git", "rev-list", "--count", "HEAD") }
@@ -24,11 +23,9 @@ fun Project.gitHash(): String = try {
     SimpleDateFormat("MMddHHmm").format(Date())
 }
 
-// 统一计算版本信息，供 defaultConfig 与构建结束打印共用
 val appVersionCode = baseVersionCode + gitCommitCount()
 val appVersionName = "${baseVersionName}.${gitCommitCount()}.${gitHash()}"
 
-// 构建结束后打印版本号（assemble/bundle 任务完成时输出）
 tasks.matching { it.name.startsWith("assemble") || it.name.startsWith("bundle") }.configureEach {
     doLast {
         println(">>>[$name]:OK | Version $appVersionName($appVersionCode)<<<")
@@ -51,7 +48,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // 多架构配置
     splits {
         abi {
             isEnable = true

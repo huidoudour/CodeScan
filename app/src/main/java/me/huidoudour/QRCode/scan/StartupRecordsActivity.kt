@@ -77,17 +77,17 @@ class StartupRecordsActivity : BaseActivity() {
         val headerRow = LayoutInflater.from(this).inflate(R.layout.item_table_row, tableLayout, false) as TableRow
         (headerRow.findViewById<TextView>(R.id.tvId)).apply {
             text = getString(R.string.table_header_id)
-            setTextColor(getColor(android.R.color.darker_gray))
+            setTextColor(getColor(android.R.color.black))
             textSize = 14f
         }
         (headerRow.findViewById<TextView>(R.id.tvTime)).apply {
             text = getString(R.string.table_header_time)
-            setTextColor(getColor(android.R.color.darker_gray))
+            setTextColor(getColor(android.R.color.black))
             textSize = 14f
         }
         (headerRow.findViewById<TextView>(R.id.tvPage)).apply {
             text = getString(R.string.table_header_startup_page)
-            setTextColor(getColor(android.R.color.darker_gray))
+            setTextColor(getColor(android.R.color.black))
             textSize = 14f
         }
         tableLayout.addView(headerRow)

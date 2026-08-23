@@ -6,7 +6,9 @@
     <queries>
         <package android:name="me.huidoudour.file.manager" />
     </queries>
-
+    <uses-feature
+        android:name="android.hardware.wifi"
+        tools:node="remove" />
     <uses-permission
         android:name="android.permission.CAMERA" />
     <uses-permission
@@ -40,7 +42,6 @@
             android:name=".MainActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:label="@string/dis_name"
             android:enabled="false" />
         
         <!-- 默认绿色图标 -->
@@ -137,6 +138,9 @@
         <meta-data
             android:name="me.huidoudour.file.manager"
             android:value="true" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            tools:node="remove" />
 
         <!-- 移除开发者认为的多余组件 -->
         <service

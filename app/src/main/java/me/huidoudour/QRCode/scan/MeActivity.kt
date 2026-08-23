@@ -1,6 +1,7 @@
 package me.huidoudour.QRCode.scan
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,7 +15,7 @@ class MeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_me)
         
-        // 设置状态栏样式以适配白色背景
+        // 设置状态栏样式以适配当前主题（跟随深浅色模式）
         setupStatusBar()
         
         // 网站按钮点击事件
@@ -27,14 +28,22 @@ class MeActivity : BaseActivity() {
     }
     
     private fun setupStatusBar() {
+        val isDarkMode = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+            Configuration.UI_MODE_NIGHT_YES
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11 及以上版本
             val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-            windowInsetsController.isAppearanceLightStatusBars = true // 设置状态栏文字为深色
+            windowInsetsController.isAppearanceLightStatusBars = !isDarkMode
+            windowInsetsController.isAppearanceLightNavigationBars = !isDarkMode
         } else {
             // Android 10 及以下版本
             @Suppress("DEPRECATION")
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.decorView.systemUiVisibility = if (isDarkMode) {
+                0
+            } else {
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
         }
     }
 }

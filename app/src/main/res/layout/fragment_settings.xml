@@ -131,7 +131,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/language_default"
                                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                                    android:textColor="?attr/colorPrimary"
+                                    android:textColor="?attr/colorOnSurface"
                                     app:drawableEndCompat="@drawable/ic_chevron_right"
                                     android:drawablePadding="8dp"
                                     app:drawableTint="?attr/colorOnSurfaceVariant"
