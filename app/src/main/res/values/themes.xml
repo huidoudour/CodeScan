@@ -31,6 +31,7 @@
         <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
         <!-- Outline color. -->
         <item name="colorOutline">@color/md_theme_light_outline</item>
+        <item name="colorOutlineVariant">@color/md_theme_light_outlineVariant</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>

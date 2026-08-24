@@ -60,7 +60,9 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="1dp"
-                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -210,6 +212,8 @@
                 app:cardCornerRadius="12dp"
                 app:cardElevation="1dp"
                 app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:strokeWidth="1dp"
                 android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
@@ -263,6 +267,8 @@
                 app:cardCornerRadius="12dp"
                 app:cardElevation="1dp"
                 app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:strokeWidth="1dp"
                 android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout

@@ -31,25 +31,25 @@
     <color name="md_theme_light_onError">#FFFFFF</color>
     <color name="md_theme_light_errorContainer">#FFDAD6</color>
     <color name="md_theme_light_onErrorContainer">#410002</color>
-    <color name="md_theme_light_background">#EDF5FB</color>
+    <color name="md_theme_light_background">#F5FAFE</color>
     <color name="md_theme_light_onBackground">#000000</color>
-    <color name="md_theme_light_surface">#EFF7FC</color>
+    <color name="md_theme_light_surface">#F5FAFE</color>
     <color name="md_theme_light_onSurface">#000000</color>
-    <color name="md_theme_light_surfaceVariant">#D3E4F0</color>
+    <color name="md_theme_light_surfaceVariant">#E2EEF8</color>
     <color name="md_theme_light_onSurfaceVariant">#000000</color>
     <color name="md_theme_light_outline">#6E8190</color>
-    <color name="md_theme_light_outlineVariant">#BCCCD9</color>
+    <color name="md_theme_light_outlineVariant">#C1D3E1</color>
     <color name="md_theme_light_scrim">#000000</color>
     <color name="md_theme_light_inverseSurface">#2E3133</color>
     <color name="md_theme_light_inverseOnSurface">#EFF1F3</color>
     <color name="md_theme_light_inversePrimary">#89CFF0</color>
-    <color name="md_theme_light_surfaceDim">#D2E1EC</color>
-    <color name="md_theme_light_surfaceBright">#EFF7FC</color>
+    <color name="md_theme_light_surfaceDim">#DBE7F2</color>
+    <color name="md_theme_light_surfaceBright">#F5FAFE</color>
     <color name="md_theme_light_surfaceContainerLowest">#FFFFFF</color>
-    <color name="md_theme_light_surfaceContainerLow">#E7F0F7</color>
-    <color name="md_theme_light_surfaceContainer">#DDE9F3</color>
-    <color name="md_theme_light_surfaceContainerHigh">#D4E2EE</color>
-    <color name="md_theme_light_surfaceContainerHighest">#CDDDEA</color>
+    <color name="md_theme_light_surfaceContainerLow">#EEF5FB</color>
+    <color name="md_theme_light_surfaceContainer">#E6EFF8</color>
+    <color name="md_theme_light_surfaceContainerHigh">#DFEAF5</color>
+    <color name="md_theme_light_surfaceContainerHighest">#D8E6F2</color>
 
     <!-- Material Design 3 Color System - Dark Theme (Light Blue) -->
     <color name="md_theme_dark_primary">#89CFF0</color>
