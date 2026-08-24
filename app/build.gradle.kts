@@ -8,8 +8,8 @@ plugins {
 }
 
 val baseVersionCode = 300
-val baseVersionName = "3.7"
-val backVersionCode = 369
+val baseVersionName = "3.9"
+val backVersionCode = 384
 
 fun Project.gitCommitCount(): Int = try {
     providers.exec { commandLine("git", "rev-list", "--count", "HEAD") }
@@ -28,14 +28,13 @@ val appVersionName = "${baseVersionName}.${gitCommitCount()}.${gitHash()}"
 
 tasks.matching { it.name.startsWith("assemble") || it.name.startsWith("bundle") }.configureEach {
     doLast {
-        println(">>>[$name]:OK | Version $appVersionName($appVersionCode)<<<")
+        println(">>>[$name]:CodeScan | Version $appVersionName($appVersionCode)<<<")
     }
 }
 
 android {
     namespace = "me.huidoudour.QRCode.scan"
-    //noinspection GradleDependency
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "me.huidoudour.QRCode.scan"
