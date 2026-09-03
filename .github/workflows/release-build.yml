@@ -69,6 +69,21 @@ jobs:
 
       - name: Check if tag exists and create/update release
         run: |
+          # 生成两个 tag 之间的更新内容（当前动态 tag 尚未打上，取最近一个已存在 tag 作为基准）
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+            COMMITS=$(git log --oneline --no-merges "$PREV_TAG..HEAD")
+          else
+            COMMITS=$(git log --oneline --no-merges)
+          fi
+
+          # 转换为 Markdown 列表
+          if [ -n "$COMMITS" ]; then
+            COMMITS_MD=$(echo "$COMMITS" | sed 's/^/- /')
+          else
+            COMMITS_MD="- 暂无提交记录"
+          fi
+
           NOTES="## 版本说明
           
           下载安装即可使用
@@ -78,7 +93,7 @@ jobs:
           - 也提供针对特定架构的 APK，以减小下载体积
           
           ### 更新日志
-          <!-- 请在此处添加更新日志 -->"
+          $COMMITS_MD"
           
           # 检查标签是否已存在
           if gh release view ${{ env.TAG_NAME }} --json tagName > /dev/null 2>&1; then
