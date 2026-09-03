@@ -1,6 +1,14 @@
 name: Release Build
 
 on:
+  push:
+    tags:
+      - 'v*'
+      # 排除预发布标签；预发布请使用 pre-release.yml 触发
+      - '!v*-beta*'
+      - '!v*-rc*'
+      - '!v*-alpha*'
+      - '!v*-pre*'
   workflow_dispatch:
     inputs:
       release_title:
@@ -52,10 +60,15 @@ jobs:
         if: always()
         run: rm -f sign_key
 
-      - name: Generate date-based tag
+      - name: Generate release tag
         id: tag
         run: |
-          echo "tag_name=release-$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
+          # push tag 触发：直接使用推送的 v* tag；手动触发：生成动态日期标签
+          if [ "${{ github.event_name }}" == "push" ]; then
+            echo "tag_name=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag_name=release-$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
+          fi
 
       - name: Validate and prepare release tag
         run: |
@@ -69,8 +82,13 @@ jobs:
 
       - name: Check if tag exists and create/update release
         run: |
-          # 生成两个 tag 之间的更新内容（当前动态 tag 尚未打上，取最近一个已存在 tag 作为基准）
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD 2>/dev/null || echo "")
+          # 生成两个 tag 之间的更新内容：push tag 触发时 HEAD 即当前 tag，取 HEAD 父提交的最近 tag 作基准；
+          # 手动触发（动态 tag 尚未打上）时，用 HEAD 最近的一个已存在 tag 作基准
+          if [ "${{ github.event_name }}" == "push" ]; then
+            PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          else
+            PREV_TAG=$(git describe --tags --abbrev=0 HEAD 2>/dev/null || echo "")
+          fi
           if [ -n "$PREV_TAG" ]; then
             COMMITS=$(git log --oneline --no-merges "$PREV_TAG..HEAD")
           else

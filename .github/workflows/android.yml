@@ -2,7 +2,6 @@ name: Android CI
 
 on:
   push:
-    branches: [ "master" , "slave" ]
     paths:
       - 'app/src/**'
       - 'app/build.gradle.kts'
