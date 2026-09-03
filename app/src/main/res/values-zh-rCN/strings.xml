@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CodeScan</string>
-    <string name="dis_name">图形码扫描</string>
-    <string name="app_version">v3.0</string>
     <string name="button_rescan">重新扫描</string>
     <string name="toast_saved">已保存</string>
     <string name="dialog_title_scan_result">扫描结果</string>
     <string name="button_save">保存</string>
+    <string name="button_save_all">全部保存</string>
+    <string name="multi_result_hint_single">检测到 1 个码</string>
+    <string name="multi_result_hint">检测到 %d 个码</string>
+    <string name="toast_all_saved">已全部保存</string>
+    <string name="toast_item_saved">已保存</string>
     <string name="hint_export_input_ean13">请输入EAN-13文本</string>
     <string name="hint_export_input_code128">请输入Code-128文本</string>
     <string name="hint_export_input_qr">请输入二维码文本</string>

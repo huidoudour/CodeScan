@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CodeScan</string>
-    <string name="dis_name">QRCodeScan</string>
-    <string name="app_version">v3.0</string>
     <string name="button_rescan">Повторное сканирование</string>
     <string name="toast_saved">Сохранено</string>
     <string name="dialog_title_scan_result">Результат сканирования</string>
     <string name="button_save">Сохранить</string>
+    <string name="button_save_all">Сохранить все</string>
+    <string name="multi_result_hint_single">Обнаружен 1 код</string>
+    <string name="multi_result_hint">Обнаружено кодов: %d</string>
+    <string name="toast_all_saved">Все сохранено</string>
+    <string name="toast_item_saved">Сохранено</string>
     <string name="hint_export_input_ean13">Введите текст EAN-13</string>
     <string name="hint_export_input_code128">Введите текст Code-128</string>
     <string name="hint_export_input_qr">Введите текст QR-кода</string>

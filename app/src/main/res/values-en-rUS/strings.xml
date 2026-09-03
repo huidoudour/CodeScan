@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CodeScan</string>
-    <string name="dis_name">QRCodeScan</string>
-    <string name="app_version">v3.0</string>
     <string name="toast_ean13_length_error">Input must be 12 digits long for EAN-13</string>
     <string name="toast_generation_error">Error generating code: %1$s</string>
     <string name="toast_generic_error">Error: %1$s</string>
@@ -29,6 +27,11 @@
     <string name="button_export_all">Export All Records</string>
     <string name="dialog_title_scan_result">Scan Result</string>
     <string name="button_save">Save</string>
+    <string name="button_save_all">Save All</string>
+    <string name="multi_result_hint_single">1 code detected</string>
+    <string name="multi_result_hint">%d codes detected</string>
+    <string name="toast_all_saved">All saved</string>
+    <string name="toast_item_saved">Saved</string>
     <string name="button_rescan">Rescan</string>
     <string name="toast_saved">Saved</string>
     <string name="hint_remark">Remark</string>

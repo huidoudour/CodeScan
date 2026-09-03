@@ -15,6 +15,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.huidoudour.qrcode.scan.databinding.FragmentHistoryBinding
 import org.json.JSONArray
@@ -88,7 +89,7 @@ class HistoryFragment : Fragment() {
         binding.historyRecyclerView.adapter = adapter
         
         setupToolbarMenu()
-        loadHistory()
+        loadHistory(showLoading = true)
     }
     
     private fun setupToolbarMenu() {
@@ -112,17 +113,39 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun loadHistory() {
+    private fun loadHistory(showLoading: Boolean = false) {
+        // 首次加载时展示加载动画并隐藏列表，避免切换时白闪
+        if (showLoading) {
+            binding.loadingView.visibility = View.VISIBLE
+            binding.historyRecyclerView.visibility = View.GONE
+            binding.emptyState.visibility = View.GONE
+        }
         lifecycleScope.launch {
+            val startTime = System.currentTimeMillis()
             val scanResults = db.scanResultDao().getAll()
-            adapter.updateData(scanResults)
-            
+
             // 同步保存到私有目录
             try {
                 jsonFileManager.saveAllScanResultsToPrivateDir(scanResults)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+
+            // 强制最小加载时长，让过渡更平滑，避免加载过快造成闪烁
+            if (showLoading) {
+                val elapsed = System.currentTimeMillis() - startTime
+                if (elapsed < MIN_LOADING_DURATION_MS) {
+                    delay(MIN_LOADING_DURATION_MS - elapsed)
+                }
+            }
+
+            adapter.updateData(scanResults)
+
+            if (showLoading) {
+                binding.loadingView.visibility = View.GONE
+            }
+            binding.historyRecyclerView.visibility = View.VISIBLE
+            binding.emptyState.visibility = if (scanResults.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 
@@ -441,5 +464,10 @@ class HistoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        // 首次加载时加载动画的最小展示时长，避免快速切换时白闪
+        private const val MIN_LOADING_DURATION_MS = 500L
     }
 }

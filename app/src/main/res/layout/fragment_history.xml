@@ -79,4 +79,13 @@
 
         </LinearLayout>
 
+        <!-- Loading Indicator：记录页加载时展示，避免切换时白闪 -->
+        <com.google.android.material.loadingindicator.LoadingIndicator
+            style="@style/Widget.Material3.LoadingIndicator.Contained"
+            android:id="@+id/loading_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

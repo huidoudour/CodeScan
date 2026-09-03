@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CodeScan</string>
-    <string name="dis_name">QRCodeScan</string>
-    <string name="app_version">v3.0</string>
     <string name="button_rescan">重新掃描</string>
     <string name="toast_saved">已儲存</string>
     <string name="dialog_title_scan_result">掃描結果</string>
     <string name="button_save">儲存</string>
+    <string name="button_save_all">全部儲存</string>
+    <string name="multi_result_hint_single">偵測到 1 個碼</string>
+    <string name="multi_result_hint">偵測到 %d 個碼</string>
+    <string name="toast_all_saved">已全部儲存</string>
+    <string name="toast_item_saved">已儲存</string>
     <string name="hint_export_input_ean13">請輸入EAN-13文本</string>
     <string name="hint_export_input_code128">請輸入Code-128文本</string>
     <string name="hint_export_input_qr">請輸入二維碼文本</string>
