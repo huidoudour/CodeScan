@@ -1,4 +1,4 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
 import android.content.ComponentName
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import me.huidoudour.QRCode.scan.databinding.FragmentSettingsBinding
+import me.huidoudour.qrcode.scan.databinding.FragmentSettingsBinding
 
 
 class SettingsFragment : Fragment() {
@@ -178,8 +178,8 @@ class SettingsFragment : Fragment() {
         
         // 禁用所有主应用图标别名
         val mainAliases = listOf(
-            "me.huidoudour.QRCode.scan.MainActivityAliasDefault",
-            "me.huidoudour.QRCode.scan.MainActivityAliasColorful"
+            "me.huidoudour.qrcode.scan.MainActivityAliasDefault",
+            "me.huidoudour.qrcode.scan.MainActivityAliasColorful"
         )
         
         mainAliases.forEach { alias ->
@@ -197,8 +197,8 @@ class SettingsFragment : Fragment() {
         
         // 禁用所有快速扫描图标别名
         val quickScanAliases = listOf(
-            "me.huidoudour.QRCode.scan.QuickScanActivityAliasDefault",
-            "me.huidoudour.QRCode.scan.QuickScanActivityAliasColorful"
+            "me.huidoudour.qrcode.scan.QuickScanActivityAliasDefault",
+            "me.huidoudour.qrcode.scan.QuickScanActivityAliasColorful"
         )
         
         quickScanAliases.forEach { alias ->
@@ -216,8 +216,8 @@ class SettingsFragment : Fragment() {
         
         // 启用选中的主应用图标
         val selectedMainAlias = when (iconTheme) {
-            "colorful" -> "me.huidoudour.QRCode.scan.MainActivityAliasColorful"
-            else -> "me.huidoudour.QRCode.scan.MainActivityAliasDefault"
+            "colorful" -> "me.huidoudour.qrcode.scan.MainActivityAliasColorful"
+            else -> "me.huidoudour.qrcode.scan.MainActivityAliasDefault"
         }
         
         try {
@@ -233,8 +233,8 @@ class SettingsFragment : Fragment() {
         
         // 启用选中的快速扫描图标（与主应用同步）
         val selectedQuickScanAlias = when (iconTheme) {
-            "colorful" -> "me.huidoudour.QRCode.scan.QuickScanActivityAliasColorful"
-            else -> "me.huidoudour.QRCode.scan.QuickScanActivityAliasDefault"
+            "colorful" -> "me.huidoudour.qrcode.scan.QuickScanActivityAliasColorful"
+            else -> "me.huidoudour.qrcode.scan.QuickScanActivityAliasDefault"
         }
         
         try {
@@ -321,9 +321,9 @@ class SettingsFragment : Fragment() {
         
         // 根据当前主题确定要启用/禁用的alias
         val aliasName = if (iconTheme == "colorful") {
-            "me.huidoudour.QRCode.scan.QuickScanActivityAliasColorful"
+            "me.huidoudour.qrcode.scan.QuickScanActivityAliasColorful"
         } else {
-            "me.huidoudour.QRCode.scan.QuickScanActivityAliasDefault"
+            "me.huidoudour.qrcode.scan.QuickScanActivityAliasDefault"
         }
         
         val componentName = ComponentName(requireContext(), aliasName)

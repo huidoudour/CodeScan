@@ -8,7 +8,7 @@ plugins {
 }
 
 val baseVersionCode = 300
-val baseVersionName = "3.9"
+val baseVersionName = "4.0"
 val backVersionCode = 384
 
 fun Project.gitCommitCount(): Int = try {
@@ -33,7 +33,7 @@ tasks.matching { it.name.startsWith("assemble") || it.name.startsWith("bundle") 
 }
 
 android {
-    namespace = "me.huidoudour.QRCode.scan"
+    namespace = "me.huidoudour.qrcode.scan"
     compileSdk = 37
 
     defaultConfig {

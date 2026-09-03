@@ -1,12 +1,10 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
@@ -16,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import me.huidoudour.QRCode.scan.databinding.ActivityStartupRecordsBinding
+import me.huidoudour.qrcode.scan.databinding.ActivityStartupRecordsBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date

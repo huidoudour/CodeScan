@@ -1,4 +1,4 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
 import android.Manifest
 import android.content.Intent
@@ -17,11 +17,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import com.google.mlkit.vision.barcode.BarcodeScanner
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.common.Barcode
-import me.huidoudour.QRCode.scan.databinding.FragmentScannerBinding
+import me.huidoudour.qrcode.scan.databinding.FragmentScannerBinding
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

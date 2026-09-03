@@ -1,4 +1,4 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
 import android.content.Context
 import android.os.Bundle

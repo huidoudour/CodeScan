@@ -1,4 +1,4 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import me.huidoudour.QRCode.scan.databinding.FragmentExportBinding
+import me.huidoudour.qrcode.scan.databinding.FragmentExportBinding
 
 class ExportFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
 import android.app.Activity
 import android.net.Uri
@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import me.huidoudour.QRCode.scan.databinding.FragmentHistoryBinding
+import me.huidoudour.qrcode.scan.databinding.FragmentHistoryBinding
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader

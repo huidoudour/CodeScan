@@ -1,10 +1,9 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.provider.DocumentsContract
 import android.util.Log
 import androidx.core.content.FileProvider

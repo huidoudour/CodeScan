@@ -1,6 +1,5 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
-import android.graphics.Point
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
@@ -30,7 +29,7 @@ class QRCodeAnalyzer(
     private var previewHeight = 0f
 
     /**
-     * 设置扫描框的边界（在预览坐标系中�?     */
+     * 设置扫描框的边界（在预览坐标系中�?     */
     fun setScanFrameBounds(left: Float, top: Float, right: Float, bottom: Float) {
         scanFrameLeft = left
         scanFrameTop = top
@@ -40,21 +39,21 @@ class QRCodeAnalyzer(
     }
 
     /**
-     * 设置相机图像的尺�?     */
+     * 设置相机图像的尺�?     */
     fun setImageSize(width: Int, height: Int) {
         imageWidth = width
         imageHeight = height
     }
 
     /**
-     * 设置预览视图的尺�?     */
+     * 设置预览视图的尺�?     */
     fun setPreviewSize(width: Float, height: Float) {
         previewWidth = width
         previewHeight = height
     }
 
     /**
-     * 获取条形码类型名�?     */
+     * 获取条形码类型名�?     */
     private fun getBarcodeTypeName(format: Int): String = when (format) {
         Barcode.FORMAT_CODE_128 -> "CODE_128"
         Barcode.FORMAT_CODE_39 -> "CODE_39"
@@ -73,7 +72,7 @@ class QRCodeAnalyzer(
     }
 
     /**
-     * 检查条形码是否在扫描框范围�?     */
+     * 检查条形码是否在扫描框范围�?     */
     private fun isBarcodeInScanFrame(barcode: Barcode): Boolean {
         if (!frameBoundsCalculated || imageWidth == 0 || imageHeight == 0 || previewWidth == 0f || previewHeight == 0f) {
             return true
@@ -82,12 +81,12 @@ class QRCodeAnalyzer(
         val cornerPoints = barcode.cornerPoints ?: return false
         if (cornerPoints.isEmpty()) return false
 
-        // FILL_CENTER �任��ͼ��ȱ���������Ԥ�������������־��вü�
+        // FILL_CENTER �任��ͼ��ȱ���������Ԥ�������������־��вü�
         val fillScale = maxOf(previewWidth / imageWidth, previewHeight / imageHeight)
         val cropOffsetX = (imageWidth * fillScale - previewWidth) / 2f
         val cropOffsetY = (imageHeight * fillScale - previewHeight) / 2f
 
-        // �������������ĵ㣨���нǵ��ƽ��ֵ����ֻ������ĵ��Ƿ���ɨ�����
+        // �������������ĵ㣨���нǵ��ƽ��ֵ����ֻ������ĵ��Ƿ���ɨ�����
         val centerX = cornerPoints.map { it.x }.average().toFloat()
         val centerY = cornerPoints.map { it.y }.average().toFloat()
 
@@ -118,7 +117,7 @@ class QRCodeAnalyzer(
                             barcode.rawValue != null && isBarcodeInScanFrame(barcode)
                         }.map { barcode ->
                             Pair(barcode.rawValue!!, getBarcodeTypeName(barcode.format))
-                        }.distinctBy { it.first } // 去重，相同内容的码只保留一�?                        
+                        }.distinctBy { it.first } // 去重，相同内容的码只保留一�?                        
                         if (validBarcodes.isNotEmpty()) {
                             onQrCodeScanned(validBarcodes)
                         }

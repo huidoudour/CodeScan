@@ -1,4 +1,4 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
 import android.Manifest
 import android.content.Intent
@@ -30,7 +30,7 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import me.huidoudour.QRCode.scan.databinding.ActivityScannerLayoutBinding
+import me.huidoudour.qrcode.scan.databinding.ActivityScannerLayoutBinding
 
 class QuickScanActivity : BaseActivity() {
 

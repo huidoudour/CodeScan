@@ -1,10 +1,10 @@
-package me.huidoudour.QRCode.scan
+package me.huidoudour.qrcode.scan
 
 import android.os.Build
 import android.os.Bundle
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
-import me.huidoudour.QRCode.scan.databinding.ActivityMainBinding
+import me.huidoudour.qrcode.scan.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
 
