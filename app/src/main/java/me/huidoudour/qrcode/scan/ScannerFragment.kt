@@ -1,7 +1,6 @@
 package me.huidoudour.qrcode.scan
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -13,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -74,13 +74,11 @@ class ScannerFragment : Fragment() {
         }
     }
     
-    // 图片选择器，优先使用 FileManager，未安装则回退系统 SAF
+    // 系统原生图片选择器（不使用文件管理 app）
     private val pickImageLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri -> scanImageFromGallery(uri) }
-        }
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let { scanImageFromGallery(it) }
     }
 
     override fun onCreateView(
@@ -116,8 +114,9 @@ class ScannerFragment : Fragment() {
                     true
                 }
                 R.id.action_gallery -> {
-                    val intent = FileManagerHelper.buildOpenFileIntent(requireContext(), "image/*")
-                    pickImageLauncher.launch(intent)
+                    pickImageLauncher.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    )
                     true
                 }
                 else -> false

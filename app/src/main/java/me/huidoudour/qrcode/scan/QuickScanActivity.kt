@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
@@ -221,11 +223,13 @@ class QuickScanActivity : BaseActivity() {
     }
 
     private fun showSaveConfirmationDialog(content: String, codeType: String) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_scan_result, null)
-        val textInputLayout = dialogView.findViewById<TextInputLayout>(R.id.textInputLayout)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_result, null)
+        // 内容由扫码结果固定，仅展示备注输入框
+        dialogView.findViewById<TextInputLayout>(R.id.contentInputLayout).visibility = View.GONE
+        val remarkInputLayout = dialogView.findViewById<TextInputLayout>(R.id.remarkInputLayout)
         val remarkEditText = dialogView.findViewById<TextInputEditText>(R.id.remarkEditText)
 
-        textInputLayout.hint = getString(R.string.hint_remark_optional)
+        remarkInputLayout.hint = getString(R.string.hint_remark_optional)
 
         MaterialAlertDialogBuilder(this@QuickScanActivity, R.style.Theme_CodeScan_Dialog)
             .setTitle(getString(R.string.dialog_title_scan_result))
@@ -285,19 +289,16 @@ class QuickScanActivity : BaseActivity() {
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        galleryLauncher.launch(intent)
+        galleryLauncher.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+        )
     }
 
+    // 系统原生图片选择器（不使用文件管理 app）
     private val galleryLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.data?.let { uri ->
-                processImageFromGallery(uri)
-            }
-        }
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let { processImageFromGallery(it) }
     }
 
     private fun processImageFromGallery(uri: Uri) {
