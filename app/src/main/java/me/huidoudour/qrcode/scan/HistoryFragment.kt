@@ -89,6 +89,13 @@ class HistoryFragment : Fragment() {
         binding.historyRecyclerView.adapter = adapter
         
         setupToolbarMenu()
+        loadHistory()
+    }
+
+    /**
+     * 仅在用户再次点击已选中的“记录”导航项时调用。
+     */
+    fun reloadWithLoadingAnimation() {
         loadHistory(showLoading = true)
     }
     
@@ -114,7 +121,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun loadHistory(showLoading: Boolean = false) {
-        // 首次加载时展示加载动画并隐藏列表，避免切换时白闪
+        // 仅在用户主动刷新时展示加载动画并隐藏列表。
         if (showLoading) {
             binding.loadingView.visibility = View.VISIBLE
             binding.historyRecyclerView.visibility = View.GONE
@@ -467,7 +474,7 @@ class HistoryFragment : Fragment() {
     }
 
     companion object {
-        // 首次加载时加载动画的最小展示时长，避免快速切换时白闪
+        // 主动刷新时加载动画的最小展示时长，避免快速闪烁
         private const val MIN_LOADING_DURATION_MS = 500L
     }
 }

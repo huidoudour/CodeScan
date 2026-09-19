@@ -2,6 +2,8 @@ package me.huidoudour.qrcode.scan
 
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
+import android.view.ViewConfiguration
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import me.huidoudour.qrcode.scan.databinding.ActivityMainBinding
@@ -9,6 +11,7 @@ import me.huidoudour.qrcode.scan.databinding.ActivityMainBinding
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var lastHistoryNavigationTapTime = NO_HISTORY_NAVIGATION_TAP
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,14 +23,43 @@ class MainActivity : BaseActivity() {
 
         // 底部导航栏
         binding.bottomNavigation?.setOnItemSelectedListener { item ->
+            recordNavigationTap(item.itemId)
             handleNavigationItemSelected(item.itemId)
             true
         }
 
-        // Set default fragment
-        if (savedInstanceState == null) {
-            binding.bottomNavigation?.selectedItemId = R.id.navigation_scan
+        // 重选回调本身只表示“再点一次”，需结合时间窗识别真正的双击。
+        binding.bottomNavigation?.setOnItemReselectedListener { item ->
+            if (item.itemId == R.id.navigation_history && isHistoryNavigationDoubleTap()) {
+                (supportFragmentManager.findFragmentById(R.id.fragment_container) as? HistoryFragment)
+                    ?.reloadWithLoadingAnimation()
+            }
         }
+
+        // 冷启动时显式创建扫描页，不能依赖给已选中项目重复赋值来触发导航回调。
+        if (savedInstanceState == null) {
+            handleNavigationItemSelected(R.id.navigation_scan)
+        }
+    }
+
+    private fun recordNavigationTap(itemId: Int) {
+        lastHistoryNavigationTapTime = if (itemId == R.id.navigation_history) {
+            SystemClock.uptimeMillis()
+        } else {
+            NO_HISTORY_NAVIGATION_TAP
+        }
+    }
+
+    private fun isHistoryNavigationDoubleTap(): Boolean {
+        val now = SystemClock.uptimeMillis()
+        val isDoubleTap = lastHistoryNavigationTapTime != NO_HISTORY_NAVIGATION_TAP &&
+            now - lastHistoryNavigationTapTime <= ViewConfiguration.getDoubleTapTimeout()
+        lastHistoryNavigationTapTime = if (isDoubleTap) {
+            NO_HISTORY_NAVIGATION_TAP
+        } else {
+            now
+        }
+        return isDoubleTap
     }
     
     private fun handleNavigationItemSelected(itemId: Int) {
@@ -69,5 +101,9 @@ class MainActivity : BaseActivity() {
 
     fun navigateToTab(tabId: Int) {
         binding.bottomNavigation?.selectedItemId = tabId
+    }
+
+    private companion object {
+        const val NO_HISTORY_NAVIGATION_TAP = Long.MIN_VALUE
     }
 }
