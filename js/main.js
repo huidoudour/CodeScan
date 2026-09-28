@@ -81,7 +81,7 @@ document.addEventListener('click', function(e) {
         heart.style.left = (e.clientX - 10) + 'px';
         heart.style.top = (e.clientY - 20) + 'px';
         heart.style.fontSize = '20px';
-        heart.style.color = '#ff6b6b';
+        heart.style.color = '#e28aa6';
         heart.style.pointerEvents = 'none';
         heart.style.zIndex = '9999';
         heart.style.userSelect = 'none';
