@@ -26,6 +26,7 @@ import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.time.Duration.Companion.milliseconds
 
 class HistoryFragment : Fragment() {
 
@@ -142,7 +143,7 @@ class HistoryFragment : Fragment() {
             if (showLoading) {
                 val elapsed = System.currentTimeMillis() - startTime
                 if (elapsed < MIN_LOADING_DURATION_MS) {
-                    delay(MIN_LOADING_DURATION_MS - elapsed)
+                    delay((MIN_LOADING_DURATION_MS - elapsed).milliseconds)
                 }
             }
 
@@ -420,7 +421,7 @@ class HistoryFragment : Fragment() {
                     
                     val timestamp = try {
                         dateFormat.parse(timeStr)?.time ?: System.currentTimeMillis()
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         System.currentTimeMillis()
                     }
                     
