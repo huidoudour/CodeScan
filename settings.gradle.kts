@@ -17,4 +17,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "CodeScan"
 include(":app")
- 
+include(":baselineprofile")
