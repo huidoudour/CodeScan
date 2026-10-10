@@ -21,6 +21,11 @@ class MainActivity : BaseActivity() {
         // 设置状态栏文字颜色适配
         updateStatusBarStyle()
 
+        // 状态栏/导航栏高度适配：窗口是 edge-to-edge 的（状态栏、导航栏透明），
+        // 必须给根布局补上系统栏 inset 的内边距，否则工具栏会顶到屏幕最上沿、和状态栏图标重叠，
+        // 底部导航栏也会被手势条压住。
+        applyWindowInsets()
+
         // 底部导航栏
         binding.bottomNavigation?.setOnItemSelectedListener { item ->
             recordNavigationTap(item.itemId)
@@ -77,6 +82,10 @@ class MainActivity : BaseActivity() {
         }
     }
     
+    private fun applyWindowInsets() {
+        applySystemBarInsets(binding.root)
+    }
+
     private fun updateStatusBarStyle() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val isDarkMode = isDarkMode()

@@ -24,30 +24,30 @@ private object LauncherIcons {
     private const val KEY_APP_ICON_THEME = "app_icon_theme"
     private const val KEY_SHOW_QUICK_SCAN_ICON = "show_quick_scan_icon"
 
-    /** 别名类名所在的包（= namespace），与 applicationId 无关 */
-    private val ALIAS_PACKAGE = BuildConfig::class.java.`package`?.name
-
     const val THEME_DEFAULT = "default"
     const val THEME_COLORFUL = "colorful"
 
-    private val MAIN_ALIASES = listOf(
-        "MainActivityAliasDefault",
-        "MainActivityAliasColorful"
-    )
+    /**
+     * 别名类的全限定名全部写成字面量常量。
+     *
+     * 不要用 BuildConfig::class.java.package 之类的反射去推导包名：release 构建会做 R8 压缩混淆，
+     * 类被改名/重新打包后推导出来的包名可能不是 namespace，导致 ComponentName 指向不存在的组件，
+     * setComponentEnabledSetting 静默失效——表现为"切换图标和开关都没反应"（debug 包却正常）。
+     */
+    private const val MAIN_DEFAULT = "me.huidoudour.qrcode.scan.MainActivityAliasDefault"
+    private const val MAIN_COLORFUL = "me.huidoudour.qrcode.scan.MainActivityAliasColorful"
+    private const val QUICK_DEFAULT = "me.huidoudour.qrcode.scan.QuickScanActivityAliasDefault"
+    private const val QUICK_COLORFUL = "me.huidoudour.qrcode.scan.QuickScanActivityAliasColorful"
 
-    private val QUICK_SCAN_ALIASES = listOf(
-        "QuickScanActivityAliasDefault",
-        "QuickScanActivityAliasColorful"
-    )
+    private val MAIN_ALIASES = listOf(MAIN_DEFAULT, MAIN_COLORFUL)
+    private val QUICK_SCAN_ALIASES = listOf(QUICK_DEFAULT, QUICK_COLORFUL)
 
     /**
      * Activity-alias 的组件名 = 应用包名（applicationId）+ 别名类的全限定名。
-     * 别名类名的包部分是代码包名（namespace），与 applicationId 的大小写并不相同
-     * （例如 me.huidoudour.QRCode.scan/me.huidoudour.qrcode.scan.MainActivityAliasDefault），
-     * 所以这里必须把两者分开拼接，不能直接用 className 构造 ComponentName。
+     * 两者大小写并不相同（me.huidoudour.QRCode.scan / me.huidoudour.qrcode.scan），必须分开拼接。
      */
-    private fun componentName(context: Context, alias: String) =
-        ComponentName(context.packageName, ALIAS_PACKAGE + "." + alias)
+    private fun componentName(context: Context, aliasClassName: String) =
+        ComponentName(context.packageName, aliasClassName)
 
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

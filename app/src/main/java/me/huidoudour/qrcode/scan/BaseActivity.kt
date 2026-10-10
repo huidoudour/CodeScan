@@ -2,7 +2,11 @@ package me.huidoudour.qrcode.scan
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 
 /**
  *  BaseActivity - 所有 Activity 的基类
@@ -27,6 +31,39 @@ open class BaseActivity : AppCompatActivity() {
         }
         androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(nightMode)
     }
+
+    /**
+     * 给指定视图补上系统栏（状态栏 / 导航栏 / 刘海）的内边距。
+     *
+     * 窗口是 edge-to-edge 的（主题里状态栏、导航栏都设为透明），如果页面自己不处理 inset，
+     * 工具栏会顶到屏幕最上沿、和状态栏图标重叠，底部内容也会被手势条压住。
+     * 只调用一次：监听器在视图首次布局前设置好，先记录布局自身的内边距作为基准，之后每次分发都按基准重算。
+     */
+    protected fun applySystemBarInsets(view: View) {
+        val basePadding = Padding(
+            left = view.paddingLeft,
+            top = view.paddingTop,
+            right = view.paddingRight,
+            bottom = view.paddingBottom
+        )
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { target, windowInsets ->
+            val bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            target.updatePadding(
+                left = basePadding.left + bars.left,
+                top = basePadding.top + bars.top,
+                right = basePadding.right + bars.right,
+                bottom = basePadding.bottom + bars.bottom
+            )
+            windowInsets
+        }
+        // 触发一次分发，避免首帧缺少内边距导致闪烁
+        ViewCompat.requestApplyInsets(view)
+    }
+
+    private data class Padding(val left: Int, val top: Int, val right: Int, val bottom: Int)
     
     override fun attachBaseContext(newBase: Context?) {
         if (newBase == null) {

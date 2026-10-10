@@ -66,6 +66,9 @@ class QuickScanActivity : BaseActivity() {
         // 设置状态栏文字颜色适配
         updateStatusBarStyle()
 
+        // 状态栏/导航栏高度适配
+        applySystemBarInsets(binding.root)
+
         previewView = binding.previewView
         toolbar = binding.toolbar
 

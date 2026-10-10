@@ -9,7 +9,7 @@ plugins {
 }
 
 val baseVersionCode = 300
-val baseVersionName = "4.2"
+val baseVersionName = "4.8"
 val backVersionCode = 384
 
 fun Project.gitCommitCount(): Int = try {
@@ -42,9 +42,9 @@ android {
 
     defaultConfig {
         applicationId = "me.huidoudour.QRCode.scan"
-        minSdk = 29
+        minSdk = 28
         //noinspection OldTargetApi
-        targetSdk = 34
+        targetSdk = 36
         versionCode = appVersionCode
         versionName = appVersionName
 
