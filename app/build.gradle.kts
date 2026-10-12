@@ -8,9 +8,12 @@ plugins {
     alias(libs.plugins.baselineprofile)
 }
 
-val baseVersionCode = 300
-val baseVersionName = "4.8"
-val backVersionCode = 384
+// ===== 按项目修改 =====
+val appName = "CodeScan"         // 产物名称前缀
+val baseVersionCode = 300        // 基础版本号
+val baseVersionName = "4.8"      // 基础版本名
+val backVersionCode = 384        // git 不可用时的回退提交数量
+// =====================
 
 fun Project.gitCommitCount(): Int = try {
     providers.exec { commandLine("git", "rev-list", "--count", "HEAD") }
@@ -28,11 +31,13 @@ val appVersionCode = baseVersionCode + gitCommitCount()
 val appVersionName = "${baseVersionName}.${gitCommitCount()}.${gitHash()}"
 
 tasks.matching { it.name.startsWith("assemble") || it.name.startsWith("bundle") }.configureEach {
+    // 先取局部变量：doLast 闭包直接引用脚本级属性会捕获脚本对象引用，导致配置缓存序列化校验失败
     val logTaskName = name
+    val logAppName = appName
     val logVersionName = appVersionName
     val logVersionCode = appVersionCode
     doLast {
-        println(">>>[$logTaskName]:CodeScan | Version $logVersionName($logVersionCode)<<<")
+        println(">>> $logAppName-[$logTaskName]: $logVersionName($logVersionCode) <<<")
     }
 }
 
@@ -49,14 +54,10 @@ android {
         versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 
-    splits {
-        abi {
-            isEnable = true
-            reset()
-            include("arm64-v8a", "x86_64")
-            isUniversalApk = true
+        // 不分包：单个 APK 同时内置 arm64-v8a 与 x86_64 原生库（二者必须都存在）
+        ndk {
+            abiFilters += listOf("arm64-v8a", "x86_64")
         }
     }
 
@@ -133,6 +134,17 @@ android {
             "DuplicateIds",            // 必须检查重复ID
             "UnknownId"                // 必须检查未知ID引用
         )
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        // <名称>-<versionName>-<versionCode>-<Release/Debug>.apk
+        val buildTypeLabel = variant.buildType.orEmpty().replaceFirstChar { it.uppercaseChar() }
+        val outputName = "${appName}-${appVersionName}-${appVersionCode}-${buildTypeLabel}.apk"
+        variant.outputs.forEach { output ->
+            output.outputFileName.set(outputName)
+        }
     }
 }
 

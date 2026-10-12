@@ -52,6 +52,15 @@ jobs:
         if: always()
         run: rm -f sign_key
 
+      - name: Upload Signed Release APK
+        uses: actions/upload-artifact@v7
+        if: success()
+        with:
+          name: app-signed-release
+          # 上传 release 输出目录下的全部产物：APK、baselineProfiles 文件夹、output-metadata.json
+          path: app/build/outputs/apk/release/
+          retention-days: 30
+
       - name: Generate date-based tag
         id: tag
         run: |
@@ -74,8 +83,7 @@ jobs:
           这是一个用于测试的预发布版本。
           
           ### APK 文件
-          - 通用 APK 支持所有架构
-          - 也提供针对特定架构的 APK，以减小下载体积
+          - 单个 APK 同时内置 arm64-v8a 与 x86_64 架构，无需按架构分开下载
           
           ### 注意事项
           - 此版本可能包含正式版中不存在的 Bug
