@@ -11,7 +11,7 @@ plugins {
 // ===== 按项目修改 =====
 val appName = "CodeScan"         // 产物名称前缀
 val baseVersionCode = 300        // 基础版本号
-val baseVersionName = "4.8"      // 基础版本名
+val baseVersionName = "5.0"      // 基础版本名
 val backVersionCode = 384        // git 不可用时的回退提交数量
 // =====================
 
