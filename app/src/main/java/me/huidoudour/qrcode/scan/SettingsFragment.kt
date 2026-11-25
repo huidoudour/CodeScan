@@ -13,10 +13,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.huidoudour.qrcode.scan.databinding.FragmentSettingsBinding
 
 /**
- * 桌面图标的唯一管理入口：主图标固定为彩色图标，快速扫描图标由设置开关控制显隐。
- *
- * 主图标和快速扫描图标是两组互不相同的 activity-alias，需要分别计算状态；
- * 主图标必须始终启用，避免历史版本遗留的禁用状态导致升级后桌面上没有入口。
+ * 桌面图标管理入口：主入口为 MainActivity（manifest 静态注册），
+ * 这里只负责快速扫描入口的显隐（直接启用/禁用 QuickScanActivity）。
  */
 internal object LauncherIcons {
 
@@ -24,21 +22,20 @@ internal object LauncherIcons {
     private const val KEY_SHOW_QUICK_SCAN_ICON = "show_quick_scan_icon"
 
     /**
-     * 别名类的全限定名全部写成字面量常量。
+     * 组件类的全限定名全部写成字面量常量。
      *
      * 不要用 BuildConfig::class.java.package 之类的反射去推导包名：release 构建会做 R8 压缩混淆，
      * 类被改名/重新打包后推导出来的包名可能不是 namespace，导致 ComponentName 指向不存在的组件，
-     * setComponentEnabledSetting 静默失效——表现为"切换图标和开关都没反应"（debug 包却正常）。
+     * setComponentEnabledSetting 静默失效——表现为“切换图标和开关都没反应”（debug 包却正常）。
      */
-    private const val MAIN_ALIAS = "me.huidoudour.qrcode.scan.MainActivityAliasDefault"
-    private const val QUICK_SCAN_ALIAS = "me.huidoudour.qrcode.scan.QuickScanActivityAliasDefault"
+    private const val QUICK_SCAN_COMPONENT = "me.huidoudour.qrcode.scan.QuickScanActivity"
 
     /**
-     * Activity-alias 的组件名 = 应用包名（applicationId）+ 别名类的全限定名。
+     * 组件名 = 应用包名（applicationId）+ 组件类的全限定名。
      * 两者大小写并不相同（me.huidoudour.QRCode.scan / me.huidoudour.qrcode.scan），必须分开拼接。
      */
-    private fun componentName(context: Context, aliasClassName: String) =
-        ComponentName(context.packageName, aliasClassName)
+    private fun componentName(context: Context, componentClassName: String) =
+        ComponentName(context.packageName, componentClassName)
 
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -47,24 +44,23 @@ internal object LauncherIcons {
     fun isQuickScanIconEnabled(context: Context): Boolean =
         prefs(context).getBoolean(KEY_SHOW_QUICK_SCAN_ICON, false)
 
-    /** 快速扫描图标当前是否真的出现在桌面上（读取系统里别名的实际状态，不依赖偏好设置） */
-    fun isQuickScanAliasActive(context: Context): Boolean = isAliasEnabled(context, QUICK_SCAN_ALIAS)
+    /** 快速扫描图标当前是否真的出现在桌面上（读取系统里组件的实际状态，不依赖偏好设置） */
+    fun isQuickScanEntryActive(context: Context): Boolean = isComponentEnabled(context, QUICK_SCAN_COMPONENT)
 
-    private fun isAliasEnabled(context: Context, alias: String): Boolean = try {
-        context.packageManager.getComponentEnabledSetting(componentName(context, alias)) ==
+    private fun isComponentEnabled(context: Context, component: String): Boolean = try {
+        context.packageManager.getComponentEnabledSetting(componentName(context, component)) ==
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED
     } catch (e: Exception) {
         false
     }
 
     /**
-     * 按「快速扫描开关」重新计算两个别名的最终状态。
+     * 按「快速扫描开关」重新计算入口状态。
      *
-     * 先启用主图标，保证桌面上始终至少有一个入口；再按开关启用或禁用快速扫描别名。
+     * 主入口由 MainActivity 静态注册，不受组件状态影响；只需启用或禁用快速扫描 Activity。
      */
     fun sync(context: Context) {
-        setAliasEnabled(context, MAIN_ALIAS, true)
-        setAliasEnabled(context, QUICK_SCAN_ALIAS, isQuickScanIconEnabled(context))
+        setComponentEnabled(context, QUICK_SCAN_COMPONENT, isQuickScanIconEnabled(context))
     }
 
     /** 切换快速扫描图标显隐并持久化设置 */
@@ -73,10 +69,10 @@ internal object LauncherIcons {
         sync(context)
     }
 
-    private fun setAliasEnabled(context: Context, alias: String, enabled: Boolean) {
+    private fun setComponentEnabled(context: Context, component: String, enabled: Boolean) {
         try {
             context.packageManager.setComponentEnabledSetting(
-                componentName(context, alias),
+                componentName(context, component),
                 if (enabled) {
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                 } else {
@@ -85,7 +81,7 @@ internal object LauncherIcons {
                 PackageManager.DONT_KILL_APP
             )
         } catch (e: Exception) {
-            // 单个别名设置失败不影响其余别名
+            // 单个组件设置失败不影响其余组件
             e.printStackTrace()
         }
     }
@@ -168,11 +164,11 @@ class SettingsFragment : Fragment() {
     }
     
     private fun setupQuickScanIconSwitch() {
-        // 先按系统的实际别名状态刷新一次桌面图标，纠正历史版本留下的不一致状态
+        // 先按系统的实际组件状态刷新一次桌面图标，纠正历史版本留下的不一致状态
         LauncherIcons.sync(requireContext())
 
         val storedValue = LauncherIcons.isQuickScanIconEnabled(requireContext())
-        val actualValue = LauncherIcons.isQuickScanAliasActive(requireContext())
+        val actualValue = LauncherIcons.isQuickScanEntryActive(requireContext())
 
         // 开关显示实际生效的状态，避免“开关是关的但桌面上还有图标”
         if (actualValue != storedValue) {

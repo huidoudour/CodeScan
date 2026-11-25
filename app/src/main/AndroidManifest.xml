@@ -42,49 +42,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CodeScan">
         
-        <!-- 主Activity - 默认不显示，通过alias控制 -->
+        <!-- 主Activity - 桌面入口直接注册，避免依赖 activity-alias 的动态启用状态导致入口丢失 -->
         <activity
             android:name=".MainActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:enabled="false" />
-        
-        <!-- 主图标（彩色） -->
-        <activity-alias
-            android:name=".MainActivityAliasDefault"
-            android:targetActivity=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:enabled="true">
+            android:roundIcon="@mipmap/ic_launcher_round">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias>
+        </activity>
         
-        <!-- 快速扫描Activity - 默认不显示，通过alias控制 -->
+        <!-- 快速扫描Activity - 桌面入口由设置开关动态控制显隐 -->
         <activity
             android:name=".QuickScanActivity"
-            android:exported="false"
-            android:theme="@style/Theme.CodeScan"
-            android:launchMode="singleTask"
-            android:taskAffinity="me.huidoudour.QRCode.scan.quickscan"
-            android:enabled="false" />
-        
-        <!-- 快速扫描 - 彩色图标 -->
-        <activity-alias
-            android:name=".QuickScanActivityAliasDefault"
-            android:targetActivity=".QuickScanActivity"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_quick"
             android:roundIcon="@mipmap/ic_launcher_round_quick"
+            android:theme="@style/Theme.CodeScan"
+            android:launchMode="singleTask"
+            android:taskAffinity="me.huidoudour.QRCode.scan.quickscan"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias>
+        </activity>
         
         <activity
             android:name=".MeActivity"
