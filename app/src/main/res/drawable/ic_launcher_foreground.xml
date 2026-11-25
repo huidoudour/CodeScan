@@ -11,48 +11,48 @@
         android:pivotX="54"
         android:pivotY="54">
         
-        <!-- 左上角方框（带圆角） -->
+        <!-- 左上角方框（带圆角）- 蓝色 -->
         <path
-            android:strokeColor="#2A5F2A"
+            android:strokeColor="#2196F3"
             android:strokeWidth="6"
             android:fillColor="#00000000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 30 30 L 48 30 L 48 48 L 30 48 Z" />
         
-        <!-- 右上角方框（带圆角） -->
+        <!-- 右上角方框（带圆角）- 橙色 -->
         <path
-            android:strokeColor="#2A5F2A"
+            android:strokeColor="#FF9800"
             android:strokeWidth="6"
             android:fillColor="#00000000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 60 30 L 78 30 L 78 48 L 60 48 Z" />
         
-        <!-- 左下角方框（带圆角） -->
+        <!-- 左下角方框（带圆角）- 紫色 -->
         <path
-            android:strokeColor="#2A5F2A"
+            android:strokeColor="#9C27B0"
             android:strokeWidth="6"
             android:fillColor="#00000000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M 30 60 L 48 60 L 48 78 L 30 78 Z" />
         
-        <!-- 右下角竖线组（扫描线效果） -->
+        <!-- 右下角竖线组（扫描线效果）- 多彩 -->
         <path
-            android:strokeColor="#4A8F4A"
+            android:strokeColor="#4CAF50"
             android:strokeWidth="4"
             android:strokeLineCap="round"
             android:pathData="M 60 60 L 60 78" />
         
         <path
-            android:strokeColor="#4A8F4A"
+            android:strokeColor="#F44336"
             android:strokeWidth="4"
             android:strokeLineCap="round"
             android:pathData="M 69 60 L 69 78" />
         
         <path
-            android:strokeColor="#4A8F4A"
+            android:strokeColor="#00BCD4"
             android:strokeWidth="4"
             android:strokeLineCap="round"
             android:pathData="M 78 60 L 78 78" />

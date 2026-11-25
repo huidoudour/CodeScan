@@ -29,6 +29,9 @@ class MainApplication : Application() {
         super.onCreate()
         // 不使用 Material You 动态取色，统一使用主题中定义的固定淡蓝色系，
         // 避免 Android 12+ 跟随系统壁纸生成的暗蓝偏色。
+        // 图标主题切换已移除，启动时统一校正桌面别名状态：
+        // 旧版本可能禁用了主图标别名并启用了已删除的彩色别名，需要恢复主入口。
+        LauncherIcons.sync(this)
         // 记录应用启动
         recordAppStartup("main")
     }

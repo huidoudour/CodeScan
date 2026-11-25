@@ -168,10 +168,6 @@ EAN-13 只能使用 0-9 数字，你的数据包含其他字符
     <string name="barcode_recognition_failed">二维码识别失败</string>
     <string name="barcode_generation_failed_generic">生成条形码失败</string>
     <string name="input_format_error">输入格式错误</string>
-    <string name="app_icon_theme_default">默认绿色</string>
-    <string name="app_icon_theme_colorful">多彩主题</string>
-    <string name="dialog_title_select_app_icon">选择应用图标</string>
-    <string name="toast_icon_changed">图标已更改，可能需要几秒钟生效</string>
     <string name="table_header_id">ID</string>
     <string name="table_header_time">时间</string>
     <string name="table_header_startup_page">启动页面</string>

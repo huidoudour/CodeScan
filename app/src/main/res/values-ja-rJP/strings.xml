@@ -167,10 +167,6 @@ EAN-13は0-9の数字のみを使用できます。あなたのデータには�
     <string name="barcode_recognition_failed">バーコード認識に失敗しました</string>
     <string name="barcode_generation_failed_generic">バーコードの生成に失敗しました</string>
     <string name="input_format_error">入力形式が無効です</string>
-    <string name="app_icon_theme_default">デフォルトグリーン</string>
-    <string name="app_icon_theme_colorful">カラフルテーマ</string>
-    <string name="dialog_title_select_app_icon">アプリアイコンを選択</string>
-    <string name="toast_icon_changed">アイコンが変更されました。反映まで数秒かかる場合があります</string>
     <string name="table_header_id">ID</string>
     <string name="table_header_time">時間</string>
     <string name="table_header_startup_page">起動ページ</string>

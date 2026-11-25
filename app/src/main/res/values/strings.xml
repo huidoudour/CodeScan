@@ -157,10 +157,6 @@
     <string name="barcode_recognition_failed">Barcode recognition failed</string>
     <string name="barcode_generation_failed_generic">Failed to generate barcode</string>
     <string name="input_format_error">Invalid input format</string>
-    <string name="app_icon_theme_default">Default Green</string>
-    <string name="app_icon_theme_colorful">Colorful Theme</string>
-    <string name="dialog_title_select_app_icon">Select App Icon</string>
-    <string name="toast_icon_changed">Icon changed, may take a few seconds to take effect</string>
     <string name="table_header_id">ID</string>
     <string name="table_header_time">Time</string>
     <string name="table_header_startup_page">Startup Page</string>

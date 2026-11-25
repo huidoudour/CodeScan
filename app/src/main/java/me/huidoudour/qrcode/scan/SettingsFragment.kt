@@ -13,19 +13,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.huidoudour.qrcode.scan.databinding.FragmentSettingsBinding
 
 /**
- * 桌面图标的唯一管理入口：主图标与快速扫描图标共用同一套偏好设置。
+ * 桌面图标的唯一管理入口：主图标固定为彩色图标，快速扫描图标由设置开关控制显隐。
  *
- * 主图标别名和快速扫描别名是两组互不相同的 activity-alias，必须各自按“设置 + 当前图标主题”计算目标状态，
- * 不能因为切换彩色/默认图标就无条件启用某个快速扫描别名，否则会出现关不掉的入口图标。
+ * 主图标和快速扫描图标是两组互不相同的 activity-alias，需要分别计算状态；
+ * 主图标必须始终启用，避免历史版本遗留的禁用状态导致升级后桌面上没有入口。
  */
-private object LauncherIcons {
+internal object LauncherIcons {
 
     private const val PREFS_NAME = "app_preferences"
-    private const val KEY_APP_ICON_THEME = "app_icon_theme"
     private const val KEY_SHOW_QUICK_SCAN_ICON = "show_quick_scan_icon"
-
-    const val THEME_DEFAULT = "default"
-    const val THEME_COLORFUL = "colorful"
 
     /**
      * 别名类的全限定名全部写成字面量常量。
@@ -34,13 +30,8 @@ private object LauncherIcons {
      * 类被改名/重新打包后推导出来的包名可能不是 namespace，导致 ComponentName 指向不存在的组件，
      * setComponentEnabledSetting 静默失效——表现为"切换图标和开关都没反应"（debug 包却正常）。
      */
-    private const val MAIN_DEFAULT = "me.huidoudour.qrcode.scan.MainActivityAliasDefault"
-    private const val MAIN_COLORFUL = "me.huidoudour.qrcode.scan.MainActivityAliasColorful"
-    private const val QUICK_DEFAULT = "me.huidoudour.qrcode.scan.QuickScanActivityAliasDefault"
-    private const val QUICK_COLORFUL = "me.huidoudour.qrcode.scan.QuickScanActivityAliasColorful"
-
-    private val MAIN_ALIASES = listOf(MAIN_DEFAULT, MAIN_COLORFUL)
-    private val QUICK_SCAN_ALIASES = listOf(QUICK_DEFAULT, QUICK_COLORFUL)
+    private const val MAIN_ALIAS = "me.huidoudour.qrcode.scan.MainActivityAliasDefault"
+    private const val QUICK_SCAN_ALIAS = "me.huidoudour.qrcode.scan.QuickScanActivityAliasDefault"
 
     /**
      * Activity-alias 的组件名 = 应用包名（applicationId）+ 别名类的全限定名。
@@ -52,28 +43,12 @@ private object LauncherIcons {
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    /** 当前图标主题（default / colorful） */
-    fun currentIconTheme(context: Context): String {
-        val theme = prefs(context).getString(KEY_APP_ICON_THEME, THEME_DEFAULT)
-        return if (theme == THEME_COLORFUL) THEME_COLORFUL else THEME_DEFAULT
-    }
-
     /** 用户设置的“是否显示快速扫描图标” */
     fun isQuickScanIconEnabled(context: Context): Boolean =
         prefs(context).getBoolean(KEY_SHOW_QUICK_SCAN_ICON, false)
 
-    /** 按图标主题在「默认 / 多彩」两个变体里选一个（列表下标 0 = 默认，1 = 多彩） */
-    private fun <T> variant(aliases: List<T>, colorful: Boolean): T =
-        if (colorful) aliases[1] else aliases[0]
-
-    /**
-     * 快速扫描图标当前是否真的出现在桌面上（读取系统里别名的实际状态，不依赖偏好设置，
-     * 因为旧版本可能已经把彩色别名启用了）。
-     */
-    fun isQuickScanAliasActive(context: Context): Boolean {
-        val alias = variant(QUICK_SCAN_ALIASES, currentIconTheme(context) == THEME_COLORFUL)
-        return isAliasEnabled(context, alias)
-    }
+    /** 快速扫描图标当前是否真的出现在桌面上（读取系统里别名的实际状态，不依赖偏好设置） */
+    fun isQuickScanAliasActive(context: Context): Boolean = isAliasEnabled(context, QUICK_SCAN_ALIAS)
 
     private fun isAliasEnabled(context: Context, alias: String): Boolean = try {
         context.packageManager.getComponentEnabledSetting(componentName(context, alias)) ==
@@ -83,39 +58,18 @@ private object LauncherIcons {
     }
 
     /**
-     * 按「图标主题 + 快速扫描开关」重新计算四个别名的最终状态。
+     * 按「快速扫描开关」重新计算两个别名的最终状态。
      *
-     * 先把需要显示的别名启用，再禁用其余别名，避免中途出现一个入口都不存在的情况。
+     * 先启用主图标，保证桌面上始终至少有一个入口；再按开关启用或禁用快速扫描别名。
      */
     fun sync(context: Context) {
-        val colorful = currentIconTheme(context) == THEME_COLORFUL
-        val quickScanVisible = isQuickScanIconEnabled(context)
-
-        val enabledAliases = ArrayList<String>(2)
-        enabledAliases.add(variant(MAIN_ALIASES, colorful))
-        if (quickScanVisible) {
-            enabledAliases.add(variant(QUICK_SCAN_ALIASES, colorful))
-        }
-
-        // 1) 先启用需要显示的别名，保证桌面上始终至少有一个入口
-        enabledAliases.forEach { setAliasEnabled(context, it, true) }
-
-        // 2) 再禁用所有不该显示的别名（这里会无条件关闭另一个主题的快速扫描别名）
-        (MAIN_ALIASES + QUICK_SCAN_ALIASES)
-            .filterNot { enabledAliases.contains(it) }
-            .forEach { setAliasEnabled(context, it, false) }
+        setAliasEnabled(context, MAIN_ALIAS, true)
+        setAliasEnabled(context, QUICK_SCAN_ALIAS, isQuickScanIconEnabled(context))
     }
 
     /** 切换快速扫描图标显隐并持久化设置 */
     fun setQuickScanIconVisible(context: Context, visible: Boolean) {
         prefs(context).edit().putBoolean(KEY_SHOW_QUICK_SCAN_ICON, visible).apply()
-        sync(context)
-    }
-
-    /** 切换主图标主题并持久化设置（图标主题同样决定快速扫描入口使用哪套彩色资源） */
-    fun setIconTheme(context: Context, theme: String) {
-        val normalized = if (theme == THEME_COLORFUL) THEME_COLORFUL else THEME_DEFAULT
-        prefs(context).edit().putString(KEY_APP_ICON_THEME, normalized).apply()
         sync(context)
     }
 
@@ -159,7 +113,6 @@ class SettingsFragment : Fragment() {
         updateVersionInfo()
         updateThemeDisplay()
         setupQuickScanIconSwitch()
-        setupAppIconLongClick()
 
         binding.languageSettingItem.setOnClickListener {
             showLanguageSelectionDialog()
@@ -241,56 +194,6 @@ class SettingsFragment : Fragment() {
             }
             android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show()
         }
-    }
-    
-    private fun setupAppIconLongClick() {
-        binding.appIconImage.setOnLongClickListener {
-            showAppIconSelectionDialog()
-            true
-        }
-    }
-    
-    private fun showAppIconSelectionDialog() {
-        val iconThemes = arrayOf(
-            getString(R.string.app_icon_theme_default),
-            getString(R.string.app_icon_theme_colorful)
-        )
-        
-        val currentIcon = LauncherIcons.currentIconTheme(requireContext())
-        
-        val selectedIndex = when (currentIcon) {
-            "default" -> 0
-            "colorful" -> 1
-            else -> 0
-        }
-        
-        MaterialAlertDialogBuilder(requireContext(), R.style.Theme_CodeScan_Dialog)
-            .setTitle(getString(R.string.dialog_title_select_app_icon))
-            .setSingleChoiceItems(iconThemes, selectedIndex) { dialog, which ->
-                val selectedIcon = when (which) {
-                    0 -> "default"
-                    1 -> "colorful"
-                    else -> "default"
-                }
-                
-                // 保存图标设置，并按“图标主题 + 快速扫描开关”统一刷新桌面图标
-                LauncherIcons.setIconTheme(requireContext(), selectedIcon)
-                
-                // 显示提示
-                android.widget.Toast.makeText(
-                    requireContext(), 
-                    getString(R.string.toast_icon_changed), 
-                    android.widget.Toast.LENGTH_LONG
-                ).show()
-                
-                dialog.dismiss()
-            }
-            .setNegativeButton(R.string.button_cancel) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setBackgroundInsetStart(32)
-            .setBackgroundInsetEnd(32)
-            .show()
     }
     
     private fun showThemeSelectionDialog() {

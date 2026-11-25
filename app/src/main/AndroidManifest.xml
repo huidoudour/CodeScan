@@ -49,7 +49,7 @@
             android:launchMode="singleTask"
             android:enabled="false" />
         
-        <!-- 默认绿色图标 -->
+        <!-- 主图标（彩色） -->
         <activity-alias
             android:name=".MainActivityAliasDefault"
             android:targetActivity=".MainActivity"
@@ -57,20 +57,6 @@
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:enabled="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        
-        <!-- 多彩图标 -->
-        <activity-alias
-            android:name=".MainActivityAliasColorful"
-            android:targetActivity=".MainActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_colorful"
-            android:roundIcon="@mipmap/ic_launcher_round_colorful"
-            android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -86,27 +72,13 @@
             android:taskAffinity="me.huidoudour.QRCode.scan.quickscan"
             android:enabled="false" />
         
-        <!-- 快速扫描 - 默认绿色图标 -->
+        <!-- 快速扫描 - 彩色图标 -->
         <activity-alias
             android:name=".QuickScanActivityAliasDefault"
             android:targetActivity=".QuickScanActivity"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_quick"
             android:roundIcon="@mipmap/ic_launcher_round_quick"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        
-        <!-- 快速扫描 - 多彩图标 -->
-        <activity-alias
-            android:name=".QuickScanActivityAliasColorful"
-            android:targetActivity=".QuickScanActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_quick_colorful"
-            android:roundIcon="@mipmap/ic_launcher_round_quick_colorful"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
