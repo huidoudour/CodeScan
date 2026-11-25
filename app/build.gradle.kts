@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION")
+@file:Suppress("DEPRECATION", "UnstableApiUsage")
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -53,9 +53,6 @@ android {
         versionCode = appVersionCode
         versionName = appVersionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        // 不分包：单个 APK 同时内置 arm64-v8a 与 x86_64 原生库（二者必须都存在）
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
         }
@@ -143,6 +140,7 @@ androidComponents {
         val buildTypeLabel = variant.buildType.orEmpty().replaceFirstChar { it.uppercaseChar() }
         val outputName = "${appName}-${appVersionName}-${appVersionCode}-${buildTypeLabel}.apk"
         variant.outputs.forEach { output ->
+            // outputFileName 仍为 @Incubating，但这是修改 APK 输出文件名的唯一公开 API
             output.outputFileName.set(outputName)
         }
     }
