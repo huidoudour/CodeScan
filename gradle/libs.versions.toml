@@ -1,6 +1,6 @@
 [versions]
 #noinspection AndroidGradlePluginVersion
-agp = "9.5.2"
+agp = "9.5.3"
 kotlin = "2.4.20"
 coreKtx = "1.19.1"
 junit = "4.13.2"
